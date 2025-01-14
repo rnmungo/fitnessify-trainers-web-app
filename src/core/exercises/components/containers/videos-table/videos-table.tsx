@@ -83,7 +83,11 @@ const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
   const emptyRows =
     pageState > 0 ? Math.max(0, (1 + pageState) * rowsPerPage - (data?.length || 0)) : 0;
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
+    if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
+      return;
+    }
+
     setOpenState(false);
     setSelectedVideoState(null);
   }, []);

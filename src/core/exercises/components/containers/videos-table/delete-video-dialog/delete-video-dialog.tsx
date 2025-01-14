@@ -14,7 +14,7 @@ import type { Video } from '@/types/exercise';
 
 interface DeleteVideoDialogProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void;
   video?: Video | null;
   onVideoDeleted?: () => void;
 }
