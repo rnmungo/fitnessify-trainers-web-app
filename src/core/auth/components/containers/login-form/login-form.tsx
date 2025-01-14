@@ -117,7 +117,7 @@ const LoginFormContainer: React.FC = () => {
             Iniciar Sesión
           </MuiButton>
           <MuiBox mt={5}>
-            <Copyright enterprise="Beblackfit" startYear={2023} />
+            <Copyright enterprise="BeBlackFit" startYear={2023} />
           </MuiBox>
         </Form>
       </MuiStack>
