@@ -98,7 +98,11 @@ const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
   const emptyRows =
     pageState > 0 ? Math.max(0, (1 + pageState) * rowsPerPage - (data?.length || 0)) : 0;
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
+    if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
+      return;
+    }
+
     setOpenState(false);
     setSelectedExerciseState(null);
   }, []);

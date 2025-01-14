@@ -14,7 +14,7 @@ import type { Exercise } from '@/types/exercise';
 
 interface DeleteExerciseDialogProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void;
   exercise?: Exercise | null;
   onExerciseDeleted?: () => void;
 }
