@@ -7,6 +7,7 @@ import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
 import { withLayout } from '@/core/components/hoc/layout';
+import SubscriptionsTable from '@/core/subscriptions/components/containers/subscriptions-table';
 import { getUserProfile } from '@/services/user/service';
 import { sessionOptions } from '@/utilities/session/options';
 const LinkNoSsr = dynamic(() => import('@/core/components/presentational/link'), { ssr: false });
@@ -17,10 +18,11 @@ import { AxiosError } from 'axios';
 import { HTTP_STATUS } from '@/constants/http-status';
 
 interface UpdateUserPageProps {
+  id: string
   profile: Profile | undefined
 }
 
-const UpdateExercisePage: NextPage<UpdateUserPageProps> = ({ profile }) => (
+const UpdateUserPage: NextPage<UpdateUserPageProps> = ({ id, profile }) => (
   <MuiGrid
     container
     sx={{
@@ -32,7 +34,7 @@ const UpdateExercisePage: NextPage<UpdateUserPageProps> = ({ profile }) => (
       p: 4,
     }}
   >
-    <MuiStack direction="column" spacing={1}>
+    <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
       <MuiBreadcrumbs aria-label="breadcrumb">
         <LinkNoSsr underline="hover" color="inherit" href="/">
           Inicio
@@ -42,6 +44,7 @@ const UpdateExercisePage: NextPage<UpdateUserPageProps> = ({ profile }) => (
         </LinkNoSsr>
         <MuiTypography color="text.primary">{`${profile?.name} ${profile?.lastName}`}</MuiTypography>
       </MuiBreadcrumbs>
+      <SubscriptionsTable id={id} />
     </MuiStack>
   </MuiGrid>
 );
@@ -55,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async (conte
     const profile = await getUserProfile({ id, token: session.authorization.token })
 
     return {
-      props: { profile },
+      props: { id, profile },
     };
   } catch (responseError: unknown) {
     const error = responseError as AxiosError;
@@ -74,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async (conte
   }
 });
 
-export default withLayout(UpdateExercisePage, {
+export default withLayout(UpdateUserPage, {
   title: 'Actualizar usuario',
   description: 'Aplicación de gestión de rutinas y ejercicios',
   navigation: true,

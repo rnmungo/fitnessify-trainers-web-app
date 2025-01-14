@@ -21,7 +21,7 @@ const NewExercisePage: NextPage = () => (
       p: 4,
     }}
   >
-    <MuiStack direction="column" spacing={1}>
+    <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
       <MuiBreadcrumbs aria-label="breadcrumb">
         <LinkNoSsr underline="hover" color="inherit" href="/">
           Inicio

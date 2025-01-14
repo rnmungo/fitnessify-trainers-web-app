@@ -1,8 +1,13 @@
 import { GetServerSideProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
+import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import MuiGrid from '@mui/material/Grid2';
+import MuiStack from '@mui/material/Stack';
+import MuiTypography from '@mui/material/Typography';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
 import { withLayout } from '@/core/components/hoc/layout';
 import ExercisesTable from '@/core/exercises/components/containers/exercises-table';
+const LinkNoSsr = dynamic(() => import('@/core/components/presentational/link'), { ssr: false });
 
 const ExercisesPage: NextPage = () => (
   <MuiGrid
@@ -16,7 +21,15 @@ const ExercisesPage: NextPage = () => (
       p: 4,
     }}
   >
-    <ExercisesTable rowsPerPage={10} />
+    <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
+      <MuiBreadcrumbs aria-label="breadcrumb">
+        <LinkNoSsr underline="hover" color="inherit" href="/">
+          Inicio
+        </LinkNoSsr>
+        <MuiTypography color="text.primary">Ejercicios</MuiTypography>
+      </MuiBreadcrumbs>
+      <ExercisesTable rowsPerPage={10} />
+    </MuiStack>
   </MuiGrid>
 );
 
