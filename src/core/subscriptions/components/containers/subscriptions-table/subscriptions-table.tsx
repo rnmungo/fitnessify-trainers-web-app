@@ -25,6 +25,7 @@ import { getColorByStatus, getStatusTranslation } from '../../../utilities/subsc
 import CreateSubscriptionDialog from './create-subscription-dialog';
 import ActivateSubscriptionDialog from './activate-subscription-dialog';
 import CancelSubscriptionDialog from './cancel-subscription-dialog';
+import IncrementSubscriptionDateDialog from './increment-subscription-date-dialog';
 
 import type { Subscription } from '@/types/subscription';
 import type { ColumnDefinition } from '@/core/components/presentational/table/types';
@@ -105,6 +106,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
   const [selectedSubscriptionState, setSelectedSubscriptionState] = useState<Subscription | null>();
   const [openActiveState, setOpenActiveState] = useState<boolean>(false);
   const [openCanceledState, setOpenCanceledState] = useState<boolean>(false);
+  const [openIncrementState, setOpenIncrementState] = useState<boolean>(false);
   const [openCreateState, setOpenCreateState] = useState<boolean>(false);
   const { data, status, refetch } = useQuerySubscriptions(id);
 
@@ -130,6 +132,15 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
     }
 
     setOpenCanceledState(false);
+    setSelectedSubscriptionState(null);
+  }, []);
+
+  const handleCloseIncrementDate = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
+    if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
+      return;
+    }
+
+    setOpenIncrementState(false);
     setSelectedSubscriptionState(null);
   }, []);
 
@@ -219,6 +230,14 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
                   },
                 });
               }
+
+              menuItems.push({
+                label: 'Editar',
+                onClick: () => {
+                  setSelectedSubscriptionState(row);
+                  setOpenIncrementState(true);
+                },
+              });
 
               return (
                 <MuiTableRow
@@ -358,6 +377,12 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
         open={openCanceledState}
         onClose={handleCloseCanceled}
         onSubscriptionCanceled={refetch}
+      />
+      <IncrementSubscriptionDateDialog
+        subscription={selectedSubscriptionState}
+        open={openIncrementState}
+        onClose={handleCloseIncrementDate}
+        onSubscriptionUpdated={refetch}
       />
     </>
   );
