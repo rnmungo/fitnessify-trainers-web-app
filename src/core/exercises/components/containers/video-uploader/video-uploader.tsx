@@ -6,11 +6,11 @@ import { VIDEO_FILE_EXTENSIONS } from '@/constants/file-extensions';
 import Dropzone from '@/core/components/presentational/dropzone';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
-import useMutationVideo from '../../../hooks/useMutationVideo';
+import useMutationUploadVideo from '../../../hooks/useMutationUploadVideo';
 
 const VideoUploader: React.FC = () => {
   const [filesState, setFilesState] = useState<Array<File>>([]);
-  const uploadVideo = useMutationVideo();
+  const uploadVideo = useMutationUploadVideo();
   const snackbar = useSnackbar();
 
   const handleSelectFile = useCallback((files: Array<File>) => {

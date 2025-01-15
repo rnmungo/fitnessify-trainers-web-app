@@ -19,7 +19,7 @@ const createExercise = async ({ name, description, videoId, muscleGroups }: Exer
   return response.status === HTTP_STATUS.OK;
 };
 
-const useMutationExercise = (): UseMutationResult<boolean, unknown, ExerciseParams, unknown> => {
+const useMutationCreateExercise = (): UseMutationResult<boolean, unknown, ExerciseParams, unknown> => {
   const mutation = useMutation<boolean, unknown, ExerciseParams, unknown>({
     mutationFn: createExercise,
   });
@@ -27,4 +27,4 @@ const useMutationExercise = (): UseMutationResult<boolean, unknown, ExercisePara
   return mutation;
 };
 
-export default useMutationExercise;
+export default useMutationCreateExercise;

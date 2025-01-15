@@ -10,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
-import useMutationExercise from '../../../hooks/useMutationExercise';
+import useMutationCreateExercise from '../../../hooks/useMutationCreateExercise';
 import useMutationUpdateExercise from '../../../hooks/useMutationUpdateExercise';
 import { VideosGalleryDialog } from '../videos-gallery';
 import MuscleGroupsMultipleSelect from '../muscle-groups-multiple-select';
@@ -49,7 +49,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
   const router = useRouter();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const createExercise = useMutationExercise();
+  const createExercise = useMutationCreateExercise();
   const updateExercise = useMutationUpdateExercise();
   const snackbar = useSnackbar();
 

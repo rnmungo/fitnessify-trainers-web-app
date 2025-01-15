@@ -15,7 +15,7 @@ const uploadVideo = async (file: File) => {
   return response.status === HTTP_STATUS.OK;
 };
 
-const useMutationVideo = (): UseMutationResult<boolean, unknown, File, unknown> => {
+const useMutationUploadVideo = (): UseMutationResult<boolean, unknown, File, unknown> => {
   const mutation = useMutation<boolean, unknown, File, unknown>({
     mutationFn: uploadVideo,
   });
@@ -23,4 +23,4 @@ const useMutationVideo = (): UseMutationResult<boolean, unknown, File, unknown> 
   return mutation;
 };
 
-export default useMutationVideo;
+export default useMutationUploadVideo;
