@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { AxiosError } from 'axios';
 import { v4 as uuidV4 } from 'uuid';
 import MuiBox from '@mui/material/Box';
 import MuiButton from '@mui/material/Button';
@@ -22,12 +23,15 @@ import {
   DragEndEvent,
 } from '@dnd-kit/core';
 import { TimeMaskTextField } from '@/core/components/presentational/textfield';
+import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
 import useQueryExercises from '@/core/exercises/hooks/useQueryExercises';
+import useMutationCreateRoutine from '../../../hooks/useMutationCreateRoutine';
 import PreviewRoutine from '../../presentational/preview-routine';
 import RoutineSectionBuilder from '../../presentational/routine-section-builder';
 import { EQUIPMENT_TRANSLATION, LEVEL_TRANSLATION } from '../../../constants/routine';
 
+import type { RoutineLevel, RoutineEquipment } from '@/types/routine';
 import type { AutocompleteOption } from '@/types/material-ui';
 import type {
   AutocompleteExerciseProps,
@@ -43,19 +47,21 @@ const defaultRoutine: RoutineBuilder = {
   equipment: '',
 };
 
+const defaultSections: Array<SectionBuilder> = [
+  {
+    id: uuidV4(),
+    name: '',
+    duration: '00:00:00',
+    pauseTime: '00:00:00',
+    rounds: 1,
+    exercises: [],
+  },
+];
+
 const RoutineBuilder: React.FC = () => {
   const [activeTabState, setActiveTabState] = useState<number>(0);
   const [routineState, setRoutineState] = useState<RoutineBuilder>(defaultRoutine);
-  const [sectionsState, setSectionsState] = useState<Array<SectionBuilder>>([
-    {
-      id: uuidV4(),
-      name: '',
-      duration: '00:00:00',
-      pauseTime: '00:00:00',
-      rounds: 1,
-      exercises: [],
-    },
-  ]);
+  const [sectionsState, setSectionsState] = useState<Array<SectionBuilder>>(defaultSections);
   const snackbar = useSnackbar();
 
   const sensors = useSensors(
@@ -63,6 +69,7 @@ const RoutineBuilder: React.FC = () => {
     useSensor(KeyboardSensor)
   );
 
+  const createRoutine = useMutationCreateRoutine();
   const { data, status } = useQueryExercises();
 
   const autocompleteExerciseProps: AutocompleteExerciseProps = useMemo(() => {
@@ -264,9 +271,10 @@ const RoutineBuilder: React.FC = () => {
 
     const payload = {
       name: routineState.name,
+      description: '',
       duration: routineState.duration,
-      level: routineState.level,
-      equipment: routineState.equipment,
+      level: routineState.level as RoutineLevel,
+      equipment: routineState.equipment as RoutineEquipment,
       routineSections: sectionsState.map((section) => ({
         name: section.name,
         duration: section.duration,
@@ -281,128 +289,150 @@ const RoutineBuilder: React.FC = () => {
       })),
     };
 
-    // createRoutine.mutate(payload);
+    createRoutine.mutate(
+      payload,
+      {
+        onSuccess: () => {
+          snackbar.success('Rutina creada correctamente');
+          createRoutine.reset();
+          setRoutineState(defaultRoutine);
+          setSectionsState(defaultSections);
+        },
+        onError: (mutationError: unknown) => {
+          const error = mutationError as AxiosError;
+          snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+          createRoutine.reset();
+        },
+      }
+    );
   };
 
-  return (
-    <MuiBox sx={{ width: '100%' }}>
-      <MuiBox sx={{ width: "100%", mt: 2 }}>
-        <MuiTabs value={activeTabState} onChange={handleTabChange}>
-          <MuiTab label="Crear rutina" />
-          <MuiTab label="Previsualizar" />
-        </MuiTabs>
+  const isPending = [createRoutine.status].includes('pending');
 
-        <MuiBox sx={{ my: 2 }}>
-          {activeTabState === 0 ? (
-            <MuiBox>
-              <MuiGrid container spacing={2}>
-                <MuiGrid size={{ xs: 12, md: 6, lg: 5 }}>
-                  <MuiTextField
-                    fullWidth
-                    label="Nombre de la rutina"
-                    value={routineState.name}
-                    onChange={(e) => setRoutineState((prevState) => ({ ...prevState, name: e.target.value }))}
-                  />
+  return (
+    <>
+      <Spinner loading={isPending} label="Guardando rutina" />
+      <MuiBox sx={{ width: '100%' }}>
+        <MuiBox sx={{ width: "100%", mt: 2 }}>
+          <MuiTabs value={activeTabState} onChange={handleTabChange}>
+            <MuiTab label="Crear rutina" />
+            <MuiTab label="Previsualizar" />
+          </MuiTabs>
+
+          <MuiBox sx={{ my: 2 }}>
+            {activeTabState === 0 ? (
+              <MuiBox>
+                <MuiGrid container spacing={2}>
+                  <MuiGrid size={{ xs: 12, md: 6, lg: 5 }}>
+                    <MuiTextField
+                      fullWidth
+                      label="Nombre de la rutina"
+                      value={routineState.name}
+                      onChange={(e) => setRoutineState((prevState) => ({ ...prevState, name: e.target.value }))}
+                    />
+                  </MuiGrid>
+                  <MuiGrid size={{ xs: 12, sm: 3, md: 3, lg: 2 }}>
+                    <TimeMaskTextField
+                      label="Duración"
+                      value={routineState.duration}
+                      onChange={(e) => setRoutineState((prevState) => ({ ...prevState, duration: e.target.value }))}
+                    />
+                  </MuiGrid>
+                  <MuiGrid size={{ xs: 12, sm: 4, md: 3, lg: 2 }}>
+                    <MuiFormControl fullWidth>
+                      <MuiInputLabel>Nivel</MuiInputLabel>
+                      <MuiSelect
+                        value={routineState.level}
+                        label="Nivel"
+                        onChange={(e) => setRoutineState((prevState) => ({ ...prevState, level: e.target.value }))}
+                      >
+                        {Object.entries(LEVEL_TRANSLATION).map(([key, value]) => (
+                          <MuiMenuItem key={key} value={key}>{value}</MuiMenuItem>
+                        ))}
+                      </MuiSelect>
+                    </MuiFormControl>
+                  </MuiGrid>
+                  <MuiGrid size={{ xs: 12, sm: 5, md: 4, lg: 3 }}>
+                    <MuiFormControl fullWidth>
+                      <MuiInputLabel>Equipamiento</MuiInputLabel>
+                      <MuiSelect
+                        value={routineState.equipment}
+                        label="Equipamiento"
+                        onChange={(e) => setRoutineState((prevState) => ({ ...prevState, equipment: e.target.value }))}
+                      >
+                        {Object.entries(EQUIPMENT_TRANSLATION).map(([key, value]) => (
+                          <MuiMenuItem key={key} value={key}>{value}</MuiMenuItem>
+                        ))}
+                      </MuiSelect>
+                    </MuiFormControl>
+                  </MuiGrid>
                 </MuiGrid>
-                <MuiGrid size={{ xs: 12, sm: 3, md: 3, lg: 2 }}>
-                  <TimeMaskTextField
-                    label="Duración"
-                    value={routineState.duration}
-                    onChange={(e) => setRoutineState((prevState) => ({ ...prevState, duration: e.target.value }))}
-                  />
-                </MuiGrid>
-                <MuiGrid size={{ xs: 12, sm: 4, md: 3, lg: 2 }}>
-                  <MuiFormControl fullWidth>
-                    <MuiInputLabel>Nivel</MuiInputLabel>
-                    <MuiSelect
-                      value={routineState.level}
-                      label="Nivel"
-                      onChange={(e) => setRoutineState((prevState) => ({ ...prevState, level: e.target.value }))}
-                    >
-                      {Object.entries(LEVEL_TRANSLATION).map(([key, value]) => (
-                        <MuiMenuItem key={key} value={key}>{value}</MuiMenuItem>
-                      ))}
-                    </MuiSelect>
-                  </MuiFormControl>
-                </MuiGrid>
-                <MuiGrid size={{ xs: 12, sm: 5, md: 4, lg: 3 }}>
-                  <MuiFormControl fullWidth>
-                    <MuiInputLabel>Equipamiento</MuiInputLabel>
-                    <MuiSelect
-                      value={routineState.equipment}
-                      label="Equipamiento"
-                      onChange={(e) => setRoutineState((prevState) => ({ ...prevState, equipment: e.target.value }))}
-                    >
-                      {Object.entries(EQUIPMENT_TRANSLATION).map(([key, value]) => (
-                        <MuiMenuItem key={key} value={key}>{value}</MuiMenuItem>
-                      ))}
-                    </MuiSelect>
-                  </MuiFormControl>
-                </MuiGrid>
-              </MuiGrid>
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
-                {sectionsState.map((section, sectionIndex) => (
-                  <RoutineSectionBuilder
-                    key={section.id}
-                    section={section}
-                    sectionIndex={sectionIndex}
-                    autocompleteExercises={autocompleteExerciseProps}
-                    onAddExercise={handleAddExercise}
-                    onUpdateSection={handleUpdateSection}
-                    onUpdateExercise={handleUpdateExercise}
-                    onRemoveSection={handleRemoveSection}
-                    onRemoveExercise={handleRemoveExercise}
-                  />
-                ))}
-              </DndContext>
-              <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-                <MuiButton
-                  startIcon={<MuiAddIcon />}
-                  onClick={handleAddSection}
-                  variant="outlined"
-                  color="primary"
-                  sx={{ mt: 2 }}
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
                 >
-                  Agregar sección
-                </MuiButton>
-                <MuiButton
-                  startIcon={<MuiSaveIcon />}
-                  variant="contained"
-                  color="primary"
-                  sx={{ mt: 2 }}
-                  onClick={handleSaveRoutine}
-                >
-                  Guardar rutina
-                </MuiButton>
+                  {sectionsState.map((section, sectionIndex) => (
+                    <RoutineSectionBuilder
+                      key={section.id}
+                      section={section}
+                      sectionIndex={sectionIndex}
+                      autocompleteExercises={autocompleteExerciseProps}
+                      onAddExercise={handleAddExercise}
+                      onUpdateSection={handleUpdateSection}
+                      onUpdateExercise={handleUpdateExercise}
+                      onRemoveSection={handleRemoveSection}
+                      onRemoveExercise={handleRemoveExercise}
+                    />
+                  ))}
+                </DndContext>
+                <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+                  <MuiButton
+                    startIcon={<MuiAddIcon />}
+                    onClick={handleAddSection}
+                    variant="outlined"
+                    color="primary"
+                    sx={{ mt: 2 }}
+                  >
+                    Agregar sección
+                  </MuiButton>
+                  <MuiButton
+                    startIcon={<MuiSaveIcon />}
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 2 }}
+                    disabled={isPending}
+                    onClick={handleSaveRoutine}
+                  >
+                    Guardar rutina
+                  </MuiButton>
+                </MuiBox>
               </MuiBox>
-            </MuiBox>
-          ) : (
-            <>
-              <PreviewRoutine
-                routine={routineState}
-                sections={sectionsState}
-                exerciseOptions={autocompleteExerciseProps.options}
-              />
-              <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                <MuiButton
-                  startIcon={<MuiSaveIcon />}
-                  variant="contained"
-                  color="primary"
-                  sx={{ mt: 2 }}
-                  onClick={handleSaveRoutine}
-                >
-                  Guardar rutina
-                </MuiButton>
-              </MuiBox>
-            </>
-          )}
+            ) : (
+              <>
+                <PreviewRoutine
+                  routine={routineState}
+                  sections={sectionsState}
+                  exerciseOptions={autocompleteExerciseProps.options}
+                />
+                <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                  <MuiButton
+                    startIcon={<MuiSaveIcon />}
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 2 }}
+                    disabled={isPending}
+                    onClick={handleSaveRoutine}
+                  >
+                    Guardar rutina
+                  </MuiButton>
+                </MuiBox>
+              </>
+            )}
+          </MuiBox>
         </MuiBox>
       </MuiBox>
-    </MuiBox>
+    </>
   );
 };
 

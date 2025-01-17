@@ -89,6 +89,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
           onError: (mutationError: unknown) => {
             const error = mutationError as AxiosError;
             snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            updateExercise.reset();
           },
         }
       );
@@ -102,6 +103,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
         onError: (mutationError: unknown) => {
           const error = mutationError as AxiosError;
           snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+          createExercise.reset();
         },
       });
     }
