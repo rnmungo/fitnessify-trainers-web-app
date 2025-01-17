@@ -15,7 +15,7 @@ const LoginPage: NextPage = () => (
       <MuiGrid sx={{ width: '100%', p: 6 }}>
         <Image
           style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
-          src="/illustrations/two_factor.svg"
+          src="/illustrations/athletes-training_koqa.svg"
           alt="Welcome to Fitnessify Backoffice UI"
           quality={100}
           priority={true}
