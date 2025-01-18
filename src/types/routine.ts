@@ -15,6 +15,11 @@ export type Routine = {
   status: RoutineStatus;
 };
 
+export type RoutinePlan = {
+  id: string;
+  name: string;
+};
+
 export type Exercise = {
   id: string;
   name: string;

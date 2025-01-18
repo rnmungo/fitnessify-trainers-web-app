@@ -30,7 +30,6 @@ const NavigationContainer: React.FC = () => {
 
   const memorizedSettings = useMemo(() => {
      const settings = [
-      { label: 'Editar Perfil', onClick: () => router.push('/profile') },
       {
         label: 'Cambiar Contraseña',
         onClick: () => router.push('/profile/change-password'),

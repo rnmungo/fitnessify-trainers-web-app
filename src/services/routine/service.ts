@@ -1,6 +1,6 @@
 import { HTTP_STATUS } from '@/constants/http-status';
 import { gatewayClient } from '../rest-clients';
-import { adaptRoutines } from '../adapters/routine';
+import { adaptRoutine, adaptRoutines, adaptRoutinePlan } from '../adapters/routine';
 
 import type { CreateRoutine } from '@/types/routine';
 
@@ -21,6 +21,10 @@ export type DeactivateRoutineParams = IdentifierParam & TokenParam;
 export type DeleteRoutineParams = IdentifierParam & TokenParam;
 
 export type GetRoutinesParams = TokenParam;
+
+export type GetRoutineParams = IdentifierParam & TokenParam;
+
+export type GetRoutinePlansParams = IdentifierParam & TokenParam;
 
 export const activateRoutine = async ({ token, id }: ActivateRoutineParams) => {
   const response = await gatewayClient.put(
@@ -88,6 +92,22 @@ export const deleteRoutine = async ({ id, token }: DeleteRoutineParams) => {
   return response.status === HTTP_STATUS.NO_CONTENT;
 };
 
+export const getRoutinePlans = async ({ id, token }: GetRoutinePlansParams) => {
+  const response = await gatewayClient.get(
+    `/api/routine/${id}/plan`,
+    {
+      headers: {
+        'X-Application-Id': process.env.TENANT,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const plans = response.data || [];
+
+  return plans.map(adaptRoutinePlan);
+};
+
 export const getRoutines = async ({ token }: GetRoutinesParams) => {
   const response = await gatewayClient.get(
     '/api/routine',
@@ -100,4 +120,18 @@ export const getRoutines = async ({ token }: GetRoutinesParams) => {
   );
 
   return adaptRoutines(response.data || []);
+};
+
+export const getRoutine = async ({ id, token }: GetRoutineParams) => {
+  const response = await gatewayClient.get(
+    `/api/routine/${id}`,
+    {
+      headers: {
+        'X-Application-Id': process.env.TENANT,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return adaptRoutine(response.data);
 };

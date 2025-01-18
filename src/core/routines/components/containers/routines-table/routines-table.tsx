@@ -144,7 +144,6 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
   const [openActivateState, setOpenActivateState] = useState<boolean>(false);
   const [openDeactivateState, setOpenDeactivateState] = useState<boolean>(false);
   const [openDeleteState, setOpenDeleteState] = useState<boolean>(false);
-  const [openEditPlanState, setOpenEditPlanState] = useState<boolean>(false);
   const router = useRouter();
   const { data, status, refetch } = useQueryRoutines();
 
@@ -243,6 +242,12 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
                     router.push(`/routines/${row.id}`);
                   },
                 },
+                {
+                  label: 'Editar planes',
+                  onClick: () => {
+                    router.push(`/routines/${row.id}/plans`);
+                  },
+                }
               ];
 
               if (row.status === 'Draft') {
@@ -266,12 +271,6 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
               }
 
               menuItems.push({
-                label: 'Editar planes',
-                onClick: () => {
-                  setSelectedRoutineState(row);
-                  setOpenEditPlanState(true);
-                },
-              }, {
                 label: 'Eliminar',
                 onClick: () => {
                   setSelectedRoutineState(row);
