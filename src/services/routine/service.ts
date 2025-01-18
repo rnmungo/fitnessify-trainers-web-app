@@ -12,9 +12,28 @@ type TokenParam = {
   token: string;
 }
 
+export type ActivateRoutineParams = IdentifierParam & TokenParam;
+
 export type CreateRoutineParams = CreateRoutine & TokenParam;
 
+export type DeactivateRoutineParams = IdentifierParam & TokenParam;
+
 export type GetRoutinesParams = TokenParam;
+
+export const activateRoutine = async ({ token, id }: ActivateRoutineParams) => {
+  const response = await gatewayClient.put(
+    `/api/routine/${id}/deploy`,
+    {},
+    {
+      headers: {
+        'X-Application-Id': process.env.TENANT,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.status === HTTP_STATUS.NO_CONTENT;
+};
 
 export const createRoutine = async ({ name, description, duration, level, equipment, routineSections, token }: CreateRoutineParams) => {
   const response = await gatewayClient.post(
@@ -36,6 +55,21 @@ export const createRoutine = async ({ name, description, duration, level, equipm
   );
 
   return response.status === HTTP_STATUS.OK;
+};
+
+export const deactivateRoutine = async ({ token, id }: DeactivateRoutineParams) => {
+  const response = await gatewayClient.put(
+    `/api/routine/${id}/draft`,
+    {},
+    {
+      headers: {
+        'X-Application-Id': process.env.TENANT,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.status === HTTP_STATUS.NO_CONTENT;
 };
 
 export const getRoutines = async ({ token }: GetRoutinesParams) => {

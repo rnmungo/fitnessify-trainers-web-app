@@ -6,7 +6,7 @@ import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
 import { withLayout } from '@/core/components/hoc/layout';
-// import RoutinesTable from '@/core/routines/components/containers/routines-table';
+import RoutinesTable from '@/core/routines/components/containers/routines-table';
 const LinkNoSsr = dynamic(() => import('@/core/components/presentational/link'), { ssr: false });
 
 const RoutinesPage: NextPage = () => (
@@ -28,7 +28,7 @@ const RoutinesPage: NextPage = () => (
         </LinkNoSsr>
         <MuiTypography color="text.primary">Rutinas</MuiTypography>
       </MuiBreadcrumbs>
-      {/*<RoutinesTable rowsPerPage={10} /> */}
+      <RoutinesTable rowsPerPage={10} />
     </MuiStack>
   </MuiGrid>
 );
