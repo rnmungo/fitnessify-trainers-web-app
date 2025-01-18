@@ -26,6 +26,7 @@ export type Exercise = {
 };
 
 export type RoutineExercise = {
+  id: string;
   duration: string;
   pause: string;
   repetitions: number;
@@ -33,6 +34,7 @@ export type RoutineExercise = {
 };
 
 export type RoutineSection = {
+  id: string;
   name: string;
   duration: string;
   pause: string;

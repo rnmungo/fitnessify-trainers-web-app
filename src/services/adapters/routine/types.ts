@@ -22,6 +22,7 @@ export type ExerciseResponse = {
 };
 
 export type RoutineExerciseResponse = {
+  id: string;
   duration: string;
   pause: string;
   repetitions: number;
@@ -29,6 +30,7 @@ export type RoutineExerciseResponse = {
 };
 
 export type RoutineSectionResponse = {
+  id: string;
   name: string;
   duration: string;
   pause: string;

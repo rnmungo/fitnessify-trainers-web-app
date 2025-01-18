@@ -27,6 +27,7 @@ import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
 import useQueryExercises from '@/core/exercises/hooks/useQueryExercises';
 import useMutationCreateRoutine from '../../../hooks/useMutationCreateRoutine';
+import useMutationUpdateRoutine from '../../../hooks/useMutationUpdateRoutine';
 import PreviewRoutine from '../../presentational/preview-routine';
 import RoutineSectionBuilder from '../../presentational/routine-section-builder';
 import { EQUIPMENT_TRANSLATION, LEVEL_TRANSLATION } from '../../../constants/routine';
@@ -40,14 +41,14 @@ import type {
   SectionBuilder,
 } from '../../../types';
 
-const defaultRoutine: RoutineBuilder = {
+const initialRoutineState: RoutineBuilder = {
   name: '',
   duration: '00:00:00',
   level: '',
   equipment: '',
 };
 
-const defaultSections: Array<SectionBuilder> = [
+const initialSectionsState: Array<SectionBuilder> = [
   {
     id: uuidV4(),
     name: '',
@@ -58,10 +59,16 @@ const defaultSections: Array<SectionBuilder> = [
   },
 ];
 
-const RoutineBuilder: React.FC = () => {
+interface RoutineBuilderProps {
+  id?: string;
+  defaultRoutine?: RoutineBuilder;
+  defaultSections?: Array<SectionBuilder>;
+};
+
+const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderProps) => {
   const [activeTabState, setActiveTabState] = useState<number>(0);
-  const [routineState, setRoutineState] = useState<RoutineBuilder>(defaultRoutine);
-  const [sectionsState, setSectionsState] = useState<Array<SectionBuilder>>(defaultSections);
+  const [routineState, setRoutineState] = useState<RoutineBuilder>(defaultRoutine || initialRoutineState);
+  const [sectionsState, setSectionsState] = useState<Array<SectionBuilder>>(defaultSections || initialSectionsState);
   const snackbar = useSnackbar();
 
   const sensors = useSensors(
@@ -70,6 +77,7 @@ const RoutineBuilder: React.FC = () => {
   );
 
   const createRoutine = useMutationCreateRoutine();
+  const updateRoutine = useMutationUpdateRoutine();
   const { data, status } = useQueryExercises();
 
   const autocompleteExerciseProps: AutocompleteExerciseProps = useMemo(() => {
@@ -289,25 +297,42 @@ const RoutineBuilder: React.FC = () => {
       })),
     };
 
-    createRoutine.mutate(
-      payload,
-      {
-        onSuccess: () => {
-          snackbar.success('Rutina creada correctamente');
-          createRoutine.reset();
-          setRoutineState(defaultRoutine);
-          setSectionsState(defaultSections);
-        },
-        onError: (mutationError: unknown) => {
-          const error = mutationError as AxiosError;
-          snackbar.error((error.response?.data as { message?: string })?.message || error.message);
-          createRoutine.reset();
-        },
-      }
-    );
+    if (id) {
+      updateRoutine.mutate(
+        { id, payload },
+        {
+          onSuccess: () => {
+            snackbar.success('Rutina actualizada correctamente');
+            updateRoutine.reset();
+          },
+          onError: (mutationError: unknown) => {
+            const error = mutationError as AxiosError;
+            snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            updateRoutine.reset();
+          },
+        }
+      );
+    } else {
+      createRoutine.mutate(
+        payload,
+        {
+          onSuccess: () => {
+            snackbar.success('Rutina creada correctamente');
+            createRoutine.reset();
+            setRoutineState(initialRoutineState);
+            setSectionsState(initialSectionsState);
+          },
+          onError: (mutationError: unknown) => {
+            const error = mutationError as AxiosError;
+            snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            createRoutine.reset();
+          },
+        }
+      );
+    }
   };
 
-  const isPending = [createRoutine.status].includes('pending');
+  const isPending = [createRoutine.status, updateRoutine.status].includes('pending');
 
   return (
     <>

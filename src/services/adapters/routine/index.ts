@@ -29,11 +29,13 @@ export const adaptRoutine = (data?: RoutineDetailedResponse): RoutineDetailed =>
   equipment: data?.equipment || '' as RoutineEquipment,
   status: data?.status || '' as RoutineStatus,
   routineSections: (data?.routineSections || []).map(routineSection => ({
+    id: routineSection.id,
     name: routineSection.name,
     duration: routineSection.duration,
     laps: routineSection.laps,
     pause: routineSection.pause,
     routineExercises: (routineSection?.routineExercises || []).map(routineExercise => ({
+      id: routineExercise.id,
       duration: routineExercise.duration,
       pause: routineExercise.pause,
       repetitions: routineExercise.repetitions,
