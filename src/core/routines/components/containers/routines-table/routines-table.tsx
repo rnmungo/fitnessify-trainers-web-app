@@ -32,6 +32,7 @@ import { TableLoading } from '../../../../components/presentational/table';
 import useQueryRoutines from '../../../hooks/useQueryRoutines';
 import ActivateRoutineDialog from './activate-routine-dialog';
 import DeactivateRoutineDialog from './deactivate-routine-dialog';
+import DeleteRoutineDialog from './delete-routine-dialog';
 
 import type { Routine } from '@/types/routine';
 import type { ColumnDefinition } from '../../../../components/presentational/table/types';
@@ -142,28 +143,37 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
   const [selectedRoutineState, setSelectedRoutineState] = useState<Routine | null>(null);
   const [openActivateState, setOpenActivateState] = useState<boolean>(false);
   const [openDeactivateState, setOpenDeactivateState] = useState<boolean>(false);
-  const [openRemoveState, setOpenRemoveState] = useState<boolean>(false);
+  const [openDeleteState, setOpenDeleteState] = useState<boolean>(false);
   const [openEditPlanState, setOpenEditPlanState] = useState<boolean>(false);
   const router = useRouter();
   const { data, status, refetch } = useQueryRoutines();
 
   const handleCloseActivate = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
-      if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
-        return;
-      }
+    if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
+      return;
+    }
 
-      setOpenActivateState(false);
-      setSelectedRoutineState(null);
-    }, []);
+    setOpenActivateState(false);
+    setSelectedRoutineState(null);
+  }, []);
 
-    const handleCloseDeactivate = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
-      if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
-        return;
-      }
+  const handleCloseDeactivate = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
+    if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
+      return;
+    }
 
-      setOpenDeactivateState(false);
-      setSelectedRoutineState(null);
-    }, []);
+    setOpenDeactivateState(false);
+    setSelectedRoutineState(null);
+  }, []);
+
+  const handleCloseDelete = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
+    if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
+      return;
+    }
+
+    setOpenDeleteState(false);
+    setSelectedRoutineState(null);
+  }, []);
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPageState(newPage);
@@ -265,7 +275,7 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
                 label: 'Eliminar',
                 onClick: () => {
                   setSelectedRoutineState(row);
-                  setOpenRemoveState(true);
+                  setOpenDeleteState(true);
                 },
               })
 
@@ -403,6 +413,12 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
         open={openDeactivateState}
         onClose={handleCloseDeactivate}
         onRoutineDeactivated={refetch}
+      />
+      <DeleteRoutineDialog
+        routine={selectedRoutineState}
+        open={openDeleteState}
+        onClose={handleCloseDelete}
+        onRoutineDeleted={refetch}
       />
     </>
   );

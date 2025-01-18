@@ -18,6 +18,8 @@ export type CreateRoutineParams = CreateRoutine & TokenParam;
 
 export type DeactivateRoutineParams = IdentifierParam & TokenParam;
 
+export type DeleteRoutineParams = IdentifierParam & TokenParam;
+
 export type GetRoutinesParams = TokenParam;
 
 export const activateRoutine = async ({ token, id }: ActivateRoutineParams) => {
@@ -61,6 +63,20 @@ export const deactivateRoutine = async ({ token, id }: DeactivateRoutineParams) 
   const response = await gatewayClient.put(
     `/api/routine/${id}/draft`,
     {},
+    {
+      headers: {
+        'X-Application-Id': process.env.TENANT,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.status === HTTP_STATUS.NO_CONTENT;
+};
+
+export const deleteRoutine = async ({ id, token }: DeleteRoutineParams) => {
+  const response = await gatewayClient.delete(
+    `/api/routine/${id}`,
     {
       headers: {
         'X-Application-Id': process.env.TENANT,
