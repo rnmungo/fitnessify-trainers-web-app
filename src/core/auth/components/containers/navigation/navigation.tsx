@@ -32,7 +32,7 @@ const NavigationContainer: React.FC = () => {
      const settings = [
       {
         label: 'Cambiar Contraseña',
-        onClick: () => router.push('/profile/change-password'),
+        onClick: () => router.push('/change-password'),
       },
       { label: 'Cerrar Sesión', onClick: () => signOut.mutate() },
     ];

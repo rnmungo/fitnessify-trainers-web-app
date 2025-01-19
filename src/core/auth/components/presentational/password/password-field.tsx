@@ -5,14 +5,12 @@ import MuiIconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export interface PasswordFieldProps extends Omit<TextFieldProps, 'InputProps'> {
-  inputProps?: React.HTMLProps<HTMLInputElement>;
-  InputProps?: TextFieldProps['InputProps'];
+export interface PasswordFieldProps extends Omit<TextFieldProps, 'slotProps'> {
+  slotProps?: TextFieldProps['slotProps'];
 }
 
 const PasswordField: React.FC<PasswordFieldProps> = ({
-  inputProps = {},
-  InputProps = {},
+  slotProps = {},
   ...textFieldProps
 }) => {
   const [visible, setVisible] = useState(false);
@@ -27,25 +25,27 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 
   return (
     <MuiTextField
-      inputProps={{
-        ...inputProps,
-        type: visible ? 'text' : 'password',
-      }}
-      InputProps={{
-        ...InputProps,
-        endAdornment: (
-          <MuiInputAdornment position="end">
-            <MuiIconButton
-              aria-label="Toggle password visibility"
-              onMouseDown={handleMouseDown}
-              onClick={handleClick}
-              edge="end"
-              tabIndex={-1}
-            >
-              {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            </MuiIconButton>
-          </MuiInputAdornment>
-        ),
+      slotProps={{
+        htmlInput: {
+          ...slotProps.htmlInput,
+          type: visible ? 'text' : 'password',
+        },
+        input: {
+          ...slotProps.input,
+          endAdornment: (
+            <MuiInputAdornment position="end">
+              <MuiIconButton
+                aria-label="Toggle password visibility"
+                onMouseDown={handleMouseDown}
+                onClick={handleClick}
+                edge="end"
+                tabIndex={-1}
+              >
+                {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </MuiIconButton>
+            </MuiInputAdornment>
+          ),
+        },
       }}
       {...textFieldProps}
     />

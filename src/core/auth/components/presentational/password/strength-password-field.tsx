@@ -10,7 +10,7 @@ interface StrengthPasswordFieldProps extends PasswordFieldProps {
 
 const StrengthPasswordField: React.FC<StrengthPasswordFieldProps> = ({
   value,
-  InputProps = {},
+  slotProps = {},
   ...textFieldProps
 }) => {
   const strength = getPasswordStrength(value);
@@ -21,13 +21,15 @@ const StrengthPasswordField: React.FC<StrengthPasswordFieldProps> = ({
       focused={Boolean(value)}
       value={value}
       label={strength.label}
-      InputProps={{
-        ...InputProps,
-        startAdornment: (
-          <MuiInputAdornment position="start">
-            <MuiCircleIcon color={strength.color} />
-          </MuiInputAdornment>
-        ),
+      slotProps={{
+        input: {
+          ...slotProps.input,
+          startAdornment: (
+            <MuiInputAdornment position="start">
+              <MuiCircleIcon color={strength.color} />
+            </MuiInputAdornment>
+          ),
+        },
       }}
       color={strength.color}
     />

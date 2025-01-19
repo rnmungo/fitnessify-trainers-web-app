@@ -78,7 +78,7 @@ const LoginFormContainer: React.FC = () => {
           <MuiTextField
             fullWidth
             aria-label="Usuario"
-            inputProps={{ 'aria-label': 'Usuario' }}
+            slotProps={{ htmlInput: { 'aria-label': 'Usuario' } }}
             sx={{ mb: 4 }}
             id="userName"
             name="userName"
@@ -94,7 +94,7 @@ const LoginFormContainer: React.FC = () => {
           <PasswordField
             fullWidth
             aria-label="Contraseña"
-            inputProps={{ 'aria-label': 'Contraseña' }}
+            slotProps={{ htmlInput: { 'aria-label': 'Contraseña' } }}
             sx={{ mb: 4 }}
             id="password"
             name="password"
@@ -117,7 +117,7 @@ const LoginFormContainer: React.FC = () => {
             Iniciar Sesión
           </MuiButton>
           <MuiBox mt={5}>
-            <Copyright enterprise="BeBlackFit" startYear={2023} />
+            <Copyright enterprise="Fitnessify" startYear={2023} />
           </MuiBox>
         </Form>
       </MuiStack>
