@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { AxiosError } from 'axios';
 import { v4 as uuidV4 } from 'uuid';
+import MuiAlert from '@mui/material/Alert';
 import MuiBox from '@mui/material/Box';
 import MuiButton from '@mui/material/Button';
 import MuiGrid from '@mui/material/Grid2';
@@ -78,7 +79,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
 
   const createRoutine = useMutationCreateRoutine();
   const updateRoutine = useMutationUpdateRoutine();
-  const { data, status } = useQueryExercises();
+  const { data, status, refetch } = useQueryExercises();
 
   const autocompleteExerciseProps: AutocompleteExerciseProps = useMemo(() => {
     if (status === 'success') {
@@ -336,6 +337,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
 
   return (
     <>
+      <Spinner loading={status === 'pending'} label="Cargando ejercicios" />
       <Spinner loading={isPending} label="Guardando rutina" />
       <MuiBox sx={{ width: '100%' }}>
         <MuiBox sx={{ width: "100%", mt: 2 }}>
@@ -345,6 +347,19 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
           </MuiTabs>
 
           <MuiBox sx={{ my: 2 }}>
+            {status === 'error' && (
+              <MuiAlert
+                sx={{ mb: 2 }}
+                severity="error"
+                action={
+                  <MuiButton color="inherit" size="small" onClick={() => refetch()}>
+                    Reintentar
+                  </MuiButton>
+                }
+              >
+                No pudimos cargar la lista de ejercicios. Vuelva a intentarlo nuevamente.
+              </MuiAlert>
+            )}
             {activeTabState === 0 ? (
               <MuiBox>
                 <MuiGrid container spacing={2}>

@@ -109,7 +109,7 @@ const RoutineSectionBuilder: React.FC<RoutineSectionBuilderProps> = ({
                     <MuiAutocomplete
                       options={autocompleteExercises.options}
                       value={autocompleteExercises.options.find(option => option.id === exercise.exerciseId) || null}
-                      onChange={(e, newValue) => onUpdateExercise(sectionIndex, exerciseIndex, 'exerciseId', newValue?.id || '')}
+                      onChange={(_, newValue) => onUpdateExercise(sectionIndex, exerciseIndex, 'exerciseId', newValue?.id || '')}
                       disabled={autocompleteExercises.disabled}
                       renderInput={(params) => (
                         <MuiTextField
