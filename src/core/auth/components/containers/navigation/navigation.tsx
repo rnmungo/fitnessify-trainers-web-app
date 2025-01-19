@@ -22,7 +22,7 @@ const NavigationContainer: React.FC = () => {
         label: 'Videos',
         onClick: () => router.push('/videos'),
       },
-      { label: 'Usuarios', onClick: () => router.push('/users') },
+      { label: 'Clientes', onClick: () => router.push('/users') },
     ];
 
     return links;

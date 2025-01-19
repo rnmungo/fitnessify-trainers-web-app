@@ -1,4 +1,5 @@
 import { getIronSession } from 'iron-session';
+import { TRAINER_ROLE } from '@/core/auth/constants/roles';
 import { signIn } from '@/services/auth/service';
 import { getMyProfile } from '@/services/profile/service';
 import { sessionOptions } from '@/utilities/session/options';
@@ -14,6 +15,11 @@ export default async function handler(
     try {
       const { email, password } = req.body;
       const { authorization, isLoggedIn, user } = await signIn({ email, password });
+
+      if (!user.roles.includes(TRAINER_ROLE)) {
+        throw new Error('No estás autorizado para acceder al sitio')
+      }
+
       const profile = await getMyProfile({ token: authorization.token });
 
       const session = await getIronSession<Session>(req, res, sessionOptions);
@@ -21,6 +27,7 @@ export default async function handler(
       session.isLoggedIn = isLoggedIn;
       session.user = user;
       session.profile = profile;
+
       await session.save();
 
       res.status(200).json(user);
