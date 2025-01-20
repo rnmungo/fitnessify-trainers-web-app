@@ -23,6 +23,11 @@ import {
   useSensors,
   DragEndEvent,
 } from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { SortableListSection } from '@/core/components/presentational/list';
 import { TimeMaskTextField } from '@/core/components/presentational/textfield';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
@@ -152,19 +157,30 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
     const { active, over } = event;
     if (!over) return;
 
-    const [activeSectionId, activeExerciseId] = String(active.id).split('|');
-    const [overSectionId, overExerciseId] = String(over.id).split('|');
+    const [activeType, activeSectionId, activeExerciseId] = String(active.id).split('|');
+    const [overType, overSectionId, overExerciseId] = String(over.id).split('|');
 
-    if (activeSectionId === overSectionId) {
+    if (activeType === 'section') {
+      setSectionsState((prevSections) => {
+        const sections = [...prevSections];
+        const oldIndex = sections.findIndex((section) => section.id === activeSectionId);
+        const newIndex = sections.findIndex((section) => section.id === overSectionId);
+        const [removed] = sections.splice(oldIndex, 1);
+        sections.splice(newIndex, 0, removed);
+        return sections;
+      });
+    }
+
+    if (activeType === 'exercise' && activeSectionId === overSectionId) {
       setSectionsState((prevSections) =>
-        prevSections.map((section, sIndex) =>
+        prevSections.map(section =>
           section.id === activeSectionId
             ? {
                 ...section,
                 exercises: (() => {
                   const exercises = [...section.exercises];
-                  const oldIndex = exercises.findIndex((ex) => ex.id === activeExerciseId);
-                  const newIndex = exercises.findIndex((ex) => ex.id === overExerciseId);
+                  const oldIndex = exercises.findIndex((exercise) => exercise.id === activeExerciseId);
+                  const newIndex = exercises.findIndex((exercise) => exercise.id === overExerciseId);
                   const [removed] = exercises.splice(oldIndex, 1);
                   exercises.splice(newIndex, 0, removed);
                   return exercises;
@@ -412,19 +428,29 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                   collisionDetection={closestCenter}
                   onDragEnd={handleDragEnd}
                 >
-                  {sectionsState.map((section, sectionIndex) => (
-                    <RoutineSectionBuilder
-                      key={section.id}
-                      section={section}
-                      sectionIndex={sectionIndex}
-                      autocompleteExercises={autocompleteExerciseProps}
-                      onAddExercise={handleAddExercise}
-                      onUpdateSection={handleUpdateSection}
-                      onUpdateExercise={handleUpdateExercise}
-                      onRemoveSection={handleRemoveSection}
-                      onRemoveExercise={handleRemoveExercise}
-                    />
-                  ))}
+                  <SortableContext
+                    items={sectionsState.map(section => `section|${section.id}`)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {sectionsState.map((section, sectionIndex) => (
+                      <SortableListSection
+                        key={`section|${section.id}`}
+                        id={`section|${section.id}`}
+                      >
+                        <RoutineSectionBuilder
+                          key={section.id}
+                          section={section}
+                          sectionIndex={sectionIndex}
+                          autocompleteExercises={autocompleteExerciseProps}
+                          onAddExercise={handleAddExercise}
+                          onUpdateSection={handleUpdateSection}
+                          onUpdateExercise={handleUpdateExercise}
+                          onRemoveSection={handleRemoveSection}
+                          onRemoveExercise={handleRemoveExercise}
+                        />
+                      </SortableListSection>
+                    ))}
+                  </SortableContext>
                 </DndContext>
                 <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
                   <MuiButton

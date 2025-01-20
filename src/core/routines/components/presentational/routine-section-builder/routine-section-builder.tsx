@@ -94,16 +94,15 @@ const RoutineSectionBuilder: React.FC<RoutineSectionBuilderProps> = ({
               />
             </MuiGrid>
           </MuiGrid>
-
           <MuiBox sx={{ mt: 2 }}>
             <SortableContext
-              items={section.exercises.map(ex => `${section.id}|${ex.id}`)}
+              items={section.exercises.map(ex => `exercise|${section.id}|${ex.id}`)}
               strategy={verticalListSortingStrategy}
             >
               {section.exercises.map((exercise, exerciseIndex) => (
                 <SortableListItem
-                  key={`${section.id}|${exercise.id}`}
-                  id={`${section.id}|${exercise.id}`}
+                  key={`exercise|${section.id}|${exercise.id}`}
+                  id={`exercise|${section.id}|${exercise.id}`}
                 >
                   <MuiGrid size={{ xs: 12, sm: 7, md: 4 }}>
                     <MuiAutocomplete
@@ -156,7 +155,6 @@ const RoutineSectionBuilder: React.FC<RoutineSectionBuilderProps> = ({
               ))}
             </SortableContext>
           </MuiBox>
-
           <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
             <MuiButton
               startIcon={<MuiAddIcon />}
