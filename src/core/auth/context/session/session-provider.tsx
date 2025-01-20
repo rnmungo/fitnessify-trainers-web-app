@@ -10,6 +10,7 @@ export const useSession = () => {
   if (!context) {
     throw new Error('useSession must be used within an SessionContext');
   }
+
   return context;
 };
 
