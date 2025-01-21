@@ -1,0 +1,90 @@
+{
+  "change-password-page": {
+    "inputs": {
+      "confirm-password": "Confirmar contraseña",
+      "current-password": "Contraseña actual",
+      "new-password": "Nueva contraseña"
+    },
+    "actions": {
+      "change-password": "Cambiar contraseña"
+    },
+    "mutation": {
+      "loading": "Actualizando contraseña",
+      "success": "La contraseña fue actualizada correctamente"
+    },
+    "validations": {
+      "confirm-password-match": "Las contraseñas coinciden",
+      "confirm-password-no-match": "Las contraseñas no coinciden",
+      "confirm-password-required": "Ingrese la contraseña nuevamente",
+      "current-password-required": "Ingrese la contraseña actual",
+      "new-password-required": "Ingrese la nueva contraseña"
+    }
+  },
+  "common": {
+    "password-strength": {
+      "insecure-password": "Contraseña insegura",
+      "password": "Contraseña",
+      "secure-password": "Contraseña segura",
+      "weak-password": "Contraseña poco segura"
+    }
+  },
+  "home-page": {
+    "features": {
+      "exercises": {
+        "title": "Ejercicios",
+        "description": "Armá tu biblioteca completa de ejercicios con video tutoriales de alta calidad para guiar a tus clientes en cada ejercicio."
+      },
+      "routines": {
+        "title": "Rutinas",
+        "description": "Creá, personalizá y organizá programas de entrenamiento para tus clientes, adaptados a su nivel y objetivos."
+      },
+      "subscriptions": {
+        "title": "Suscripciones",
+        "description": "Gestioná las subscripciones de tus clientes para acceder al contenido que ofrecés."
+      }
+    },
+    "presentation": {
+      "title": "Bienvenido a Fitnessify",
+      "sub-title": "Tu plataforma integral para gestionar entrenamientos, ejercicios y más"
+    },
+    "user_manual": {
+      "explain": "Accedé al manual de usuario para obtener una guía completa sobre cómo utilizar la plataforma. Podés descargarlo para consultarlo en cualquier momento.",
+      "download": "Descargar Manual"
+    }
+  },
+  "login-page": {
+    "inputs": {
+      "password": "Contraseña",
+      "username": "Usuario"
+    },
+    "actions": {
+      "login": "Iniciar Sesión"
+    },
+    "validations": {
+      "password": "Ingrese la contraseña",
+      "username": "Ingrese el nombre de usuario"
+    }
+  },
+  "main": {
+    "language": {
+      "english": "Inglés",
+      "selector": "Selector de idioma",
+      "spanish": "Español"
+    },
+    "navigation": {
+      "change-password": "Cambiar contraseña",
+      "customers": "Clientes",
+      "exercises": "Ejercicios",
+      "home": "Inicio",
+      "new-exercise": "Nuevo ejercicio",
+      "new-routine": "Nueva rutina",
+      "new-video": "Nuevo video",
+      "password-change": "Cambio de contraseña",
+      "plans": "Planes",
+      "routines": "Rutinas",
+      "sign-out": "Cerrar sesión",
+      "signing-out": "Cerrando sesión",
+      "videos": "Videos"
+    }
+  }
+}

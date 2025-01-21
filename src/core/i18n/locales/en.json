@@ -1,0 +1,90 @@
+{
+  "change-password-page": {
+    "inputs": {
+      "confirm-password": "Confirm password",
+      "current-password": "Current password",
+      "new-password": "New password"
+    },
+    "actions": {
+      "change-password": "Change password"
+    },
+    "mutation": {
+      "loading": "Updating password",
+      "success": "Password was updated successfully"
+    },
+    "validations": {
+      "confirm-password-match": "Passwords match",
+      "confirm-password-no-match": "Passwords do not match",
+      "confirm-password-required": "Enter the password again",
+      "current-password-required": "Enter current password",
+      "new-password-required": "Enter the new password"
+    }
+  },
+  "common": {
+    "password-strength": {
+      "insecure-password": "Insecure password",
+      "password": "Password",
+      "secure-password": "Secure password",
+      "weak-password": "Weak password"
+    }
+  },
+  "home-page": {
+    "features": {
+      "exercises": {
+        "title": "Exercises",
+        "description": "Build your complete exercise library with high-quality video tutorials to guide your clients through each exercise."
+      },
+      "routines": {
+        "title": "Routines",
+        "description": "Create, customize and organize training programs for your clients, adapted to their level and objectives."
+      },
+      "subscriptions": {
+        "title": "Subscriptions",
+        "description": "Manage your clients' subscriptions to access the content you offer."
+      }
+    },
+    "presentation": {
+      "title": "Welcome to Fitnessify",
+      "sub-title": "Your comprehensive platform to manage training, exercises and more"
+    },
+    "user_manual": {
+      "explain": "Access the user manual for a complete guide on how to use the platform. You can download it to consult it at any time.",
+      "download": "Download Manual"
+    }
+  },
+  "login-page": {
+    "inputs": {
+      "password": "Password",
+      "username": "User"
+    },
+    "actions": {
+      "login": "Login"
+    },
+    "validations": {
+      "password": "Enter password",
+      "username": "Enter username"
+    }
+  },
+  "main": {
+    "language": {
+      "english": "English",
+      "selector": "Language selector",
+      "spanish": "Spanish"
+    },
+    "navigation": {
+      "change-password": "Change password",
+      "customers": "Customers",
+      "exercises": "Exercises",
+      "home": "Home",
+      "new-exercise": "New exercise",
+      "new-routine": "New routine",
+      "new-video": "New video",
+      "password-change": "Password change",
+      "plans": "Plans",
+      "routines": "Routines",
+      "sign-out": "Sign out",
+      "signing-out": "Signing out",
+      "videos": "Videos"
+    }
+  }
+}
