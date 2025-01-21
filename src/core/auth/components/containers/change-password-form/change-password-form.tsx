@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
@@ -9,6 +9,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
+import { useTranslation } from '@/core/i18n/context';
 import { PasswordField, StrengthPasswordField } from '../../presentational/password';
 import { useMutationChangePassword } from '../../../hooks';
 
@@ -24,12 +25,13 @@ const Form = styled('form')(({ theme }) => ({
 }));
 
 const validationSchema = yup.object({
-  currentPassword: yup.string().required('Ingrese la contraseña actual'),
-  newPassword: yup.string().required('Ingrese la nueva contraseña'),
-  confirmPassword: yup.string().required('Ingrese la contraseña nuevamente').oneOf([yup.ref('newPassword')], 'Las contraseñas no coinciden'),
+  currentPassword: yup.string().required('change-password-page.validations.current-password-required'),
+  newPassword: yup.string().required('change-password-page.validations.new-password-required'),
+  confirmPassword: yup.string().required('change-password-page.validations.confirm-password-required').oneOf([yup.ref('newPassword')], 'change-password-page.validations.confirm-password-no-match'),
 });
 
-const ChangePasswordForm: React.FC = () => {
+const ChangePasswordForm = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const router = useRouter();
@@ -51,7 +53,7 @@ const ChangePasswordForm: React.FC = () => {
 
   useEffect(() => {
     if (changePassword.status === 'success') {
-      snackbar.success('La contraseña fue actualizada correctamente');
+      snackbar.success(t('change-password-page.mutation.success'));
       changePassword.reset();
       formik.resetForm();
     }
@@ -61,7 +63,7 @@ const ChangePasswordForm: React.FC = () => {
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       changePassword.reset();
     }
-  }, [router, changePassword, snackbar, formik]);
+  }, [router, changePassword, snackbar, formik, t]);
 
   const confirmPasswordProps: ConfirmPasswordProps = useMemo(() => {
     const passwordsMatch =
@@ -72,19 +74,19 @@ const ChangePasswordForm: React.FC = () => {
     if (passwordsMatch) {
       return {
         color: 'success',
-        helperText: 'Las contraseñas coinciden',
+        helperText: t('change-password-page.validations.confirm-password-match'),
       } as ConfirmPasswordProps;
     }
 
     return {
       color: formik.errors.confirmPassword ? 'error' : 'primary',
-      helperText: formik.touched.confirmPassword && formik.errors.confirmPassword,
+      helperText: (formik.touched.confirmPassword && formik.errors.confirmPassword) && t(formik.errors.confirmPassword),
     } as ConfirmPasswordProps;
-  }, [formik.errors.confirmPassword, formik.touched.confirmPassword, formik.values.confirmPassword, formik.values.newPassword]);
+  }, [formik.errors.confirmPassword, formik.touched.confirmPassword, formik.values.confirmPassword, formik.values.newPassword, t]);
 
   return (
     <>
-      <Spinner loading={changePassword.status === 'pending'} label="Actualizando contraseña" />
+      <Spinner loading={changePassword.status === 'pending'} label={t('change-password-page.mutation.loading')} />
       <MuiGrid
         container
         justifyContent="flex-start"
@@ -93,42 +95,42 @@ const ChangePasswordForm: React.FC = () => {
           <Form onSubmit={formik.handleSubmit}>
             <PasswordField
               fullWidth
-              aria-label="Contraseña actual"
-              slotProps={{ htmlInput: { 'aria-label': 'Contraseña actual' } }}
+              aria-label={t('change-password-page.inputs.current-password')}
+              slotProps={{ htmlInput: { 'aria-label': t('change-password-page.inputs.current-password') } }}
               sx={{ mb: 4 }}
               id="currentPassword"
               name="currentPassword"
-              label="Contraseña actual"
+              label={t('change-password-page.inputs.current-password')}
               color="primary"
               value={formik.values.currentPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.currentPassword && Boolean(formik.errors.currentPassword)}
-              helperText={formik.touched.currentPassword && formik.errors.currentPassword}
+              helperText={(formik.touched.currentPassword && formik.errors.currentPassword) && t(formik.errors.currentPassword)}
             />
             <StrengthPasswordField
               fullWidth
-              aria-label="Nueva contraseña"
-              slotProps={{ htmlInput: { 'aria-label': 'Confirmar contraseña' } }}
+              aria-label={t('change-password-page.inputs.new-password')}
+              slotProps={{ htmlInput: { 'aria-label': t('change-password-page.inputs.new-password') } }}
               sx={{ mb: 4 }}
               id="newPassword"
               name="newPassword"
-              label="Nueva contraseña"
+              label={t('change-password-page.inputs.new-password')}
               color="primary"
               value={formik.values.newPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
-              helperText={formik.touched.newPassword && formik.errors.newPassword}
+              helperText={(formik.touched.newPassword && formik.errors.newPassword) && t(formik.errors.newPassword)}
             />
             <PasswordField
               fullWidth
-              aria-label="Confirmar contraseña"
-              slotProps={{ htmlInput: { 'aria-label': 'Confirmar contraseña' } }}
+              aria-label={t('change-password-page.inputs.confirm-password')}
+              slotProps={{ htmlInput: { 'aria-label': t('change-password-page.inputs.confirm-password') } }}
               sx={{ mb: 4 }}
               id="confirmPassword"
               name="confirmPassword"
-              label="Confirmar contraseña"
+              label={t('change-password-page.inputs.confirm-password')}
               focused={Boolean(formik.values.confirmPassword)}
               color={confirmPasswordProps.color}
               value={formik.values.confirmPassword}
@@ -138,13 +140,13 @@ const ChangePasswordForm: React.FC = () => {
               helperText={confirmPasswordProps.helperText}
             />
             <MuiButton
-              aria-label="Cambiar contraseña"
+              aria-label={t('change-password-page.actions.change-password')}
               type="submit"
               variant="contained"
               color="primary"
               disabled={!formik.isValid || !formik.dirty}
             >
-              Cambiar contraseña
+              {t('change-password-page.actions.change-password')}
             </MuiButton>
           </Form>
         </MuiGrid>

@@ -11,10 +11,10 @@ interface PasswordStrength {
 }
 
 export const getPasswordStrength = (password: string): PasswordStrength => {
-  if (!password) return { label: 'Contraseña', color: 'primary' };
+  if (!password) return { label: 'common.password-strength.password', color: 'primary' };
   if (STRONG_REGEX.test(password))
-    return { label: 'Contraseña segura', color: 'success' };
+    return { label: 'common.password-strength.secure-password', color: 'success' };
   if (MEDIUM_REGEX.test(password))
-    return { label: 'Contraseña poco segura', color: 'warning' };
-  return { label: 'Contraseña insegura', color: 'error' };
+    return { label: 'common.password-strength.weak-password', color: 'warning' };
+  return { label: 'common.password-strength.insecure-password', color: 'error' };
 };
