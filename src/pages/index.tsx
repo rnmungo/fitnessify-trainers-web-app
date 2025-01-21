@@ -116,6 +116,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async () => 
 });
 
 export default withLayout(HomePage, {
-  title: 'Inicio',
-  description: 'Aplicación de gestión de rutinas y planes',
+  title: 'main.navigation.home',
+  description: 'main.meta.description',
+  navigation: true,
 });

@@ -5,33 +5,38 @@ import MuiGrid from '@mui/material/Grid2';
 import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
+import { useTranslation } from '@/core/i18n/context';
 import { withLayout } from '@/core/components/hoc/layout';
 import ExercisesTable from '@/core/exercises/components/containers/exercises-table';
 const LinkNoSsr = dynamic(() => import('@/core/components/presentational/link'), { ssr: false });
 
-const ExercisesPage: NextPage = () => (
-  <MuiGrid
-    container
-    sx={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      placeContent: 'start',
-      p: 4,
-    }}
-  >
-    <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
-      <MuiBreadcrumbs aria-label="breadcrumb">
-        <LinkNoSsr underline="hover" color="inherit" href="/">
-          Inicio
-        </LinkNoSsr>
-        <MuiTypography color="text.primary">Ejercicios</MuiTypography>
-      </MuiBreadcrumbs>
-      <ExercisesTable rowsPerPage={10} />
-    </MuiStack>
-  </MuiGrid>
-);
+const ExercisesPage: NextPage = () => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiGrid
+      container
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        placeContent: 'start',
+        p: 4,
+      }}
+    >
+      <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
+        <MuiBreadcrumbs aria-label="breadcrumb">
+          <LinkNoSsr underline="hover" color="inherit" href="/">
+            {t('main.navigation.home')}
+          </LinkNoSsr>
+          <MuiTypography color="text.primary">{t('main.navigation.exercises')}</MuiTypography>
+        </MuiBreadcrumbs>
+        <ExercisesTable rowsPerPage={10} />
+      </MuiStack>
+    </MuiGrid>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = withGuardPage(async () => {
   return {
@@ -40,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async () => 
 });
 
 export default withLayout(ExercisesPage, {
-  title: 'Ejercicios',
-  description: 'Aplicación de gestión de rutinas y ejercicios',
+  title: 'main.navigation.exercises',
+  description: 'main.meta.description',
   navigation: true,
 });

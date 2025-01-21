@@ -53,12 +53,15 @@
     }
   },
   "login-page": {
+    "actions": {
+      "sign-in": "Iniciar Sesión"
+    },
     "inputs": {
       "password": "Contraseña",
       "username": "Usuario"
     },
-    "actions": {
-      "login": "Iniciar Sesión"
+    "mutation": {
+      "loading": "Iniciando sesión"
     },
     "validations": {
       "password": "Ingrese la contraseña",
@@ -71,6 +74,9 @@
       "selector": "Selector de idioma",
       "spanish": "Español"
     },
+    "meta": {
+      "description": "Aplicación de gestión de rutinas y ejercicios"
+    },
     "navigation": {
       "change-password": "Cambiar contraseña",
       "customers": "Clientes",
@@ -82,8 +88,13 @@
       "password-change": "Cambio de contraseña",
       "plans": "Planes",
       "routines": "Rutinas",
+      "sign-in": "Iniciar sesión",
       "sign-out": "Cerrar sesión",
       "signing-out": "Cerrando sesión",
+      "update-customer": "Actualizar cliente",
+      "update-exercise": "Actualizar ejercicio",
+      "update-plans": "Actualizar planes",
+      "update-routine": "Actualizar rutina",
       "videos": "Videos"
     }
   }

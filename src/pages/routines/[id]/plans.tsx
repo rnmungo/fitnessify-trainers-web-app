@@ -8,6 +8,7 @@ import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { HTTP_STATUS } from '@/constants/http-status';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
+import { useTranslation } from '@/core/i18n/context';
 import { withLayout } from '@/core/components/hoc/layout';
 import { getRoutine, getRoutinePlans } from '@/services/routine/service';
 import { sessionOptions } from '@/utilities/session/options';
@@ -25,35 +26,39 @@ interface RoutinePlansPageProps {
   routinePlans: Array<RoutinePlan>
 }
 
-const RoutinePlansPage: NextPage<RoutinePlansPageProps> = ({ id, routine, routinePlans }) => (
-  <MuiGrid
-    container
-    sx={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      placeContent: 'start',
-      p: 4,
-    }}
-  >
-    <MuiStack sx={{ width: '100%' }} direction="column" spacing={3}>
-      <MuiBreadcrumbs aria-label="breadcrumb">
-        <LinkNoSsr underline="hover" color="inherit" href="/">
-          Inicio
-        </LinkNoSsr>
-        <LinkNoSsr underline="hover" color="inherit" href="/routines">
-          Rutinas
-        </LinkNoSsr>
-        <LinkNoSsr underline="hover" color="inherit" href={`/routines/${routine?.id}`}>
-          {routine?.name}
-        </LinkNoSsr>
-        <MuiTypography color="text.primary">Planes</MuiTypography>
-      </MuiBreadcrumbs>
-      <RoutinePlansForm id={id} routinePlans={routinePlans} />
-    </MuiStack>
-  </MuiGrid>
-);
+const RoutinePlansPage: NextPage<RoutinePlansPageProps> = ({ id, routine, routinePlans }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiGrid
+      container
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        placeContent: 'start',
+        p: 4,
+      }}
+    >
+      <MuiStack sx={{ width: '100%' }} direction="column" spacing={3}>
+        <MuiBreadcrumbs aria-label="breadcrumb">
+          <LinkNoSsr underline="hover" color="inherit" href="/">
+            {t('main.navigation.home')}
+          </LinkNoSsr>
+          <LinkNoSsr underline="hover" color="inherit" href="/routines">
+            {t('main.navigation.home')}
+          </LinkNoSsr>
+          <LinkNoSsr underline="hover" color="inherit" href={`/routines/${routine?.id}`}>
+            {routine?.name}
+          </LinkNoSsr>
+          <MuiTypography color="text.primary">{t('main.navigation.plans')}</MuiTypography>
+        </MuiBreadcrumbs>
+        <RoutinePlansForm id={id} routinePlans={routinePlans} />
+      </MuiStack>
+    </MuiGrid>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = withGuardPage(async (context) => {
   const { query, req, res } = context;
@@ -88,7 +93,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async (conte
 });
 
 export default withLayout(RoutinePlansPage, {
-  title: 'Actualizar planes',
-  description: 'Aplicación de gestión de rutinas y ejercicios',
+  title: 'main.navigation.update-plans',
+  description: 'main.meta.description',
   navigation: true,
 });

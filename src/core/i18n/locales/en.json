@@ -53,12 +53,15 @@
     }
   },
   "login-page": {
+    "actions": {
+      "sign-in": "Sign in"
+    },
     "inputs": {
       "password": "Password",
       "username": "User"
     },
-    "actions": {
-      "login": "Login"
+    "mutation": {
+      "loading": "Signing in"
     },
     "validations": {
       "password": "Enter password",
@@ -71,6 +74,9 @@
       "selector": "Language selector",
       "spanish": "Spanish"
     },
+    "meta": {
+      "description": "Routine and exercise management application"
+    },
     "navigation": {
       "change-password": "Change password",
       "customers": "Customers",
@@ -82,8 +88,13 @@
       "password-change": "Password change",
       "plans": "Plans",
       "routines": "Routines",
+      "sign-in": "Sign in",
       "sign-out": "Sign out",
       "signing-out": "Signing out",
+      "update-customer": "Update client",
+      "update-exercise": "Update exercise",
+      "update-plans": "Update plans",
+      "update-routine": "Update routine",
       "videos": "Videos"
     }
   }

@@ -5,36 +5,41 @@ import MuiGrid from '@mui/material/Grid2';
 import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
+import { useTranslation } from '@/core/i18n/context';
 import { withLayout } from '@/core/components/hoc/layout';
 import VideoUploader from '@/core/exercises/components/containers/video-uploader';
 const LinkNoSsr = dynamic(() => import('@/core/components/presentational/link'), { ssr: false });
 
-const NewExercisePage: NextPage = () => (
-  <MuiGrid
-    container
-    sx={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      placeContent: 'start',
-      p: 4,
-    }}
-  >
-    <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
-      <MuiBreadcrumbs aria-label="breadcrumb">
-        <LinkNoSsr underline="hover" color="inherit" href="/">
-          Inicio
-        </LinkNoSsr>
-        <LinkNoSsr underline="hover" color="inherit" href="/videos">
-          Videos
-        </LinkNoSsr>
-        <MuiTypography color="text.primary">Nuevo video</MuiTypography>
-      </MuiBreadcrumbs>
-      <VideoUploader />
-    </MuiStack>
-  </MuiGrid>
-);
+const NewVideoPage: NextPage = () => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiGrid
+      container
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        placeContent: 'start',
+        p: 4,
+      }}
+    >
+      <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
+        <MuiBreadcrumbs aria-label="breadcrumb">
+          <LinkNoSsr underline="hover" color="inherit" href="/">
+            {t('main.navigation.home')}
+          </LinkNoSsr>
+          <LinkNoSsr underline="hover" color="inherit" href="/videos">
+            {t('main.navigation.videos')}
+          </LinkNoSsr>
+          <MuiTypography color="text.primary">{t('main.navigation.new-video')}</MuiTypography>
+        </MuiBreadcrumbs>
+        <VideoUploader />
+      </MuiStack>
+    </MuiGrid>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = withGuardPage(async () => {
   return {
@@ -42,8 +47,8 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async () => 
   };
 });
 
-export default withLayout(NewExercisePage, {
-  title: 'Nuevo video',
-  description: 'Aplicación de gestión de rutinas y ejercicios',
+export default withLayout(NewVideoPage, {
+  title: 'main.navigation.new-video',
+  description: 'main.meta.description',
   navigation: true,
 });

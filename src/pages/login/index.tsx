@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async () => 
 });
 
 export default withLayout(LoginPage, {
-  title: 'Iniciar sesión',
-  description: 'Aplicación de gestión de rutinas y planes',
+  title: 'main.navigation.sign-in',
+  description: 'main.meta.description',
   navigation: false,
 });

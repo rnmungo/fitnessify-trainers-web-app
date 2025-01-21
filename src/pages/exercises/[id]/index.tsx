@@ -6,6 +6,7 @@ import MuiGrid from '@mui/material/Grid2';
 import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { withGuardPage } from '@/core/auth/guards/withGuardPage';
+import { useTranslation } from '@/core/i18n/context';
 import { withLayout } from '@/core/components/hoc/layout';
 import ExerciseForm from '@/core/exercises/components/containers/exercise-form';
 import { getExercise } from '@/services/exercise/service';
@@ -21,32 +22,36 @@ interface UpdateExercisePageProps {
   exercise: ExerciseDetailed | undefined
 }
 
-const UpdateExercisePage: NextPage<UpdateExercisePageProps> = ({ exercise }) => (
-  <MuiGrid
-    container
-    sx={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      placeContent: 'start',
-      p: 4,
-    }}
-  >
-    <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
-      <MuiBreadcrumbs aria-label="breadcrumb">
-        <LinkNoSsr underline="hover" color="inherit" href="/">
-          Inicio
-        </LinkNoSsr>
-        <LinkNoSsr underline="hover" color="inherit" href="/exercises">
-          Ejercicios
-        </LinkNoSsr>
-        <MuiTypography color="text.primary">{exercise?.name}</MuiTypography>
-      </MuiBreadcrumbs>
-      <ExerciseForm defaultExercise={exercise} />
-    </MuiStack>
-  </MuiGrid>
-);
+const UpdateExercisePage: NextPage<UpdateExercisePageProps> = ({ exercise }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiGrid
+      container
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        placeContent: 'start',
+        p: 4,
+      }}
+    >
+      <MuiStack sx={{ width: '100%' }} direction="column" spacing={1}>
+        <MuiBreadcrumbs aria-label="breadcrumb">
+          <LinkNoSsr underline="hover" color="inherit" href="/">
+            {t('main.navigation.home')}
+          </LinkNoSsr>
+          <LinkNoSsr underline="hover" color="inherit" href="/exercises">
+            {t('main.navigation.exercises')}
+          </LinkNoSsr>
+          <MuiTypography color="text.primary">{exercise?.name}</MuiTypography>
+        </MuiBreadcrumbs>
+        <ExerciseForm defaultExercise={exercise} />
+      </MuiStack>
+    </MuiGrid>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = withGuardPage(async (context) => {
   const { query, req, res } = context;
@@ -77,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async (conte
 });
 
 export default withLayout(UpdateExercisePage, {
-  title: 'Actualizar ejercicio',
-  description: 'Aplicación de gestión de rutinas y ejercicios',
+  title: 'main.navigation.update-exercise',
+  description: 'main.meta.description',
   navigation: true,
 });

@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = withGuardPage(async () => 
 });
 
 export default withLayout(ChangePasswordPage, {
-  title: 'Cambio de contraseña',
-  description: 'Aplicación de gestión de rutinas y ejercicios',
+  title: 'main.navigation.password-change',
+  description: 'main.meta.description',
   navigation: true,
 });

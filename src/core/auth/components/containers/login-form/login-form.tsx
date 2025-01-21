@@ -66,7 +66,7 @@ const LoginFormContainer = () => {
 
   return (
     <>
-      <Spinner loading={signIn.status === 'pending'} label="Iniciando sesión" />
+      <Spinner loading={signIn.status === 'pending'} label={t('login-page.mutation.loading')} />
       <MuiStack direction="column" alignItems="center" spacing={1}>
         <MuiAvatar
           sx={{ bgcolor: amber[500], color: 'primary.contrastText', m: 1 }}
@@ -74,7 +74,7 @@ const LoginFormContainer = () => {
           <MuiLockIcon />
         </MuiAvatar>
         <MuiTypography component="h1" variant="h5">
-          {t('login-page.actions.login')}
+          {t('login-page.actions.sign-in')}
         </MuiTypography>
         <Form onSubmit={formik.handleSubmit}>
           <MuiTextField
@@ -110,13 +110,13 @@ const LoginFormContainer = () => {
             helperText={(formik.touched.password && formik.errors.password) && t(formik.errors.password)}
           />
           <MuiButton
-            aria-label={t('login-page.actions.login')}
+            aria-label={t('login-page.actions.sign-in')}
             fullWidth
             type="submit"
             variant="contained"
             color="primary"
           >
-            {t('login-page.actions.login')}
+            {t('login-page.actions.sign-in')}
           </MuiButton>
           <MuiBox mt={5}>
             <Copyright enterprise="Fitnessify" startYear={2023} />
