@@ -1,44 +1,47 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Navigation from '@/core/components/presentational/navigation';
 import Spinner from '@/core/components/presentational/spinner';
+import LanguageToggleButton from '@/core/i18n/components/presentational/language-toggle-button';
+import { useTranslation } from '@/core/i18n/context';
 import { getInitialLetters } from '@/utilities/string.utility';
 import { useMutationSignOut } from '../../../hooks';
 import { useSession } from '../../../context/session';
 
-const NavigationContainer: React.FC = () => {
+const NavigationContainer = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const session = useSession();
   const signOut = useMutationSignOut();
 
   const memorizedLinks = useMemo(() => {
     const links = [
-      { label: 'Rutinas', onClick: () => router.push('/routines') },
+      { label: t('main.navigation.routines'), onClick: () => router.push('/routines') },
       {
-        label: 'Ejercicios',
+        label: t('main.navigation.exercises'),
         onClick: () => router.push('/exercises'),
       },
       {
-        label: 'Videos',
+        label: t('main.navigation.videos'),
         onClick: () => router.push('/videos'),
       },
-      { label: 'Clientes', onClick: () => router.push('/users') },
+      { label: t('main.navigation.customers'), onClick: () => router.push('/users') },
     ];
 
     return links;
-  }, [router]);
+  }, [router, t]);
 
   const memorizedSettings = useMemo(() => {
      const settings = [
       {
-        label: 'Cambiar Contraseña',
+        label: t('main.navigation.change-password'),
         onClick: () => router.push('/change-password'),
       },
-      { label: 'Cerrar Sesión', onClick: () => signOut.mutate() },
+      { label: t('main.navigation.sign-out'), onClick: () => signOut.mutate() },
     ];
 
     return settings;
-  }, [router, signOut]);
+  }, [router, signOut, t]);
 
   const avatarLabel = useMemo(() => {
     if (session.status === 'success') {
@@ -56,12 +59,13 @@ const NavigationContainer: React.FC = () => {
 
   return (
     <>
-      <Spinner loading={signOut.status === 'pending'} label="Cerrando sesión" />
+      <Spinner loading={signOut.status === 'pending'} label={t('main.navigation.signing-out')} />
       <Navigation
-        logo={session.data?.profile?.tenant?.name || 'Inicio'}
+        logo={session.data?.profile?.tenant?.name || t('main.navigation.home')}
         avatar={{
           text: avatarLabel,
         }}
+        widget={<LanguageToggleButton />}
         links={memorizedLinks}
         settings={memorizedSettings}
       />
