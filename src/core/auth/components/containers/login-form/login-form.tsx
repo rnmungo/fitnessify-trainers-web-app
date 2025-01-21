@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import Copyright from '@/core/components/presentational/copyright';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
+import { useTranslation } from '@/core/i18n/context';
 import { PasswordField } from '../../presentational/password';
 import { useMutationSignIn } from '../../../hooks';
 import { useSession } from '../../../context/session';
@@ -26,11 +27,12 @@ const Form = styled('form')(({ theme }) => ({
 }));
 
 const validationSchema = yup.object({
-  userName: yup.string().required('Ingrese el nombre de usuario'),
-  password: yup.string().required('Ingrese la contraseña'),
+  userName: yup.string().required('login-page.validations.username'),
+  password: yup.string().required('login-page.validations.password'),
 });
 
-const LoginFormContainer: React.FC = () => {
+const LoginFormContainer = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const snackbar = useSnackbar();
   const signIn = useMutationSignIn();
@@ -72,49 +74,49 @@ const LoginFormContainer: React.FC = () => {
           <MuiLockIcon />
         </MuiAvatar>
         <MuiTypography component="h1" variant="h5">
-          Iniciar Sesión
+          {t('login-page.actions.login')}
         </MuiTypography>
         <Form onSubmit={formik.handleSubmit}>
           <MuiTextField
             fullWidth
-            aria-label="Usuario"
-            slotProps={{ htmlInput: { 'aria-label': 'Usuario' } }}
+            aria-label={t('login-page.inputs.username')}
+            slotProps={{ htmlInput: { 'aria-label': t('login-page.inputs.username') } }}
             sx={{ mb: 4 }}
             id="userName"
             name="userName"
-            label="Usuario"
+            label={t('login-page.inputs.username')}
             color="primary"
             autoComplete="username"
             value={formik.values.userName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.userName && Boolean(formik.errors.userName)}
-            helperText={formik.touched.userName && formik.errors.userName}
+            helperText={(formik.touched.userName && formik.errors.userName) && t(formik.errors.userName)}
           />
           <PasswordField
             fullWidth
-            aria-label="Contraseña"
-            slotProps={{ htmlInput: { 'aria-label': 'Contraseña' } }}
+            aria-label={t('login-page.inputs.password')}
+            slotProps={{ htmlInput: { 'aria-label': t('login-page.inputs.password') } }}
             sx={{ mb: 4 }}
             id="password"
             name="password"
-            label="Contraseña"
+            label={t('login-page.inputs.password')}
             color="primary"
             autoComplete="current-password"
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            helperText={(formik.touched.password && formik.errors.password) && t(formik.errors.password)}
           />
           <MuiButton
-            aria-label="Login submit button"
+            aria-label={t('login-page.actions.login')}
             fullWidth
             type="submit"
             variant="contained"
             color="primary"
           >
-            Iniciar Sesión
+            {t('login-page.actions.login')}
           </MuiButton>
           <MuiBox mt={5}>
             <Copyright enterprise="Fitnessify" startYear={2023} />
