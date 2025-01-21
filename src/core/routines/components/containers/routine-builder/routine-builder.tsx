@@ -158,7 +158,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
     if (!over) return;
 
     const [activeType, activeSectionId, activeExerciseId] = String(active.id).split('|');
-    const [overType, overSectionId, overExerciseId] = String(over.id).split('|');
+    const [_, overSectionId, overExerciseId] = String(over.id).split('|');
 
     if (activeType === 'section') {
       setSectionsState((prevSections) => {
@@ -269,7 +269,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
         return;
       }
 
-      if (!section.duration.trim()) {
+      if (section.duration.trim() === '00:00:00') {
         snackbar.caution(`Debe ingresar el tiempo de duración de la sección ${sectionIndex + 1}.`);
         return;
       }
@@ -285,7 +285,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
           return;
         }
 
-        if (!exercise.duration.trim() && exercise.reps <= 0) {
+        if (exercise.duration.trim() === '00:00:00' && exercise.reps <= 0) {
           snackbar.caution(
             `Debe ingresar las repeticiones o un tiempo de duración en la sección ${sectionIndex + 1} fila ${exerciseIndex + 1}.`
           );
@@ -358,7 +358,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
       <MuiBox sx={{ width: '100%' }}>
         <MuiBox sx={{ width: "100%", mt: 2 }}>
           <MuiTabs value={activeTabState} onChange={handleTabChange}>
-            <MuiTab label="Crear rutina" />
+            <MuiTab label="Rutina" />
             <MuiTab label="Previsualizar" />
           </MuiTabs>
 
