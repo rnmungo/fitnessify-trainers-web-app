@@ -28,7 +28,7 @@ import type { ColumnDefinition } from '../../../../components/presentational/tab
 
 const columns: Array<ColumnDefinition<Exercise>> = [
   { field: 'name', headerName: 'Nombre', width: 200 },
-  { field: 'description', headerName: 'Descripción', defaultValue: '-', width: 300 },
+  { field: 'description', headerName: 'Descripción', defaultValue: '-', width: 'auto' },
   {
     field: 'muscleGroups',
     headerName: 'Grupos musculares',
