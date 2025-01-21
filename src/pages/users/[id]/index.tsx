@@ -40,7 +40,7 @@ const UpdateUserPage: NextPage<UpdateUserPageProps> = ({ id, profile }) => (
           Inicio
         </LinkNoSsr>
         <LinkNoSsr underline="hover" color="inherit" href="/users">
-          Usuarios
+          Clientes
         </LinkNoSsr>
         <MuiTypography color="text.primary">{`${profile?.name} ${profile?.lastName}`}</MuiTypography>
       </MuiBreadcrumbs>

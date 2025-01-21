@@ -26,7 +26,7 @@ const UsersPage: NextPage = () => (
         <LinkNoSsr underline="hover" color="inherit" href="/">
           Inicio
         </LinkNoSsr>
-        <MuiTypography color="text.primary">Usuarios</MuiTypography>
+        <MuiTypography color="text.primary">Clientes</MuiTypography>
       </MuiBreadcrumbs>
       <UsersTable rowsPerPage={10} />
     </MuiStack>
