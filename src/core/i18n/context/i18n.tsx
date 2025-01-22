@@ -21,8 +21,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     changeLanguage(savedLang);
   }, []);
 
-  const translate = (text: string) => {
-    const translated = i18n.t(text);
+  const translate = (text: string, data?: any) => {
+    const translated = i18n.t(text, data);
     return translated || text;
   };
 
