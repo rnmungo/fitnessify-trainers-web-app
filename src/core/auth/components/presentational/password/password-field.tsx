@@ -1,19 +1,21 @@
-import React, { useState, MouseEvent } from 'react';
+import { useState, MouseEvent } from 'react';
 import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import MuiInputAdornment from '@mui/material/InputAdornment';
 import MuiIconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useTranslation } from '@/core/i18n/context';
 
 export interface PasswordFieldProps extends Omit<TextFieldProps, 'slotProps'> {
   slotProps?: TextFieldProps['slotProps'];
 }
 
-const PasswordField: React.FC<PasswordFieldProps> = ({
+const PasswordField = ({
   slotProps = {},
   ...textFieldProps
-}) => {
+}: PasswordFieldProps) => {
   const [visible, setVisible] = useState(false);
+  const { t } = useTranslation();
 
   const handleMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -35,7 +37,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
           endAdornment: (
             <MuiInputAdornment position="end">
               <MuiIconButton
-                aria-label="Toggle password visibility"
+                aria-label={t('password-field.icon-label')}
                 onMouseDown={handleMouseDown}
                 onClick={handleClick}
                 edge="end"
