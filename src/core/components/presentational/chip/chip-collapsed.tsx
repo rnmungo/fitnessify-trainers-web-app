@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import MuiChip from '@mui/material/Chip';
 import MuiPopover from '@mui/material/Popover';
 import MuiStack from '@mui/material/Stack';
@@ -13,10 +13,10 @@ interface ChipCollapsedProps {
   maxVisibleItems: number;
 };
 
-const ChipCollapsed: React.FC<ChipCollapsedProps> = ({ items = [], maxVisibleItems = 2 }) => {
+const ChipCollapsed = ({ items = [], maxVisibleItems = 2 }: ChipCollapsedProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleShowRemaining = (event: React.MouseEvent<HTMLElement>) => {
+  const handleShowRemaining = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 

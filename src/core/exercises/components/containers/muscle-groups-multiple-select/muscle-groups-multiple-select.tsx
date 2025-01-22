@@ -12,14 +12,14 @@ interface MuscleGroupsMultipleSelectProps {
   [key: string]: any;
 }
 
-const MuscleGroupsMultipleSelect: React.FC<MuscleGroupsMultipleSelectProps> = ({
+const MuscleGroupsMultipleSelect = ({
   id,
   label,
   value,
   defaultValue,
   onChange,
   ...formProps
-}) => {
+}: MuscleGroupsMultipleSelectProps) => {
   const { data: muscleGroups, status, refetch } = useQueryMuscleGroups();
   const [items, setItems] = useState<Array<{ id: string; name: string }>>([]);
   const { t } = useTranslation();

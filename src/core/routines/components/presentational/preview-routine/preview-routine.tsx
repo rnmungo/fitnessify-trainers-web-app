@@ -1,4 +1,3 @@
-import React from 'react';
 import MuiBox from '@mui/material/Box';
 import MuiTypography from '@mui/material/Typography';
 import MuiAccordion from '@mui/material/Accordion';
@@ -23,7 +22,7 @@ interface PreviewRoutineProps {
   exerciseOptions: Array<AutocompleteOption>;
 }
 
-const PreviewRoutine: React.FC<PreviewRoutineProps> = ({ exerciseOptions, routine, sections }) => (
+const PreviewRoutine = ({ exerciseOptions, routine, sections }: PreviewRoutineProps) => (
   <MuiBox>
     <MuiTypography variant="h5" gutterBottom>
       {routine.name || 'Rutina sin título'}

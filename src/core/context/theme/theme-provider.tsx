@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, ReactNode, Dispatch } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, ReactNode, Dispatch } from 'react';
 import MuiCssBaseline from '@mui/material/CssBaseline';
 import { useTheme, createTheme, ThemeProvider as MuiThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { UI_MODE_KEY } from '@/constants/local-storage-keys';
@@ -49,7 +49,7 @@ const themeReducer = (state: ThemeState, action: ThemeAction): ThemeState => {
   }
 };
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, theme }) => {
+const ThemeProvider = ({ children, theme }: ThemeProviderProps) => {
   const themeInitialOptions: ThemeState = {
     paletteType: 'dark',
   };

@@ -9,7 +9,7 @@ import { useSnackbar } from '@/core/context/snackbar';
 import { useTranslation } from '@/core/i18n/context';
 import useMutationUploadVideo from '../../../hooks/useMutationUploadVideo';
 
-const VideoUploader: React.FC = () => {
+const VideoUploader = () => {
   const [filesState, setFilesState] = useState<Array<File>>([]);
   const uploadVideo = useMutationUploadVideo();
   const snackbar = useSnackbar();

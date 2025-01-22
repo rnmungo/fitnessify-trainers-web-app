@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import useQueryUserSession from '../../hooks/useQueryUserSession';
 import type { Session } from '@/types/session';
@@ -18,7 +18,7 @@ interface SessionProviderProps {
   children: ReactNode;
 }
 
-const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
+const SessionProvider = ({ children }: SessionProviderProps) => {
   const query = useQueryUserSession();
 
   return (

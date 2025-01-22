@@ -36,7 +36,7 @@ interface ExerciseFormProps {
   defaultExercise?: ExerciseDetailed | null;
 }
 
-const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) => {
+const ExerciseForm = ({ defaultExercise = null }: ExerciseFormProps) => {
   const [formState, setFormState] = useState<FormProps>(
     defaultExercise
       ? {

@@ -1,4 +1,3 @@
-import React from 'react';
 import MuiTypography from '@mui/material/Typography';
 
 interface CopyrightProps {
@@ -6,7 +5,7 @@ interface CopyrightProps {
   startYear?: number;
 }
 
-const Copyright: React.FC<CopyrightProps> = ({ enterprise = '', startYear }) => {
+const Copyright = ({ enterprise = '', startYear }: CopyrightProps) => {
   const currentYear = new Date().getFullYear();
 
   const year = startYear && startYear < currentYear ? `${startYear}-${currentYear}` : currentYear;

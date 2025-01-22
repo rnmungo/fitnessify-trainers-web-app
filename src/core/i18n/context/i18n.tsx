@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { UI_LANGUAGE_KEY } from '@/constants/local-storage-keys';
 import { i18n, setLanguage } from '../rosetta';
 import { DEFAULT_LANGUAGE, ES_LANGUAGE, EN_LANGUAGE } from '../constants';
@@ -13,7 +13,7 @@ type LanguageContextProps = {
 
 const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [localeState, setLocaleState] = useState(DEFAULT_LANGUAGE);
 
   useEffect(() => {

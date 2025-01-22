@@ -20,12 +20,12 @@ interface DeleteExerciseDialogProps {
   onExerciseDeleted?: () => void;
 }
 
-const DeleteExerciseDialog: React.FC<DeleteExerciseDialogProps> = ({
+const DeleteExerciseDialog = ({
   open = false,
   onClose,
   exercise = null,
   onExerciseDeleted,
-}) => {
+}: DeleteExerciseDialogProps) => {
   const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deleteExercise = useMutationDeleteExercise();

@@ -1,4 +1,3 @@
-import React from 'react';
 import MuiGrid from '@mui/material/Grid2';
 import MuiTypography from '@mui/material/Typography';
 import MuiCircularProgress from '@mui/material/CircularProgress';
@@ -9,7 +8,7 @@ interface SpinnerProps {
   loading?: boolean;
 }
 
-const Spinner: React.FC<SpinnerProps> = ({ label = '', loading = false }) => (
+const Spinner = ({ label = '', loading = false }: SpinnerProps) => (
   <Backdrop open={loading}>
     <MuiGrid container justifyContent="center" alignItems="center" gap={4}>
       <MuiGrid size={12}>

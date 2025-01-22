@@ -38,7 +38,7 @@ const MuiStyledBadge = styled(MuiBadge)<MuiBadgeProps>(({ theme }) => ({
   },
 }));
 
-const RoutineSectionBuilder: React.FC<RoutineSectionBuilderProps> = ({
+const RoutineSectionBuilder = ({
   section,
   sectionIndex,
   autocompleteExercises,
@@ -47,7 +47,7 @@ const RoutineSectionBuilder: React.FC<RoutineSectionBuilderProps> = ({
   onUpdateExercise,
   onRemoveSection,
   onRemoveExercise,
-}) => {
+}: RoutineSectionBuilderProps) => {
 
   return (
     <MuiStyledBadge

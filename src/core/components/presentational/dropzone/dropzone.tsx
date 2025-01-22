@@ -42,13 +42,13 @@ type DropzoneProps = {
   selectedFiles?: File[];
 };
 
-const Dropzone: React.FC<DropzoneProps> = ({
+const Dropzone = ({
   maxFiles = 1,
   acceptedFileTypes = [],
   onError = () => {},
   onSelect = () => {},
   selectedFiles = [],
-}) => {
+}: DropzoneProps) => {
   const [selectedFilesState, setSelectedFilesState] = useState<File[]>(selectedFiles ?? []);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();

@@ -19,12 +19,12 @@ interface DeleteRoutineDialogProps {
   onRoutineDeleted?: () => void;
 }
 
-const DeleteRoutineDialog: React.FC<DeleteRoutineDialogProps> = ({
+const DeleteRoutineDialog = ({
   open = false,
   onClose,
   routine = null,
   onRoutineDeleted,
-}) => {
+}: DeleteRoutineDialogProps) => {
   const snackbar = useSnackbar();
   const deleteRoutine = useMutationDeleteRoutine();
 

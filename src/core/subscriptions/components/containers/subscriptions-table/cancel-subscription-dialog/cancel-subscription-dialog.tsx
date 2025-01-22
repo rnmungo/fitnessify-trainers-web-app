@@ -19,12 +19,12 @@ interface CancelSubscriptionDialogProps {
   onSubscriptionCanceled?: () => void;
 }
 
-const CancelSubscriptionDialog: React.FC<CancelSubscriptionDialogProps> = ({
+const CancelSubscriptionDialog = ({
   subscription,
   open = false,
   onClose,
   onSubscriptionCanceled,
-}) => {
+}: CancelSubscriptionDialogProps) => {
   const { t } = useTranslation();
   const snackbar = useSnackbar();
   const cancelSubscription = useMutationCancelSubscription();

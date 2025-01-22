@@ -19,12 +19,12 @@ interface ActivateSubscriptionDialogProps {
   onSubscriptionActivated?: () => void;
 }
 
-const ActivateSubscriptionDialog: React.FC<ActivateSubscriptionDialogProps> = ({
+const ActivateSubscriptionDialog = ({
   subscription,
   open = false,
   onClose,
   onSubscriptionActivated,
-}) => {
+}: ActivateSubscriptionDialogProps) => {
   const { t } = useTranslation();
   const snackbar = useSnackbar();
   const activateSubscription = useMutationActivateSubscription();

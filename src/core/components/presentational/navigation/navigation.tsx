@@ -34,13 +34,13 @@ interface NavigationProps {
   settings?: Link[] | null;
 }
 
-const Navigation: React.FC<NavigationProps> = ({
+const Navigation = ({
   logo,
   avatar,
   widget,
   links = null,
   settings = null,
-}) => {
+}: NavigationProps) => {
   const [anchorNav, setAnchorNav] = useState<null | HTMLElement>(null);
   const [anchorUser, setAnchorUser] = useState<null | HTMLElement>(null);
   const { t } = useTranslation();

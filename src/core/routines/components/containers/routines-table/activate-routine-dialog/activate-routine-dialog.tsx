@@ -18,12 +18,12 @@ interface ActivateRoutineDialogProps {
   onRoutineActivated?: () => void;
 }
 
-const ActivateRoutineDialog: React.FC<ActivateRoutineDialogProps> = ({
+const ActivateRoutineDialog = ({
   routine,
   open = false,
   onClose,
   onRoutineActivated,
-}) => {
+}: ActivateRoutineDialogProps) => {
   const snackbar = useSnackbar();
   const activateRoutine = useMutationActivateRoutine();
 

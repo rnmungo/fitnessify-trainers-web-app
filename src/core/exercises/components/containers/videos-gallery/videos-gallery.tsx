@@ -21,7 +21,10 @@ interface VideoGalleryProps {
   onSelectVideo?: (video: Video) => void;
 }
 
-const VideosGallery: React.FC<VideoGalleryProps> = ({ selectedVideo = null, onSelectVideo = () => {} }) => {
+const VideosGallery = ({
+  selectedVideo = null,
+  onSelectVideo = () => {},
+}: VideoGalleryProps) => {
   const [selectedVideoState, setSelectedVideoState] = useState<Video | null>(selectedVideo);
   const { data: videos, status, refetch } = useQueryVideos();
   const { t } = useTranslation();

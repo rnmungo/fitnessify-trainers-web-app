@@ -1,4 +1,4 @@
-import React, { createContext, forwardRef, useCallback, useContext, useState, ReactNode, Ref } from 'react';
+import { createContext, forwardRef, useCallback, useContext, useState, ReactNode, Ref } from 'react';
 import MuiAlert, { AlertProps, AlertColor } from '@mui/material/Alert';
 import MuiSnackbar from '@mui/material/Snackbar';
 
@@ -41,7 +41,7 @@ interface SnackbarProviderProps {
   children: ReactNode;
 }
 
-const SnackbarProvider: React.FC<SnackbarProviderProps> = ({ children }) => {
+const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: '',

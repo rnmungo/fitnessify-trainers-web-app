@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import MuiBox from '@mui/material/Box';
 import MuiGrid from '@mui/material/Grid2';
 import MuiPaper from '@mui/material/Paper';
@@ -10,7 +11,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 interface SortableItemProps {
   id: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const DragHandle = styled(MuiBox)({
@@ -19,7 +20,7 @@ const DragHandle = styled(MuiBox)({
   cursor: 'grab',
 });
 
-const SortableListItem: React.FC<SortableItemProps> = ({ id, children }) => {
+const SortableListItem = ({ id, children }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 

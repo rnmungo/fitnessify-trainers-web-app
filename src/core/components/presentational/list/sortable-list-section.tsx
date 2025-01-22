@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import MuiBox from '@mui/material/Box';
 import MuiDragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { styled } from '@mui/system';
@@ -8,7 +9,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 interface SortableSectionProps {
   id: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const DragHandle = styled(MuiBox)({

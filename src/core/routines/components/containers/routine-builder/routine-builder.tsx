@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { SyntheticEvent, useMemo, useState } from 'react';
 import { AxiosError } from 'axios';
 import { v4 as uuidV4 } from 'uuid';
 import MuiAlert from '@mui/material/Alert';
@@ -113,7 +113,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
     return { disabled: true, options: [], error: false };
   }, [data, status]);
 
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: SyntheticEvent, newValue: number) => {
     setActiveTabState(newValue);
   };
 

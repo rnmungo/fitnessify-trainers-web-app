@@ -7,12 +7,12 @@ interface TimeMaskTextFieldProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TimeMaskTextField: React.FC<TimeMaskTextFieldProps> = ({
+const TimeMaskTextField = ({
   label,
   value,
   onChange,
   ...props
-}) => (
+}: TimeMaskTextFieldProps) => (
   <InputMask
     mask="99:99:99"
     value={value || ""}

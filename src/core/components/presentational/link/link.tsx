@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react';
+import { AnchorHTMLAttributes, forwardRef } from 'react';
 import classNames from 'classnames';
 import { usePathname } from 'next/navigation';
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
-interface NextLinkComposedProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>, Omit<NextLinkProps, 'href' | 'as'> {
+interface NextLinkComposedProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>, Omit<NextLinkProps, 'href' | 'as'> {
   to: string | { pathname: string; query?: Record<string, any> };
   linkAs?: string | { pathname: string; query?: Record<string, any> };
   replace?: boolean;

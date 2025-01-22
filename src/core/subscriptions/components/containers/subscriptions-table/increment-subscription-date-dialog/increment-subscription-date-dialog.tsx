@@ -25,12 +25,12 @@ interface IncrementSubscriptionDateDialogProps {
   onSubscriptionUpdated?: () => void;
 }
 
-const IncrementSubscriptionDateDialog: React.FC<IncrementSubscriptionDateDialogProps> = ({
+const IncrementSubscriptionDateDialog = ({
   subscription,
   open = false,
   onClose,
   onSubscriptionUpdated,
-}) => {
+}: IncrementSubscriptionDateDialogProps) => {
   const [dateState, setDateState] = useState<Date | null>(null);
   const { t, locale } = useTranslation();
   const snackbar = useSnackbar();

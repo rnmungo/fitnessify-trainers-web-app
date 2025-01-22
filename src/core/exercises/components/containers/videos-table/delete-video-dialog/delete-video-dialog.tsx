@@ -20,12 +20,12 @@ interface DeleteVideoDialogProps {
   onVideoDeleted?: () => void;
 }
 
-const DeleteVideoDialog: React.FC<DeleteVideoDialogProps> = ({
+const DeleteVideoDialog = ({
   open = false,
   onClose,
   video = null,
   onVideoDeleted,
-}) => {
+}: DeleteVideoDialogProps) => {
   const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deleteVideo = useMutationDeleteVideo();

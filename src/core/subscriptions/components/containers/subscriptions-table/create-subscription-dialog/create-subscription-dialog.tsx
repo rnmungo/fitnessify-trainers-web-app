@@ -27,12 +27,12 @@ interface CreateSubscriptionDialogProps {
   onSubscriptionCreated?: () => void;
 }
 
-const CreateSubscriptionDialog: React.FC<CreateSubscriptionDialogProps> = ({
+const CreateSubscriptionDialog = ({
   userTenantId,
   open = false,
   onClose,
   onSubscriptionCreated,
-}) => {
+}: CreateSubscriptionDialogProps) => {
   const [selectedPlanState, setSelectedPlanState] = useState<string>('');
   const { t } = useTranslation();
   const snackbar = useSnackbar();
