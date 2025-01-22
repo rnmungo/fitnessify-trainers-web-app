@@ -13,6 +13,7 @@ import MuiButton from '@mui/material/Button';
 import MuiTooltip from '@mui/material/Tooltip';
 import MuiMenuItem from '@mui/material/MenuItem';
 import MuiAdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useTranslation } from '@/core/i18n/context';
 
 interface Link {
   label: string;
@@ -42,6 +43,7 @@ const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const [anchorNav, setAnchorNav] = useState<null | HTMLElement>(null);
   const [anchorUser, setAnchorUser] = useState<null | HTMLElement>(null);
+  const { t } = useTranslation();
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorNav(event.currentTarget);
@@ -84,7 +86,7 @@ const Navigation: React.FC<NavigationProps> = ({
             <MuiIconButton
               size="large"
               color="inherit"
-              aria-label="App bar links button"
+              aria-label={t('common.wordings.navigation-menu')}
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -157,9 +159,9 @@ const Navigation: React.FC<NavigationProps> = ({
           </MuiBox>
           <MuiBox sx={{ flexGrow: 0 }}>
             {widget}
-            <MuiTooltip title="Abrir opciones">
+            <MuiTooltip title={t('common.wordings.open-options')}>
               <MuiIconButton
-                aria-label="Avatar settings button"
+                aria-label={t('common.wordings.user-menu')}
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0, ml: 2 }}
               >
@@ -206,7 +208,9 @@ const Navigation: React.FC<NavigationProps> = ({
                     aria-label={setting.label}
                     onClick={setting.onClick}
                   >
-                    <MuiTypography textAlign="center">{setting.label}</MuiTypography>
+                    <MuiTypography textAlign="center">
+                      {setting.label}
+                    </MuiTypography>
                   </MuiMenuItem>
                 ))}
             </MuiMenu>

@@ -14,6 +14,7 @@ import MuiDescriptionIcon from '@mui/icons-material/Description';
 import MuiImageIcon from '@mui/icons-material/Image';
 import MuiInsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import MuiCloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from '@/core/i18n/context';
 
 const StyledPaper = styled(MuiPaper)(() => ({
   display: 'flex',
@@ -50,6 +51,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
 }) => {
   const [selectedFilesState, setSelectedFilesState] = useState<File[]>(selectedFiles ?? []);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const preventDefault = (event: React.DragEvent | React.ChangeEvent | React.MouseEvent) => {
     event.preventDefault();
@@ -73,14 +75,14 @@ const Dropzone: React.FC<DropzoneProps> = ({
       );
 
       if (filteredFiles.length > maxFiles) {
-        onError(`Solo puedes subir hasta ${maxFiles} archivo(s).`);
+        onError(t('dropzone.validations.quantity', { maxFiles }));
         return;
       }
 
       setSelectedFilesState(filteredFiles);
       onSelect(filteredFiles);
     },
-    [maxFiles, acceptedFileTypes, onSelect, onError]
+    [maxFiles, acceptedFileTypes, onSelect, onError, t]
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +94,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
     );
 
     if (filteredFiles.length > maxFiles) {
-      onError(`Solo puedes subir hasta ${maxFiles} archivo(s).`);
+      onError(t('dropzone.validations.quantity', { maxFiles }));
       return;
     }
 
@@ -139,7 +141,19 @@ const Dropzone: React.FC<DropzoneProps> = ({
         onDragEnter={preventDefault}
         onClick={handleClick}
       >
-        <StyledCloudUploadIcon />
+        <MuiStack
+          sx={{ width: '100%' }}
+          direction="column"
+          alignItems="center"
+          spacing={2}
+        >
+          <StyledCloudUploadIcon />
+          {acceptedFileTypes.length > 0 && (
+            <MuiTypography variant="body2" color="textSecondary">
+              {t('dropzone.validations.accepted-types', { types: acceptedFileTypes.join(', ') })}
+            </MuiTypography>
+          )}
+        </MuiStack>
         <StyledInput
           ref={fileInputRef}
           type="file"
@@ -150,7 +164,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
       </StyledPaper>
       <MuiBox sx={{ alignSelf: 'flex-end' }}>
         <MuiTypography variant="body2" sx={{ mr: 1 }}>
-          {`${selectedFilesState.length} de ${maxFiles} archivos seleccionados`}
+          {t('dropzone.caption', { selected: selectedFilesState.length, maxFiles })}
         </MuiTypography>
       </MuiBox>
       <MuiList sx={{ width: '100%' }}>
@@ -162,7 +176,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
                 color="primary"
                 size="small"
                 edge="end"
-                aria-label="delete"
+                aria-label={t('dropzone.list-selected-files.remove', { fileName: selectedFile.name })}
                 onClick={() => handleRemoveFile(index)}
               >
                 <MuiCloseIcon />

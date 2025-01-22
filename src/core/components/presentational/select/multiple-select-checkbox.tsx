@@ -10,6 +10,7 @@ import MuiListItemText from '@mui/material/ListItemText';
 import MuiMenuItem from '@mui/material/MenuItem';
 import MuiOutlinedInput from '@mui/material/OutlinedInput';
 import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import { useTranslation } from '@/core/i18n/context';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,7 +44,7 @@ interface MultipleSelectCheckboxProps {
 
 const defaultId = 'multiple-select-checkbox';
 
-const MultipleSelectCheckbox: React.FC<MultipleSelectCheckboxProps> = ({
+const MultipleSelectCheckbox = ({
   id,
   label,
   items = [],
@@ -55,8 +56,9 @@ const MultipleSelectCheckbox: React.FC<MultipleSelectCheckboxProps> = ({
   onRetry,
   onChange,
   ...formProps
-}) => {
+}: MultipleSelectCheckboxProps) => {
   const [valueState, setValueState] = useState<string[]>(defaultValue);
+  const { t } = useTranslation();
 
   const handleChange = useCallback((event: SelectChangeEvent<typeof valueState>) => {
     const { target: { value: eventValue } } = event;
@@ -75,7 +77,7 @@ const MultipleSelectCheckbox: React.FC<MultipleSelectCheckboxProps> = ({
 
   const renderItems = () => {
     if (items.length === 0) {
-      return <MuiMenuItem disabled>{placeholder || 'No hay elementos'}</MuiMenuItem>;
+      return <MuiMenuItem disabled>{placeholder || t('common.wordings.there-are-no-elements')}</MuiMenuItem>;
     }
 
     return items.map((item) => (
@@ -117,7 +119,7 @@ const MultipleSelectCheckbox: React.FC<MultipleSelectCheckboxProps> = ({
           {errorMessage}
           {onRetry && (
             <MuiButton size="small" color="error" onClick={onRetry}>
-              Reintentar
+              {t('common.wordings.retry')}
             </MuiButton>
           )}
         </MuiFormHelperText>

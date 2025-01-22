@@ -4,6 +4,7 @@ import MuiTableBody from '@mui/material/TableBody';
 import MuiTableCell from '@mui/material/TableCell';
 import MuiTableHead from '@mui/material/TableHead';
 import MuiTableRow from '@mui/material/TableRow';
+import { useTranslation } from '@/core/i18n/context';
 
 import type { ColumnDefinition } from './types';
 
@@ -12,39 +13,43 @@ interface TableLoadingProps<T> {
   rowsPerPage: number;
 }
 
-const TableLoading = <T,>({ columns, rowsPerPage }: TableLoadingProps<T>) => (
-  <MuiTable>
-    <MuiTableHead>
-      <MuiTableRow>
-        {columns.map((column) => (
-          <MuiTableCell
-            key={column.field as string}
-            align={column.align}
-            padding="normal"
-          >
-            {column.headerName}
-          </MuiTableCell>
-        ))}
-        <MuiTableCell align="center" padding="normal">
-          Acciones
-        </MuiTableCell>
-      </MuiTableRow>
-    </MuiTableHead>
-    <MuiTableBody>
-      {Array.from({ length: rowsPerPage }).map((_, index) => (
-        <MuiTableRow key={index} style={{ height: 47 }}>
+const TableLoading = <T,>({ columns, rowsPerPage }: TableLoadingProps<T>) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiTable>
+      <MuiTableHead>
+        <MuiTableRow>
           {columns.map((column) => (
-            <MuiTableCell key={column.field as string}>
-              <MuiSkeleton variant="text" />
+            <MuiTableCell
+              key={column.field as string}
+              align={column.align}
+              padding="normal"
+            >
+              {t(column.headerName)}
             </MuiTableCell>
           ))}
-          <MuiTableCell align="center">
-            <MuiSkeleton variant="text" />
+          <MuiTableCell align="center" padding="normal">
+            {t('common.table.actions')}
           </MuiTableCell>
         </MuiTableRow>
-      ))}
-    </MuiTableBody>
-  </MuiTable>
-);
+      </MuiTableHead>
+      <MuiTableBody>
+        {Array.from({ length: rowsPerPage }).map((_, index) => (
+          <MuiTableRow key={index} style={{ height: 47 }}>
+            {columns.map((column) => (
+              <MuiTableCell key={column.field as string}>
+                <MuiSkeleton variant="text" />
+              </MuiTableCell>
+            ))}
+            <MuiTableCell align="center">
+              <MuiSkeleton variant="text" />
+            </MuiTableCell>
+          </MuiTableRow>
+        ))}
+      </MuiTableBody>
+    </MuiTable>
+  );
+};
 
 export default TableLoading;
