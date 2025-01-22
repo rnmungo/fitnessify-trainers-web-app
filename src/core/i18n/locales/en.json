@@ -26,6 +26,89 @@
       "password": "Password",
       "secure-password": "Secure password",
       "weak-password": "Weak password"
+    },
+    "table": {
+      "actions": "Actions",
+      "more-pages": "more than {{to}}",
+      "next-page": "Go to next page",
+      "pagination": "{{from}}-{{to}} of {{total}}",
+      "previous-page": "Go to previous page",
+      "rows-per-page": "Rows per page:"
+    },
+    "wordings": {
+      "action-cannot-undone": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "close": "Close",
+      "confirm": "Confirm",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "loading": "Loading...",
+      "navigation-menu": "Navigation menu",
+      "retry": "Retry",
+      "see-options": "See options",
+      "there-are-no-elements": "There are no elements",
+      "user-menu": "User menu",
+      "wait": "Wait"
+    }
+  },
+  "dropzone": {
+    "caption": "{{selected}} from {{maxFiles}} selected files",
+    "list-selected-files": {
+      "remove": "Delete file {{fileName}}"
+    },
+    "validations": {
+      "accepted-types": "Only accepts {{types}} files",
+      "quantity": "You can only upload up to {{maxFiles}} file(s)."
+    }
+  },
+  "exercises-page": {
+    "actions": {
+      "add-video": "Add Video",
+      "remove": {
+        "mutation": {
+          "success": "The exercise has been successfully deleted."
+        },
+        "query": "Are you sure you want to eliminate exercise"
+      }
+    },
+    "fields": {
+      "description": "Description",
+      "name": "Name",
+      "muscle-groups": "Select muscle groups"
+    },
+    "mutation": {
+      "create-exercise": {
+        "success": "The exercise has been created correctly"
+      },
+      "loading": "Saving exercise",
+      "update-exercise": {
+        "success": "The exercise has been updated correctly"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No exercises found."
+      },
+      "error": {
+        "message": "There was an error loading the exercises. Please try retrying your search."
+      },
+      "name": "Exercises",
+      "tooltip": "New exercise"
+    },
+    "table-actions": {
+      "edit": "Edit",
+      "menu-title": "Options for {{name}}",
+      "remove": "Delete"
+    },
+    "table-columns": {
+      "description": "Description",
+      "name": "Name",
+      "muscle-groups": "Muscle groups"
+    },
+    "validations": {
+      "name-required": "The name of the exercise is required",
+      "muscle-groups-required": "You must select at least one muscle group",
+      "video-required": "You must select a video"
     }
   },
   "home-page": {
@@ -96,6 +179,59 @@
       "update-plans": "Update plans",
       "update-routine": "Update routine",
       "videos": "Videos"
+    }
+  },
+  "muscle-groups": {
+    "multi-select": {
+      "empty-message": "There are no muscle groups",
+      "error-message": "Error when loading muscle groups."
+    }
+  },
+  "password-field": {
+    "icon-label": "Toggle password visibility"
+  },
+  "videos-page": {
+    "actions": {
+      "remove": {
+        "mutation": {
+          "success": "The video has been successfully removed."
+        },
+        "query": "Are you sure you want to delete the video"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No videos found."
+      },
+      "error": {
+        "message": "There was an error loading the videos. Please try retrying your search."
+      },
+      "name": "Videos",
+      "tooltip": "New video"
+    },
+    "table-actions": {
+      "menu-title": "Options for {{title}}",
+      "remove": "Delete"
+    },
+    "table-columns": {
+      "name": "Name"
+    },
+    "gallery": {
+      "alert": {
+        "error": "There was an error loading the video gallery. Please try retrying your search."
+      },
+      "button": "Select video in gallery",
+      "dialog": {
+        "title": "Gallery"
+      }
+    },
+    "uploader": {
+      "mutation": {
+        "loading": "Uploading video",
+        "success": "The video has been uploaded successfully."
+      },
+      "button": "Upload",
+      "video-required": "You must select a video"
     }
   }
 }

@@ -26,6 +26,89 @@
       "password": "Contraseña",
       "secure-password": "Contraseña segura",
       "weak-password": "Contraseña poco segura"
+    },
+    "table": {
+      "actions": "Acciones",
+      "more-pages": "más de {{to}}",
+      "next-page": "Ir a la página siguiente",
+      "pagination": "{{from}}-{{to}} de {{total}}",
+      "previous-page": "Ir a la página anterior",
+      "rows-per-page": "Filas por página:"
+    },
+    "wordings": {
+      "action-cannot-undone": "Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "confirm": "Confirmar",
+      "delete": "Eliminar",
+      "deleting": "Eliminando...",
+      "loading": "Cargando...",
+      "navigation-menu": "Menú de navegación",
+      "retry": "Reintentar",
+      "see-options": "Ver optiones",
+      "there-are-no-elements": "No hay elementos",
+      "user-menu": "Menú de usuario",
+      "wait": "Aguarde"
+    }
+  },
+  "dropzone": {
+    "caption": "{{selected}} de {{maxFiles}} archivos seleccionados",
+    "list-selected-files": {
+      "remove": "Eliminar archivo {{fileName}}"
+    },
+    "validations": {
+      "accepted-types": "Solo acepta archivos {{types}}",
+      "quantity": "Solo puedes subir hasta {{maxFiles}} archivo(s)."
+    }
+  },
+  "exercises-page": {
+    "actions": {
+      "add-video": "Añadir Video",
+      "remove": {
+        "mutation": {
+          "success": "El ejercicio ha sido eliminado correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar el ejercicio"
+      }
+    },
+    "fields": {
+      "description": "Descripción",
+      "name": "Nombre",
+      "muscle-groups": "Selecciona grupos musculares"
+    },
+    "mutation": {
+      "create-exercise": {
+        "success": "El ejercicio ha sido creado correctamente"
+      },
+      "loading": "Guardando ejercicio",
+      "update-exercise": {
+        "success": "El ejercicio ha sido actualizado correctamente"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron ejercicios."
+      },
+      "error": {
+        "message": "Hubo un error al cargar los ejercicios. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Ejercicios",
+      "tooltip": "Nuevo ejercicio"
+    },
+    "table-actions": {
+      "edit": "Editar",
+      "menu-title": "Opciones para {{name}}",
+      "remove": "Eliminar"
+    },
+    "table-columns": {
+      "description": "Descripción",
+      "name": "Nombre",
+      "muscle-groups": "Grupos musculares"
+    },
+    "validations": {
+      "name-required": "El nombre del ejercicio es obligatorio",
+      "muscle-groups-required": "Debes seleccionar al menos un grupo muscular",
+      "video-required": "Debes seleccionar un video"
     }
   },
   "home-page": {
@@ -96,6 +179,59 @@
       "update-plans": "Actualizar planes",
       "update-routine": "Actualizar rutina",
       "videos": "Videos"
+    }
+  },
+  "muscle-groups": {
+    "multi-select": {
+      "empty-message": "No hay grupos musculares",
+      "error-message": "Error al cargar grupos musculares."
+    }
+  },
+  "password-field": {
+    "icon-label": "Alternar visibilidad de contraseña"
+  },
+  "videos-page": {
+    "actions": {
+      "remove": {
+        "mutation": {
+          "success": "El video ha sido eliminado correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar el video"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron videos."
+      },
+      "error": {
+        "message": "Hubo un error al cargar los videos. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Videos",
+      "tooltip": "Nuevo video"
+    },
+    "table-actions": {
+      "menu-title": "Opciones para {{title}}",
+      "remove": "Eliminar"
+    },
+    "table-columns": {
+      "name": "Nombre"
+    },
+    "gallery": {
+      "alert": {
+        "error": "Hubo un error al cargar la galería de videos. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "button": "Seleccionar video en galería",
+      "dialog": {
+        "title": "Galería"
+      }
+    },
+    "uploader": {
+      "mutation": {
+        "loading": "Subiendo video",
+        "success": "El video ha sido subido correctamente."
+      },
+      "button": "Subir",
+      "video-required": "Debe seleccionar un video"
     }
   }
 }
