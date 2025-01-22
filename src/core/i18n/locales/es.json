@@ -190,6 +190,29 @@
   "password-field": {
     "icon-label": "Alternar visibilidad de contraseña"
   },
+  "users-page": {
+    "fields": {
+      "email": "Email"
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron clientes."
+      },
+      "error": {
+        "message": "Hubo un error al cargar los clientes. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Clientes"
+    },
+    "table-actions": {
+      "edit": "Editar",
+      "menu-title": "Opciones para {{name}} {{lastName}}"
+    },
+    "table-columns": {
+      "email": "Email",
+      "last-name": "Apellido",
+      "name": "Nombre"
+    }
+  },
   "videos-page": {
     "actions": {
       "remove": {

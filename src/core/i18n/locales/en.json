@@ -190,6 +190,29 @@
   "password-field": {
     "icon-label": "Toggle password visibility"
   },
+  "users-page": {
+    "fields": {
+      "email": "Email"
+    },
+    "table": {
+      "empty": {
+        "message": "No clients found."
+      },
+      "error": {
+        "message": "There was an error loading clients. Please try retrying your search."
+      },
+      "name": "Customers"
+    },
+    "table-actions": {
+      "edit": "Edit",
+      "menu-title": "Options for {{name}} {{lastName}}"
+    },
+    "table-columns": {
+      "email": "Email",
+      "last-name": "Last name",
+      "name": "Name"
+    }
+  },
   "videos-page": {
     "actions": {
       "remove": {

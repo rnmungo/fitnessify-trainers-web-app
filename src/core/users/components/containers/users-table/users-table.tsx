@@ -15,6 +15,7 @@ import MuiTableRow from '@mui/material/TableRow';
 import MuiTextField from '@mui/material/TextField';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiTypography from '@mui/material/Typography';
+import { useTranslation } from '@/core/i18n/context';
 import Menu from '@/core/components/presentational/menu';
 import { TableLoading } from '@/core/components/presentational/table';
 import useQuerySearchUsers from '../../../hooks/useQuerySearchUsers';
@@ -23,9 +24,9 @@ import type { User } from '@/types/user';
 import type { ColumnDefinition } from '@/core/components/presentational/table/types';
 
 const columns: Array<ColumnDefinition<User>> = [
-  { field: 'name', headerName: 'Nombre', width: 150 },
-  { field: 'lastName', headerName: 'Apellido', width: 150 },
-  { field: 'email', headerName: 'Email', defaultValue: '-', width: 'auto' },
+  { field: 'name', headerName: 'users-page.table-columns.name', width: 150 },
+  { field: 'lastName', headerName: 'users-page.table-columns.last-name', width: 150 },
+  { field: 'email', headerName: 'users-page.table-columns.email', defaultValue: '-', width: 'auto' },
 ];
 
 const ROWS_LIMIT = 10;
@@ -35,36 +36,41 @@ interface UsersTableProps {
   rowsPerPage?: number;
 }
 
-const BaseTable = ({ children }: { children: React.ReactNode; }) => (
-  <MuiTable
-    sx={{ minWidth: 750 }}
-    aria-labelledby="Usuarios"
-    size="small"
-  >
-    <MuiTableHead>
-      <MuiTableRow>
-        {columns.map(column => (
-          <MuiTableCell
-            key={column.field}
-            align={column.align}
-            padding="normal"
-            sx={{ width: column.width }}
-          >
-            {column.headerName}
+const BaseTable = ({ children }: { children: React.ReactNode; }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiTable
+      sx={{ minWidth: 750 }}
+      aria-labelledby={t('users-page.table.name')}
+      size="small"
+    >
+      <MuiTableHead>
+        <MuiTableRow>
+          {columns.map(column => (
+            <MuiTableCell
+              key={column.field}
+              align={column.align}
+              padding="normal"
+              sx={{ width: column.width }}
+            >
+              {t(column.headerName)}
+            </MuiTableCell>
+          ))}
+          <MuiTableCell align="center" padding="normal" sx={{ width: 'auto' }}>
+            {t('common.table.actions')}
           </MuiTableCell>
-        ))}
-        <MuiTableCell align="center" padding="normal">
-          Acciones
-        </MuiTableCell>
-      </MuiTableRow>
-    </MuiTableHead>
-    <MuiTableBody>
-      {children}
-    </MuiTableBody>
-  </MuiTable>
-);
+        </MuiTableRow>
+      </MuiTableHead>
+      <MuiTableBody>
+        {children}
+      </MuiTableBody>
+    </MuiTable>
+  );
+};
 
 const UsersTable = ({ rowsPerPage = ROWS_LIMIT }: UsersTableProps) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { data, status, refetch, filtersState, setFiltersState } = useQuerySearchUsers({ page: '1', pageSize: `${rowsPerPage}` });
 
@@ -97,10 +103,10 @@ const UsersTable = ({ rowsPerPage = ROWS_LIMIT }: UsersTableProps) => {
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiAlert severity="error" action={
                 <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                  REINTENTAR
+                  {t('common.wordings.retry')}
                 </MuiButton>
               }>
-                Hubo un error al cargar los usuarios. Por favor, pruebe con reintentar la búsqueda.
+                {t('users-page.table.error.message')}
               </MuiAlert>
             </MuiTableCell>
           </MuiTableRow>
@@ -118,7 +124,7 @@ const UsersTable = ({ rowsPerPage = ROWS_LIMIT }: UsersTableProps) => {
           >
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiTypography variant="h6">
-                No se encontraron usuarios.
+                {t('users-page.table.empty.message')}
               </MuiTypography>
             </MuiTableCell>
           </MuiTableRow>
@@ -152,12 +158,12 @@ const UsersTable = ({ rowsPerPage = ROWS_LIMIT }: UsersTableProps) => {
                 })}
                 <MuiTableCell align="center">
                   <Menu
-                    aria-label={`Opciones para ${row.name} ${row.lastName}`}
+                    aria-label={t('users-page.table-actions.menu-title', row)}
                     color="primary"
                     size="small"
                     options={[
                       {
-                        label: 'Editar',
+                        label: t('users-page.table-actions.edit'),
                         onClick: () => {
                           router.push(`/users/${row.id}`);
                         },
@@ -202,19 +208,21 @@ const UsersTable = ({ rowsPerPage = ROWS_LIMIT }: UsersTableProps) => {
         rowsPerPageOptions={[rowsPerPage]}
         page={page}
         onPageChange={handleChangePage}
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
-        }
-        labelRowsPerPage="Filas por página:"
+        labelDisplayedRows={({ from, to, count }) => {
+          const total = count !== -1 ? count : t('common.table.more-pages', { to });
+
+          return t('common.table.pagination', { from, to, total });
+        }}
+        labelRowsPerPage={t('common.table.rows-per-page')}
         slotProps={{
           actions: {
             previousButton: {
-              'aria-label': 'Ir a la página anterior',
-              title: 'Ir a la página anterior'
+              'aria-label': t('common.table.previous-page'),
+              title: t('common.table.previous-page')
             },
             nextButton: {
-              'aria-label': 'Ir a la página siguiente',
-              title: 'Ir a la página siguiente'
+              'aria-label': t('common.table.next-page'),
+              title: t('common.table.next-page')
             }
           }
         }}
@@ -239,11 +247,11 @@ const UsersTable = ({ rowsPerPage = ROWS_LIMIT }: UsersTableProps) => {
               variant="h6"
               sx={{ fontWeight: 'normal' }}
             >
-              Usuarios
+              {t('users-page.table.name')}
             </MuiTypography>
             <MuiTextField
               id="email-field"
-              label="Email"
+              label={t('users-page.fields.email')}
               variant="standard"
               sx={{ minWidth: 200 }}
               onChange={handleChange}
