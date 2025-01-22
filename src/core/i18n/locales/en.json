@@ -37,7 +37,9 @@
     },
     "wordings": {
       "action-cannot-undone": "This action cannot be undone.",
+      "activating": "Activating...",
       "cancel": "Cancel",
+      "canceling": "Canceling...",
       "close": "Close",
       "confirm": "Confirm",
       "delete": "Delete",
@@ -45,8 +47,11 @@
       "loading": "Loading...",
       "navigation-menu": "Navigation menu",
       "retry": "Retry",
+      "save": "Save",
+      "saving": "Saving...",
       "see-options": "See options",
       "there-are-no-elements": "There are no elements",
+      "unselected": "Unselected",
       "user-menu": "User menu",
       "wait": "Wait"
     }
@@ -189,6 +194,71 @@
   },
   "password-field": {
     "icon-label": "Toggle password visibility"
+  },
+  "subscriptions-page": {
+    "actions": {
+      "activate": {
+        "dialog-title": "Activate subscription",
+        "mutation": {
+          "success": "The subscription has been activated successfully."
+        },
+        "query": "Are you sure you want to activate the plan subscription"
+      },
+      "cancel": {
+        "dialog-title": "Cancel subscription",
+        "mutation": {
+          "success": "The subscription has been successfully canceled."
+        },
+        "query": "Are you sure you want to unsubscribe from the plan"
+      },
+      "create": {
+        "dialog-title": "Add subscription",
+        "icon-retry": "Retry search",
+        "label-retry": "Try loading the plans again",
+        "mutation": {
+          "success": "The subscription has been created successfully."
+        }
+      },
+      "update": {
+        "dialog-subtitle": "Select a date to update the subscription expiration",
+        "dialog-title": "Increase expiration",
+        "expire-date-helper": "Enter the date in DD/MM/YYYY format",
+        "mutation": {
+          "success": "The subscription has been successfully updated."
+        }
+      }
+    },
+    "fields": {
+      "date": "Date",
+      "plan": "Plan"
+    },
+    "table": {
+      "empty": {
+        "message": "No subscriptions found."
+      },
+      "error": {
+        "message": "There was an error loading subscriptions. Please try retrying your search."
+      },
+      "name": "Subscriptions",
+      "tooltip": "New subscription"
+    },
+    "table-actions": {
+      "activate": "Activate",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "menu-title": "Options for {{planName}}"
+    },
+    "table-columns": {
+      "plan": "Plan",
+      "status": "Status",
+      "due-date": "Expiration date"
+    },
+    "validations": {
+      "date-after-expiration": "You must select a date after the expiration",
+      "date-required": "You must select a date",
+      "plan-required": "You must select a plan",
+      "user-required": "User not selected"
+    }
   },
   "users-page": {
     "fields": {

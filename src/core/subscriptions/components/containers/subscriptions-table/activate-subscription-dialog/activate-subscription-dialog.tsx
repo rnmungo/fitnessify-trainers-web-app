@@ -7,6 +7,7 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationActivateSubscription from '../../../../hooks/useMutationActivateSubscription';
 import type { Subscription } from '@/types/subscription';
@@ -24,12 +25,13 @@ const ActivateSubscriptionDialog: React.FC<ActivateSubscriptionDialogProps> = ({
   onClose,
   onSubscriptionActivated,
 }) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const activateSubscription = useMutationActivateSubscription();
 
   useEffect(() => {
     if (activateSubscription.status === 'success') {
-      snackbar.success('La subscripción ha sido activada correctamente.');
+      snackbar.success(t('subscriptions-page.actions.activate.mutation.success'));
       activateSubscription.reset();
 
       if (onSubscriptionActivated) {
@@ -43,7 +45,7 @@ const ActivateSubscriptionDialog: React.FC<ActivateSubscriptionDialogProps> = ({
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       activateSubscription.reset();
     }
-  }, [activateSubscription, snackbar, onSubscriptionActivated, onClose]);
+  }, [activateSubscription, snackbar, onSubscriptionActivated, onClose, t]);
 
   const handleConfirm = useCallback(() => {
     if (subscription) {
@@ -62,25 +64,30 @@ const ActivateSubscriptionDialog: React.FC<ActivateSubscriptionDialogProps> = ({
       aria-describedby="activate-subscription-dialog-description"
     >
       <MuiDialogTitle id="activate-subscription-dialog-title">
-        Activar subscripción
+        {t('subscriptions-page.actions.activate.dialog-title')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="activate-subscription-dialog-description">
-          ¿Estás seguro que deseas activar la subscripción del plan <strong>{subscription?.planName}</strong>?
+          {t('subscriptions-page.actions.activate.query')} <strong>{subscription?.planName}</strong>?
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="info"
           loading={isPending}
-          loadingIndicator="Activando..."
+          loadingIndicator={t('common.wordings.activating')}
           variant="contained"
           onClick={handleConfirm}
         >
-          Confirmar
+          {t('common.wordings.confirm')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

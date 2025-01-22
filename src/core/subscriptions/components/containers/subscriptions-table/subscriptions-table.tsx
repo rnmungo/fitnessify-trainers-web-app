@@ -17,6 +17,7 @@ import MuiTableRow from '@mui/material/TableRow';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiTooltip from '@mui/material/Tooltip';
 import MuiTypography from '@mui/material/Typography';
+import { useTranslation } from '@/core/i18n/context';
 import Menu from '@/core/components/presentational/menu';
 import { TableLoading } from '@/core/components/presentational/table';
 import { formatCompleteDate } from '@/utilities/dateUtils';
@@ -31,10 +32,10 @@ import type { Subscription } from '@/types/subscription';
 import type { ColumnDefinition } from '@/core/components/presentational/table/types';
 
 const columns: Array<ColumnDefinition<Subscription>> = [
-  { field: 'planName', headerName: 'Plan', width: 150 },
+  { field: 'planName', headerName: 'subscriptions-page.table-columns.plan', width: 150 },
   {
     field: 'status',
-    headerName: 'Estado',
+    headerName: 'subscriptions-page.table-columns.status',
     width: 150,
     render: (_, value): React.ReactNode => {
       const color = getColorByStatus(value);
@@ -53,7 +54,7 @@ const columns: Array<ColumnDefinition<Subscription>> = [
   },
   {
     field: 'dueDate',
-    headerName: 'Fecha de vencimiento',
+    headerName: 'subscriptions-page.table-columns.due-date',
     defaultValue: '-',
     width: 'auto',
     render: (_, value): React.ReactNode => {
@@ -72,34 +73,38 @@ interface SubscriptionsTableProps {
   rowsPerPage?: number;
 }
 
-const BaseTable = ({ children }: { children: React.ReactNode; }) => (
-  <MuiTable
-    sx={{ minWidth: 750 }}
-    aria-labelledby="Subscripciones"
-    size="small"
-  >
-    <MuiTableHead>
-      <MuiTableRow>
-        {columns.map(column => (
-          <MuiTableCell
-            key={column.field}
-            align={column.align}
-            padding="normal"
-            sx={{ width: column.width }}
-          >
-            {column.headerName}
+const BaseTable = ({ children }: { children: React.ReactNode; }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiTable
+      sx={{ minWidth: 750 }}
+      aria-labelledby={t('subscriptions-page.table.name')}
+      size="small"
+    >
+      <MuiTableHead>
+        <MuiTableRow>
+          {columns.map(column => (
+            <MuiTableCell
+              key={column.field}
+              align={column.align}
+              padding="normal"
+              sx={{ width: column.width }}
+            >
+              {t(column.headerName)}
+            </MuiTableCell>
+          ))}
+          <MuiTableCell align="center" padding="normal" sx={{ width: 'auto' }}>
+            {t('common.table.actions')}
           </MuiTableCell>
-        ))}
-        <MuiTableCell align="center" padding="normal">
-          Acciones
-        </MuiTableCell>
-      </MuiTableRow>
-    </MuiTableHead>
-    <MuiTableBody>
-      {children}
-    </MuiTableBody>
-  </MuiTable>
-);
+        </MuiTableRow>
+      </MuiTableHead>
+      <MuiTableBody>
+        {children}
+      </MuiTableBody>
+    </MuiTable>
+  );
+};
 
 const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTableProps) => {
   const [pageState, setPageState] = useState(0);
@@ -108,6 +113,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
   const [openCanceledState, setOpenCanceledState] = useState<boolean>(false);
   const [openIncrementState, setOpenIncrementState] = useState<boolean>(false);
   const [openCreateState, setOpenCreateState] = useState<boolean>(false);
+  const { t } = useTranslation();
   const { data, status, refetch } = useQuerySubscriptions(id);
 
   const handleChangePage = (_: unknown, newPage: number) => {
@@ -172,10 +178,10 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiAlert severity="error" action={
                 <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                  REINTENTAR
+                  {t('common.wordings.retry')}
                 </MuiButton>
               }>
-                Hubo un error al cargar las subscripciones. Por favor, pruebe con reintentar la búsqueda.
+                {t('subscriptions-page.table.error.message')}
               </MuiAlert>
             </MuiTableCell>
           </MuiTableRow>
@@ -193,7 +199,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
           >
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiTypography variant="h6">
-                No se encontraron subscripciones.
+                {t('subscriptions-page.table.empty.message')}
               </MuiTypography>
             </MuiTableCell>
           </MuiTableRow>
@@ -213,7 +219,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
               const menuItems = [];
               if (row.status !== 'Active') {
                 menuItems.push({
-                  label: 'Activar',
+                  label: t('subscriptions-page.table-actions.activate'),
                   onClick: () => {
                     setSelectedSubscriptionState(row);
                     setOpenActiveState(true);
@@ -223,7 +229,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
 
               if (row.status !== 'Canceled') {
                 menuItems.push({
-                  label: 'Cancelar',
+                  label: t('subscriptions-page.table-actions.cancel'),
                   onClick: () => {
                     setSelectedSubscriptionState(row);
                     setOpenCanceledState(true);
@@ -232,7 +238,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
               }
 
               menuItems.push({
-                label: 'Editar',
+                label: t('subscriptions-page.table-actions.edit'),
                 onClick: () => {
                   setSelectedSubscriptionState(row);
                   setOpenIncrementState(true);
@@ -261,7 +267,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
                   })}
                   <MuiTableCell align="center">
                     <Menu
-                      aria-label={`Opciones para ${row.planName}`}
+                      aria-label={t('subscriptions-page.table-actions.menu-title', row)}
                       color="primary"
                       size="small"
                       options={menuItems}
@@ -305,19 +311,21 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
         rowsPerPageOptions={[rowsPerPage]}
         page={pageState}
         onPageChange={handleChangePage}
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
-        }
-        labelRowsPerPage="Filas por página:"
+        labelDisplayedRows={({ from, to, count }) => {
+          const total = count !== -1 ? count : t('common.table.more-pages', { to });
+
+          return t('common.table.pagination', { from, to, total });
+        }}
+        labelRowsPerPage={t('common.table.rows-per-page')}
         slotProps={{
           actions: {
             previousButton: {
-              'aria-label': 'Ir a la página anterior',
-              title: 'Ir a la página anterior'
+              'aria-label': t('common.table.previous-page'),
+              title: t('common.table.previous-page')
             },
             nextButton: {
-              'aria-label': 'Ir a la página siguiente',
-              title: 'Ir a la página siguiente'
+              'aria-label': t('common.table.next-page'),
+              title: t('common.table.next-page')
             }
           }
         }}
@@ -342,10 +350,11 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
               variant="h6"
               sx={{ fontWeight: 'normal' }}
             >
-              Subscripciones
+              {t('subscriptions-page.table.name')}
             </MuiTypography>
-            <MuiTooltip title="Nueva subscripción">
+            <MuiTooltip title={t('subscriptions-page.table.tooltip')}>
               <MuiIconButton
+                aria-label={t('subscriptions-page.table.tooltip')}
                 size="small"
                 color="primary"
                 onClick={handleOpenCreateSubscription}

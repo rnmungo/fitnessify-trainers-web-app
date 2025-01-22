@@ -7,6 +7,7 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationCancelSubscription from '../../../../hooks/useMutationCancelSubscription';
 import type { Subscription } from '@/types/subscription';
@@ -24,12 +25,13 @@ const CancelSubscriptionDialog: React.FC<CancelSubscriptionDialogProps> = ({
   onClose,
   onSubscriptionCanceled,
 }) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const cancelSubscription = useMutationCancelSubscription();
 
   useEffect(() => {
     if (cancelSubscription.status === 'success') {
-      snackbar.success('La subscripción ha sido cancelada correctamente.');
+      snackbar.success(t('subscriptions-page.actions.cancel.mutation.success'));
       cancelSubscription.reset();
 
       if (onSubscriptionCanceled) {
@@ -43,7 +45,7 @@ const CancelSubscriptionDialog: React.FC<CancelSubscriptionDialogProps> = ({
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       cancelSubscription.reset();
     }
-  }, [cancelSubscription, snackbar, onSubscriptionCanceled, onClose]);
+  }, [cancelSubscription, snackbar, onSubscriptionCanceled, onClose, t]);
 
   const handleConfirm = useCallback(() => {
     if (subscription) {
@@ -63,25 +65,30 @@ const CancelSubscriptionDialog: React.FC<CancelSubscriptionDialogProps> = ({
       aria-describedby="cancel-subscription-dialog-description"
     >
       <MuiDialogTitle id="cancel-subscription-dialog-title">
-        Cancelar subscripción
+        {t('subscriptions-page.actions.cancel.dialog-title')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="cancel-subscription-dialog-description">
-          ¿Estás seguro que deseas cancelar la subscripción del plan <strong>{subscription?.planName}</strong>?
+          {t('subscriptions-page.actions.cancel.query')} <strong>{subscription?.planName}</strong>?
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="info"
           loading={isPending}
-          loadingIndicator="Cancelando..."
+          loadingIndicator={t('common.wordings.canceling')}
           variant="contained"
           onClick={handleConfirm}
         >
-          Confirmar
+          {t('common.wordings.confirm')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

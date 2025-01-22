@@ -14,6 +14,7 @@ import MuiFormControl from '@mui/material/FormControl';
 import MuiFormHelperText from '@mui/material/FormHelperText';
 import MuiSelect, { SelectChangeEvent as MuiSelectChangeEvent } from '@mui/material/Select';
 import MuiRefreshIcon from '@mui/icons-material/Refresh';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationCreateSubscription from '../../../../hooks/useMutationCreateSubscription';
 import useQueryPlans from '../../../../hooks/useQueryPlans';
@@ -33,6 +34,7 @@ const CreateSubscriptionDialog: React.FC<CreateSubscriptionDialogProps> = ({
   onSubscriptionCreated,
 }) => {
   const [selectedPlanState, setSelectedPlanState] = useState<string>('');
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const createSubscription = useMutationCreateSubscription();
   const { data: plans, status, refetch } = useQueryPlans();
@@ -51,7 +53,7 @@ const CreateSubscriptionDialog: React.FC<CreateSubscriptionDialogProps> = ({
 
   useEffect(() => {
     if (createSubscription.status === 'success') {
-      snackbar.success('La subscripción ha sido creada correctamente.');
+      snackbar.success(t('subscriptions-page.actions.create.mutation.success'));
       createSubscription.reset();
 
       if (onSubscriptionCreated) {
@@ -65,21 +67,21 @@ const CreateSubscriptionDialog: React.FC<CreateSubscriptionDialogProps> = ({
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       createSubscription.reset();
     }
-  }, [createSubscription, snackbar, onSubscriptionCreated, onClose]);
+  }, [createSubscription, snackbar, onSubscriptionCreated, onClose, t]);
 
   const handleSave = useCallback(() => {
     if (!userTenantId) {
-      snackbar.caution('No se seleccionó el usuario');
+      snackbar.caution(t('subscriptions-page.validations.user-required'));
       return;
     }
 
     if (!selectedPlanState) {
-      snackbar.caution('Debe seleccionar un plan');
+      snackbar.caution(t('subscriptions-page.validations.plan-required'));
       return;
     }
 
     createSubscription.mutate({ userTenantId, planId: selectedPlanState });
-  }, [userTenantId, selectedPlanState, createSubscription, snackbar]);
+  }, [userTenantId, selectedPlanState, createSubscription, snackbar, t]);
 
   const planItems = useMemo(() =>
     plans && plans.map((plan: Plan) => (
@@ -100,33 +102,35 @@ const CreateSubscriptionDialog: React.FC<CreateSubscriptionDialogProps> = ({
       aria-describedby="create-subscription-dialog-description"
     >
       <MuiDialogTitle id="create-subscription-dialog-title">
-        Cargar subscripción
+        {t('subscriptions-page.actions.create.dialog-title')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="create-subscription-dialog-description">
-          Seleccione un plan para su subscripción
+          {t('subscriptions-page.actions.create.dialog-subtitle')}
         </MuiDialogContentText>
         <MuiFormControl sx={{ my: 1 }} error={status === 'error'} fullWidth>
-          <MuiInputLabel id="plan">Plan</MuiInputLabel>
+          <MuiInputLabel id="plan">
+            {t('subscriptions-page.fields.plan')}
+          </MuiInputLabel>
           <MuiSelect
             labelId="plan"
             id="plan"
             value={selectedPlanState}
             disabled={status === 'pending'}
-            label="Plan"
+            label={t('subscriptions-page.fields.plan')}
             onChange={handleChange}
           >
             <MuiMenuItem value="">
-              <em>{status === 'pending' ? 'Cargando...' : 'Sin seleccionar'}</em>
+              <em>{status === 'pending' ? t('common.wordings.loading') : t('common.wordings.unselected')}</em>
             </MuiMenuItem>
             {planItems}
           </MuiSelect>
           {status === 'error' && (
             <MuiFormHelperText>
-              Intente cargar los planes nuevamente
+              {t('subscriptions-page.actions.create.label-retry')}
               <MuiIconButton
                 size="small"
-                aria-label="Reintentar búsqueda"
+                aria-label={t('subscriptions-page.actions.create.icon-retry')}
                 color="info"
                 tabIndex={-1}
                 sx={{ ml: 1 }}
@@ -140,17 +144,22 @@ const CreateSubscriptionDialog: React.FC<CreateSubscriptionDialogProps> = ({
         </MuiFormControl>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="info"
           loading={isPending}
-          loadingIndicator="Guardando..."
+          loadingIndicator={t('common.wordings.saving')}
           variant="contained"
           onClick={handleSave}
         >
-          Guardar
+          {t('common.wordings.save')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

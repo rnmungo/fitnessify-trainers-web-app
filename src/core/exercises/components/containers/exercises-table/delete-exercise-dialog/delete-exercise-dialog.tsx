@@ -81,7 +81,6 @@ const DeleteExerciseDialog: React.FC<DeleteExerciseDialogProps> = ({
           {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
-          aria-label={t('common.wordings.delete')}
           color="error"
           loading={isPending}
           loadingIndicator={t('common.wordings.deleting')}

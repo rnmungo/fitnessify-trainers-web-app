@@ -37,7 +37,9 @@
     },
     "wordings": {
       "action-cannot-undone": "Esta acción no se puede deshacer.",
+      "activating": "Activando...",
       "cancel": "Cancelar",
+      "canceling": "Cancelando...",
       "close": "Cerrar",
       "confirm": "Confirmar",
       "delete": "Eliminar",
@@ -45,8 +47,11 @@
       "loading": "Cargando...",
       "navigation-menu": "Menú de navegación",
       "retry": "Reintentar",
+      "save": "Guardar",
+      "saving": "Guardando...",
       "see-options": "Ver optiones",
       "there-are-no-elements": "No hay elementos",
+      "unselected": "Sin seleccionar",
       "user-menu": "Menú de usuario",
       "wait": "Aguarde"
     }
@@ -123,7 +128,7 @@
       },
       "subscriptions": {
         "title": "Suscripciones",
-        "description": "Gestioná las subscripciones de tus clientes para acceder al contenido que ofrecés."
+        "description": "Gestioná las suscripciones de tus clientes para acceder al contenido que ofrecés."
       }
     },
     "presentation": {
@@ -189,6 +194,72 @@
   },
   "password-field": {
     "icon-label": "Alternar visibilidad de contraseña"
+  },
+  "subscriptions-page": {
+    "actions": {
+      "activate": {
+        "dialog-title": "Activar suscripción",
+        "mutation": {
+          "success": "La suscripción ha sido activada correctamente."
+        },
+        "query": "¿Estás seguro que deseas activar la suscripción del plan"
+      },
+      "cancel": {
+        "dialog-subtitle": "Seleccione un plan para su suscripción",
+        "dialog-title": "Cancelar suscripción",
+        "mutation": {
+          "success": "La suscripción ha sido cancelada correctamente."
+        },
+        "query": "¿Estás seguro que deseas cancelar la suscripción del plan"
+      },
+      "create": {
+        "dialog-title": "Agregar suscripción",
+        "icon-retry": "Reintentar búsqueda",
+        "label-retry": "Intente cargar los planes nuevamente",
+        "mutation": {
+          "success": "La suscripción ha sido creada correctamente."
+        }
+      },
+      "update": {
+        "dialog-subtitle": "Seleccione una fecha para actualizar el vencimiento de la suscripción",
+        "dialog-title": "Incrementar vencimiento",
+        "expire-date-helper": "Ingresá la fecha en formato DD/MM/YYYY",
+        "mutation": {
+          "success": "La suscripción ha sido actualizada correctamente."
+        }
+      }
+    },
+    "fields": {
+      "date": "Fecha",
+      "plan": "Plan"
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron suscripciones."
+      },
+      "error": {
+        "message": "Hubo un error al cargar las suscripciones. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Suscripciones",
+      "tooltip": "Nueva suscripción"
+    },
+    "table-actions": {
+      "activate": "Activar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "menu-title": "Opciones para {{planName}}"
+    },
+    "table-columns": {
+      "plan": "Plan",
+      "status": "Estado",
+      "due-date": "Fecha de vencimiento"
+    },
+    "validations": {
+      "date-after-expiration": "Debe seleccionar una fecha posterior al vencimiento",
+      "date-required": "Debe seleccionar una fecha",
+      "plan-required": "Debe seleccionar un plan",
+      "user-required": "No se seleccionó el usuario"
+    }
   },
   "users-page": {
     "fields": {
