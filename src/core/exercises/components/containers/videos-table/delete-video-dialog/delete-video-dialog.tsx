@@ -8,6 +8,7 @@ import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
 import { useSnackbar } from '@/core/context/snackbar';
+import { useTranslation } from '@/core/i18n/context';
 import useMutationDeleteVideo from '../../../../hooks/useMutationDeleteVideo';
 
 import type { Video } from '@/types/exercise';
@@ -25,12 +26,13 @@ const DeleteVideoDialog: React.FC<DeleteVideoDialogProps> = ({
   video = null,
   onVideoDeleted,
 }) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deleteVideo = useMutationDeleteVideo();
 
   useEffect(() => {
     if (deleteVideo.status === 'success') {
-      snackbar.success('El video ha sido eliminado correctamente.');
+      snackbar.success(t('videos-page.actions.remove.mutation.success'));
       deleteVideo.reset();
 
       if (onVideoDeleted) {
@@ -44,7 +46,7 @@ const DeleteVideoDialog: React.FC<DeleteVideoDialogProps> = ({
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       deleteVideo.reset();
     }
-  }, [deleteVideo, snackbar, onVideoDeleted, onClose]);
+  }, [deleteVideo, snackbar, onVideoDeleted, onClose, t]);
 
   const handleDelete = useCallback(() => {
     if (video) {
@@ -62,25 +64,31 @@ const DeleteVideoDialog: React.FC<DeleteVideoDialogProps> = ({
       aria-describedby="delete-video-dialog-description"
     >
       <MuiDialogTitle id="delete-video-dialog-title">
-        Aguarde
+        {t('common.wordings.wait')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="delete-video-dialog-description">
-          ¿Estás seguro que deseas eliminar el video <strong>{video?.title}</strong>? Esta acción no se puede deshacer.
+          {t('videos-page.actions.remove.query')} <strong>{video?.title}</strong>? {t('common.wordings.action-cannot-undone')}
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
+          aria-label={t('common.wordings.delete')}
           color="error"
           loading={isPending}
-          loadingIndicator="Eliminando..."
+          loadingIndicator={t('common.wordings.deleting')}
           variant="contained"
           onClick={handleDelete}
         >
-          Eliminar
+          {t('common.wordings.delete')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

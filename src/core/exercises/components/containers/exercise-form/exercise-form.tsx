@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
+import { useTranslation } from '@/core/i18n/context';
 import useMutationCreateExercise from '../../../hooks/useMutationCreateExercise';
 import useMutationUpdateExercise from '../../../hooks/useMutationUpdateExercise';
 import { VideosGalleryDialog } from '../videos-gallery';
@@ -52,22 +53,23 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
   const createExercise = useMutationCreateExercise();
   const updateExercise = useMutationUpdateExercise();
   const snackbar = useSnackbar();
+  const { t } = useTranslation();
 
   const sxProps = isSmallScreen ? { width: '100%' } : { width: 500 };
 
   const handleConfirm = useCallback(() => {
     if (!formState.name) {
-      snackbar.caution('El nombre del ejercicio es obligatorio');
+      snackbar.caution(t('exercises-page.validations.name-required'));
       return;
     }
 
     if (!formState.muscleGroups.length) {
-      snackbar.caution('Debes seleccionar al menos un grupo muscular');
+      snackbar.caution(t('exercises-page.validations.muscle-groups-required'));
       return;
     }
 
     if (!formState.video) {
-      snackbar.caution('Debes seleccionar un video');
+      snackbar.caution(t('exercises-page.validations.video-required'));
       return;
     }
 
@@ -83,7 +85,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
         { ...exerciseForm, id: defaultExercise.id },
         {
           onSuccess: () => {
-            snackbar.success('Ejercicio actualizado correctamente');
+            snackbar.success(t('exercises-page.mutation.update-exercise.success'));
             updateExercise.reset();
           },
           onError: (mutationError: unknown) => {
@@ -97,7 +99,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
       createExercise.mutate(exerciseForm, {
         onSuccess: () => {
           setFormState(defaultFormState);
-          snackbar.success('Ejercicio creado correctamente');
+          snackbar.success(t('exercises-page.mutation.create-exercise.success'));
           createExercise.reset();
         },
         onError: (mutationError: unknown) => {
@@ -107,27 +109,27 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
         },
       });
     }
-  }, [createExercise, updateExercise, defaultExercise, formState, snackbar]);
+  }, [createExercise, updateExercise, defaultExercise, formState, snackbar, t]);
 
   const isPending = [createExercise.status, updateExercise.status].includes('pending');
 
   return (
     <>
-      <Spinner loading={isPending} label="Guardando ejercicio" />
+      <Spinner loading={isPending} label={t('exercises-page.mutation.loading')} />
       <MuiGrid
         container
         justifyContent="center"
       >
         <MuiGrid sx={sxProps}>
           <MuiTextField
-            label="Nombre"
+            label={t('exercises-page.fields.name')}
             value={formState.name}
             onChange={(e) => setFormState(prevState => ({ ...prevState, name: e.target.value }))}
             fullWidth
             margin="normal"
           />
           <MuiTextField
-            label="Descripción"
+            label={t('exercises-page.fields.description')}
             value={formState.description}
             onChange={(e) => setFormState(prevState => ({ ...prevState, description: e.target.value }))}
             fullWidth
@@ -135,7 +137,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
           />
           <MuscleGroupsMultipleSelect
             id="muscle-groups-select"
-            label="Selecciona grupos musculares"
+            label={t('exercises-page.fields.muscle-groups')}
             value={formState.muscleGroups}
             onChange={(value) => setFormState(prevState => ({ ...prevState, muscleGroups: value }))}
             sx={{ py: 2, width: '100%' }}
@@ -143,6 +145,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
           <MuiStack direction={isSmallScreen ? 'column' : 'row'} spacing={2}>
             <MuiButton
               sx={{ gap: 1 }}
+              aria-label={t('exercises-page.actions.add-video')}
               variant="text"
               color="primary"
               fullWidth={isSmallScreen}
@@ -151,7 +154,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
                 router.push('/videos/new-video');
               }}
             >
-              Añadir Video
+              {t('exercises-page.actions.add-video')}
               <MuiVideoCallIcon />
             </MuiButton>
             <VideosGalleryDialog
@@ -163,13 +166,14 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ defaultExercise = null }) =
           </MuiStack>
           <MuiButton
             sx={{ my: 2 }}
+            aria-label={t('common.wordings.confirm')}
             variant="contained"
             color="primary"
             fullWidth={isSmallScreen}
             onClick={handleConfirm}
             disabled={isPending}
           >
-            Confirmar
+            {t('common.wordings.confirm')}
           </MuiButton>
         </MuiGrid>
       </MuiGrid>

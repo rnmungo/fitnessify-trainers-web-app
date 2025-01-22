@@ -6,12 +6,14 @@ import { VIDEO_FILE_EXTENSIONS } from '@/constants/file-extensions';
 import Dropzone from '@/core/components/presentational/dropzone';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
+import { useTranslation } from '@/core/i18n/context';
 import useMutationUploadVideo from '../../../hooks/useMutationUploadVideo';
 
 const VideoUploader: React.FC = () => {
   const [filesState, setFilesState] = useState<Array<File>>([]);
   const uploadVideo = useMutationUploadVideo();
   const snackbar = useSnackbar();
+  const { t } = useTranslation();
 
   const handleSelectFile = useCallback((files: Array<File>) => {
     setFilesState(files);
@@ -23,17 +25,17 @@ const VideoUploader: React.FC = () => {
 
   const handleUpload = useCallback(() => {
     if (filesState.length === 0) {
-      snackbar.caution('Debe seleccionar un video');
+      snackbar.caution(t('videos-page.uploader.video-required'));
       return;
     }
 
     uploadVideo.mutate(filesState[0]);
-  }, [uploadVideo, filesState, snackbar]);
+  }, [uploadVideo, filesState, snackbar, t]);
 
   useEffect(() => {
     if (uploadVideo.status === 'success') {
       setFilesState([]);
-      snackbar.success('Video cargado correctamente');
+      snackbar.success(t('videos-page.uploader.mutation.success'));
       uploadVideo.reset();
     }
 
@@ -42,13 +44,19 @@ const VideoUploader: React.FC = () => {
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       uploadVideo.reset();
     }
-  }, [uploadVideo, snackbar]);
+  }, [uploadVideo, snackbar, t]);
 
   return (
     <>
-      <Spinner loading={uploadVideo.status === 'pending'} label="Cargando video" />
+      <Spinner loading={uploadVideo.status === 'pending'} label={t('videos-page.uploader.mutation.loading')} />
       <MuiStack sx={{ width: '100%' }} direction="column" alignItems="start" spacing={2}>
-        <MuiButton variant="outlined" onClick={handleUpload} disabled={uploadVideo.status === 'pending' || !filesState.length}>Subir</MuiButton>
+        <MuiButton
+          variant="outlined"
+          onClick={handleUpload}
+          disabled={uploadVideo.status === 'pending' || !filesState.length}
+        >
+          {t('videos-page.uploader.button')}
+        </MuiButton>
         <Dropzone
           maxFiles={1}
           acceptedFileTypes={VIDEO_FILE_EXTENSIONS}

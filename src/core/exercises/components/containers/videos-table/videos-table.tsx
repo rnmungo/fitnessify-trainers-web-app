@@ -17,6 +17,7 @@ import MuiTableRow from '@mui/material/TableRow';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiTooltip from '@mui/material/Tooltip';
 import MuiTypography from '@mui/material/Typography';
+import { useTranslation } from '@/core/i18n/context';
 import DeleteVideoDialog from './delete-video-dialog';
 import Menu from '../../../../components/presentational/menu';
 import { TableLoading } from '../../../../components/presentational/table';
@@ -28,7 +29,7 @@ import type { ColumnDefinition } from '../../../../components/presentational/tab
 const columns: Array<ColumnDefinition<Video>> = [
   {
     field: 'title',
-    headerName: 'Nombre',
+    headerName: 'videos-page.table-columns.name',
     width: 'auto',
   },
 ];
@@ -40,39 +41,44 @@ interface VideosTableProps {
   rowsPerPage?: number;
 }
 
-const BaseTable = ({ children }: { children: React.ReactNode; }) => (
-  <MuiTable
-    sx={{ minWidth: 750 }}
-    aria-labelledby="Videos"
-    size="small"
-  >
-    <MuiTableHead>
-      <MuiTableRow>
-        {columns.map(column => (
-          <MuiTableCell
-            key={column.field}
-            align={column.align}
-            padding="normal"
-            sx={{ width: column.width }}
-          >
-            {column.headerName}
+const BaseTable = ({ children }: { children: React.ReactNode; }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiTable
+      sx={{ minWidth: 750 }}
+      aria-labelledby={t('videos-page.table.name')}
+      size="small"
+    >
+      <MuiTableHead>
+        <MuiTableRow>
+          {columns.map(column => (
+            <MuiTableCell
+              key={column.field}
+              align={column.align}
+              padding="normal"
+              sx={{ width: column.width }}
+            >
+              {t(column.headerName)}
+            </MuiTableCell>
+          ))}
+          <MuiTableCell align="center" padding="normal" sx={{ width: 'auto' }}>
+            {t('common.table.actions')}
           </MuiTableCell>
-        ))}
-        <MuiTableCell align="center" padding="normal" sx={{ width: 'auto' }}>
-          Acciones
-        </MuiTableCell>
-      </MuiTableRow>
-    </MuiTableHead>
-    <MuiTableBody>
-      {children}
-    </MuiTableBody>
-  </MuiTable>
-);
+        </MuiTableRow>
+      </MuiTableHead>
+      <MuiTableBody>
+        {children}
+      </MuiTableBody>
+    </MuiTable>
+  );
+};
 
 const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
   const [pageState, setPageState] = useState(0);
   const [selectedVideoState, setSelectedVideoState] = useState<Video | null>();
   const [openState, setOpenState] = useState<boolean>(false);
+  const { t } = useTranslation();
   const router = useRouter();
   const { data, status, refetch } = useQueryVideos();
 
@@ -112,10 +118,10 @@ const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiAlert severity="error" action={
                 <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                  REINTENTAR
+                  {t('common.wordings.retry')}
                 </MuiButton>
               }>
-                Hubo un error al cargar los videos. Por favor, pruebe con reintentar la búsqueda.
+                {t('videos-page.table.error.message')}
               </MuiAlert>
             </MuiTableCell>
           </MuiTableRow>
@@ -133,7 +139,7 @@ const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
           >
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiTypography variant="h6">
-                No se encontraron videos.
+                {t('videos-page.table.empty.message')}
               </MuiTypography>
             </MuiTableCell>
           </MuiTableRow>
@@ -171,12 +177,12 @@ const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
                 })}
                 <MuiTableCell align="center">
                   <Menu
-                    aria-label={`Opciones para ${row.title}`}
+                    aria-label={t('videos-page.table-actions.menu-title', row)}
                     color="primary"
                     size="small"
                     options={[
                       {
-                        label: 'Eliminar',
+                        label: t('videos-page.table-actions.remove'),
                         onClick: () => {
                           setSelectedVideoState(row);
                           setOpenState(true);
@@ -222,19 +228,21 @@ const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
         rowsPerPageOptions={[rowsPerPage]}
         page={pageState}
         onPageChange={handleChangePage}
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
-        }
-        labelRowsPerPage="Filas por página:"
+        labelDisplayedRows={({ from, to, count }) => {
+          const total = count !== -1 ? count : t('common.table.more-pages', { to });
+
+          return t('common.table.pagination', { from, to, total });
+        }}
+        labelRowsPerPage={t('common.table.rows-per-page')}
         slotProps={{
           actions: {
             previousButton: {
-              'aria-label': 'Ir a la página anterior',
-              title: 'Ir a la página anterior'
+              'aria-label': t('common.table.previous-page'),
+              title: t('common.table.previous-page')
             },
             nextButton: {
-              'aria-label': 'Ir a la página siguiente',
-              title: 'Ir a la página siguiente'
+              'aria-label': t('common.table.next-page'),
+              title: t('common.table.next-page')
             }
           }
         }}
@@ -259,10 +267,11 @@ const VideosTable = ({ rowsPerPage = ROWS_LIMIT }: VideosTableProps) => {
               variant="h6"
               sx={{ fontWeight: 'normal' }}
             >
-              Videos
+              {t('videos-page.table.name')}
             </MuiTypography>
-            <MuiTooltip title="Nuevo video">
+            <MuiTooltip title={t('videos-page.table.tooltip')}>
               <MuiIconButton
+                aria-label={t('videos-page.table.tooltip')}
                 size="small"
                 color="primary"
                 onClick={() => {

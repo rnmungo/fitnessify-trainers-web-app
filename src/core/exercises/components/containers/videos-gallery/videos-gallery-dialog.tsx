@@ -7,6 +7,7 @@ import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogTitle from '@mui/material/DialogTitle';
 import MuiSlide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import { useTranslation } from '@/core/i18n/context';
 import VideosGallery from './videos-gallery';
 
 import type { Video } from '@/types/exercise';
@@ -26,10 +27,15 @@ interface VideosGalleryDialogProps {
   [key: string]: any;
 }
 
-const VideosGalleryDialog: React.FC<VideosGalleryDialogProps> = ({ selectedVideo = null, onSelectVideo, ...buttonProps }) => {
+const VideosGalleryDialog = ({
+  selectedVideo = null,
+  onSelectVideo,
+  ...buttonProps
+}: VideosGalleryDialogProps) => {
   const [selectedVideoState, setSelectedVideoState] = useState<Video | null>(selectedVideo);
   const [isOpenState, setIsOpenState] = useState(false);
   const [confirmState, setConfirmState] = useState(false);
+  const { t } = useTranslation();
 
   const handleOnApply = useCallback(() => {
     if (onSelectVideo && selectedVideoState) {
@@ -57,13 +63,14 @@ const VideosGalleryDialog: React.FC<VideosGalleryDialogProps> = ({ selectedVideo
   return (
     <>
       <MuiButton
+        aria-label={t('videos-page.gallery.button')}
         onClick={handleOpen}
         variant="outlined"
         color={confirmState ? 'success' : 'primary'}
         endIcon={confirmState ? <MuiCheckCircleIcon /> : undefined}
         {...buttonProps}
       >
-        Seleccionar video en galería
+        {t('videos-page.gallery.button')}
       </MuiButton>
       <MuiDialog
         fullScreen
@@ -71,7 +78,7 @@ const VideosGalleryDialog: React.FC<VideosGalleryDialogProps> = ({ selectedVideo
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <MuiDialogTitle>Galería</MuiDialogTitle>
+        <MuiDialogTitle>{t('videos-page.gallery.dialog.title')}</MuiDialogTitle>
         <MuiDialogContent>
           <VideosGallery
             selectedVideo={selectedVideoState}
@@ -79,15 +86,19 @@ const VideosGalleryDialog: React.FC<VideosGalleryDialogProps> = ({ selectedVideo
           />
         </MuiDialogContent>
         <MuiDialogActions>
-          <MuiButton onClick={handleClose}>
-            Cerrar
+          <MuiButton
+            aria-label={t('common.wordings.close')}
+            onClick={handleClose}
+          >
+            {t('common.wordings.close')}
           </MuiButton>
           <MuiButton
+            aria-label={t('common.wordings.confirm')}
             variant="contained"
             disabled={!selectedVideoState}
             onClick={handleOnApply}
           >
-            Confirmar
+            {t('common.wordings.confirm')}
           </MuiButton>
         </MuiDialogActions>
       </MuiDialog>

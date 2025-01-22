@@ -8,6 +8,7 @@ import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
 import { useSnackbar } from '@/core/context/snackbar';
+import { useTranslation } from '@/core/i18n/context';
 import useMutationDeleteExercise from '../../../../hooks/useMutationDeleteExercise';
 
 import type { Exercise } from '@/types/exercise';
@@ -25,12 +26,13 @@ const DeleteExerciseDialog: React.FC<DeleteExerciseDialogProps> = ({
   exercise = null,
   onExerciseDeleted,
 }) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deleteExercise = useMutationDeleteExercise();
 
   useEffect(() => {
     if (deleteExercise.status === 'success') {
-      snackbar.success('El ejercicio ha sido eliminado correctamente.');
+      snackbar.success(t('exercises-page.actions.remove.mutation.success'));
       deleteExercise.reset();
 
       if (onExerciseDeleted) {
@@ -44,7 +46,7 @@ const DeleteExerciseDialog: React.FC<DeleteExerciseDialogProps> = ({
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       deleteExercise.reset();
     }
-  }, [deleteExercise, snackbar, onExerciseDeleted, onClose]);
+  }, [deleteExercise, snackbar, onExerciseDeleted, onClose, t]);
 
   const handleDelete = useCallback(() => {
     if (exercise) {
@@ -62,25 +64,31 @@ const DeleteExerciseDialog: React.FC<DeleteExerciseDialogProps> = ({
       aria-describedby="delete-exercise-dialog-description"
     >
       <MuiDialogTitle id="delete-exercise-dialog-title">
-        Aguarde
+        {t('common.wordings.wait')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="delete-exercise-dialog-description">
-          ¿Estás seguro que deseas eliminar el ejercicio <strong>{exercise?.name}</strong>? Esta acción no se puede deshacer.
+          {t('exercises-page.actions.remove.query')} <strong>{exercise?.name}</strong>? {t('common.wordings.action-cannot-undone')}
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
+          aria-label={t('common.wordings.delete')}
           color="error"
           loading={isPending}
-          loadingIndicator="Eliminando..."
+          loadingIndicator={t('common.wordings.deleting')}
           variant="contained"
           onClick={handleDelete}
         >
-          Eliminar
+          {t('common.wordings.delete')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

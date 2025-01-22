@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import useQueryMuscleGroups from '../../../hooks/useQueryMuscleGroups';
 import { MultipleSelectCheckbox } from '@/core/components/presentational/select';
+import { useTranslation } from '@/core/i18n/context';
+import useQueryMuscleGroups from '../../../hooks/useQueryMuscleGroups';
 
 interface MuscleGroupsMultipleSelectProps {
   id: string;
@@ -21,6 +22,7 @@ const MuscleGroupsMultipleSelect: React.FC<MuscleGroupsMultipleSelectProps> = ({
 }) => {
   const { data: muscleGroups, status, refetch } = useQueryMuscleGroups();
   const [items, setItems] = useState<Array<{ id: string; name: string }>>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (status === 'success' && muscleGroups) {
@@ -31,8 +33,8 @@ const MuscleGroupsMultipleSelect: React.FC<MuscleGroupsMultipleSelectProps> = ({
     }
   }, [status, muscleGroups]);
 
-  const errorMessage = "Error al cargar grupos musculares.";
-  const placeholder = status === 'pending' ? 'Cargando...' : 'No hay grupos musculares';
+  const errorMessage = t('muscle-groups.multi-select.error-message');
+  const placeholder = status === 'pending' ? t('common.wordings.loading') : t('muscle-groups.multi-select.empty-message');
 
   return (
     <MultipleSelectCheckbox

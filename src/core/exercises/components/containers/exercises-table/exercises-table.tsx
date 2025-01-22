@@ -17,6 +17,7 @@ import MuiTableRow from '@mui/material/TableRow';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiTooltip from '@mui/material/Tooltip';
 import MuiTypography from '@mui/material/Typography';
+import { useTranslation } from '@/core/i18n/context';
 import DeleteExerciseDialog from './delete-exercise-dialog';
 import Menu from '../../../../components/presentational/menu';
 import { TableLoading } from '../../../../components/presentational/table';
@@ -27,11 +28,11 @@ import type { Exercise, MuscleGroup } from '@/types/exercise';
 import type { ColumnDefinition } from '../../../../components/presentational/table/types';
 
 const columns: Array<ColumnDefinition<Exercise>> = [
-  { field: 'name', headerName: 'Nombre', width: 200 },
-  { field: 'description', headerName: 'Descripción', defaultValue: '-', width: 'auto' },
+  { field: 'name', headerName: 'exercises-page.table-columns.name', width: 200 },
+  { field: 'description', headerName: 'exercises-page.table-columns.description', defaultValue: '-', width: 'auto' },
   {
     field: 'muscleGroups',
-    headerName: 'Grupos musculares',
+    headerName: 'exercises-page.table-columns.muscle-groups',
     width: 200,
     render: (_, value): React.ReactNode => {
       const muscleGroups = value as Array<MuscleGroup>;
@@ -55,39 +56,44 @@ interface ExercisesTableProps {
   rowsPerPage?: number;
 }
 
-const BaseTable = ({ children }: { children: React.ReactNode; }) => (
-  <MuiTable
-    sx={{ minWidth: 750 }}
-    aria-labelledby="Ejercicios"
-    size="small"
-  >
-    <MuiTableHead>
-      <MuiTableRow>
-        {columns.map(column => (
-          <MuiTableCell
-            key={column.field}
-            align={column.align}
-            padding="normal"
-            sx={{ width: column.width }}
-          >
-            {column.headerName}
+const BaseTable = ({ children }: { children: React.ReactNode; }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiTable
+      sx={{ minWidth: 750 }}
+      aria-labelledby={t('exercises-page.table.name')}
+      size="small"
+    >
+      <MuiTableHead>
+        <MuiTableRow>
+          {columns.map(column => (
+            <MuiTableCell
+              key={column.field}
+              align={column.align}
+              padding="normal"
+              sx={{ width: column.width }}
+            >
+              {t(column.headerName)}
+            </MuiTableCell>
+          ))}
+          <MuiTableCell align="center" padding="normal" sx={{ width: 'auto' }}>
+            {t('common.table.actions')}
           </MuiTableCell>
-        ))}
-        <MuiTableCell align="center" padding="normal">
-          Acciones
-        </MuiTableCell>
-      </MuiTableRow>
-    </MuiTableHead>
-    <MuiTableBody>
-      {children}
-    </MuiTableBody>
-  </MuiTable>
-);
+        </MuiTableRow>
+      </MuiTableHead>
+      <MuiTableBody>
+        {children}
+      </MuiTableBody>
+    </MuiTable>
+  );
+};
 
 const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
   const [pageState, setPageState] = useState(0);
   const [selectedExerciseState, setSelectedExerciseState] = useState<Exercise | null>();
   const [openState, setOpenState] = useState<boolean>(false);
+  const { t } = useTranslation();
   const router = useRouter();
   const { data, status, refetch } = useQueryExercises();
 
@@ -127,10 +133,10 @@ const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiAlert severity="error" action={
                 <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                  REINTENTAR
+                  {t('common.wordings.retry')}
                 </MuiButton>
               }>
-                Hubo un error al cargar los ejercicios. Por favor, pruebe con reintentar la búsqueda.
+                {t('exercises-page.table.error.message')}
               </MuiAlert>
             </MuiTableCell>
           </MuiTableRow>
@@ -148,7 +154,7 @@ const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
           >
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiTypography variant="h6">
-                No se encontraron ejercicios.
+                {t('exercises-page.table.empty.message')}
               </MuiTypography>
             </MuiTableCell>
           </MuiTableRow>
@@ -203,18 +209,18 @@ const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
                 })}
                 <MuiTableCell align="center">
                   <Menu
-                    aria-label={`Opciones para ${row.name}`}
+                    aria-label={t('exercises-page.table-actions.menu-title', row)}
                     color="primary"
                     size="small"
                     options={[
                       {
-                        label: 'Editar',
+                        label: t('exercises-page.table-actions.edit'),
                         onClick: () => {
                           router.push(`/exercises/${row.id}`);
                         },
                       },
                       {
-                        label: 'Eliminar',
+                        label: t('exercises-page.table-actions.remove'),
                         onClick: () => {
                           setSelectedExerciseState(row);
                           setOpenState(true);
@@ -260,19 +266,21 @@ const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
         rowsPerPageOptions={[rowsPerPage]}
         page={pageState}
         onPageChange={handleChangePage}
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
-        }
-        labelRowsPerPage="Filas por página:"
+        labelDisplayedRows={({ from, to, count }) => {
+          const total = count !== -1 ? count : t('common.table.more-pages', { to });
+
+          return t('common.table.pagination', { from, to, total });
+        }}
+        labelRowsPerPage={t('common.table.rows-per-page')}
         slotProps={{
           actions: {
             previousButton: {
-              'aria-label': 'Ir a la página anterior',
-              title: 'Ir a la página anterior'
+              'aria-label': t('common.table.previous-page'),
+              title: t('common.table.previous-page')
             },
             nextButton: {
-              'aria-label': 'Ir a la página siguiente',
-              title: 'Ir a la página siguiente'
+              'aria-label': t('common.table.next-page'),
+              title: t('common.table.next-page')
             }
           }
         }}
@@ -297,10 +305,11 @@ const ExercisesTable = ({ rowsPerPage = ROWS_LIMIT }: ExercisesTableProps) => {
               variant="h6"
               sx={{ fontWeight: 'normal' }}
             >
-              Ejercicios
+              {t('exercises-page.table.name')}
             </MuiTypography>
-            <MuiTooltip title="Nuevo ejercicio">
+            <MuiTooltip title={t('exercises-page.table.tooltip')}>
               <MuiIconButton
+                aria-label={t('exercises-page.table.tooltip')}
                 size="small"
                 color="primary"
                 onClick={() => {

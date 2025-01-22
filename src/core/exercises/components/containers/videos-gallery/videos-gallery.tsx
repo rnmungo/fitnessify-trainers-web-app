@@ -10,6 +10,7 @@ import MuiSkeleton from '@mui/material/Skeleton';
 import MuiStack from '@mui/material/Stack';
 import MuiTypography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { useTranslation } from '@/core/i18n/context';
 import { getFileExtension, removeFileExtension } from '@/utilities/file.utility';
 import useQueryVideos from '../../../hooks/useQueryVideos';
 
@@ -23,6 +24,7 @@ interface VideoGalleryProps {
 const VideosGallery: React.FC<VideoGalleryProps> = ({ selectedVideo = null, onSelectVideo = () => {} }) => {
   const [selectedVideoState, setSelectedVideoState] = useState<Video | null>(selectedVideo);
   const { data: videos, status, refetch } = useQueryVideos();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   useEffect(() => {
@@ -72,12 +74,17 @@ const VideosGallery: React.FC<VideoGalleryProps> = ({ selectedVideo = null, onSe
             severity="error"
             variant="outlined"
             action={
-              <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                Reintentar
+              <MuiButton
+                aria-label={t('common.wordings.retry')}
+                color="inherit"
+                size="small"
+                onClick={() => refetch()}
+              >
+                {t('common.wordings.retry')}
               </MuiButton>
             }
           >
-            Hubo un error al cargar la galería de videos. Por favor, pruebe con reintentar la búsqueda.
+            {t('videos-page.gallery.alert.error')}
           </MuiAlert>
         </MuiGrid>
       )}
