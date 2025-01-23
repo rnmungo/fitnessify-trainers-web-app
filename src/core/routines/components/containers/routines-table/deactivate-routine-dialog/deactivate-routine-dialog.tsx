@@ -7,6 +7,7 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationDeactivateRoutine from '../../../../hooks/useMutationDeactivateRoutine';
 import type { Routine } from '@/types/routine';
@@ -24,12 +25,13 @@ const DeactivateRoutineDialog = ({
   onClose,
   onRoutineDeactivated,
 }: DeactivateRoutineDialogProps) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deactivateRoutine = useMutationDeactivateRoutine();
 
   useEffect(() => {
     if (deactivateRoutine.status === 'success') {
-      snackbar.success('La rutina ha sido desactivada correctamente.');
+      snackbar.success(t('routines-page.actions.deactivate.mutation.success'));
       deactivateRoutine.reset();
 
       if (onRoutineDeactivated) {
@@ -40,10 +42,11 @@ const DeactivateRoutineDialog = ({
 
     if (deactivateRoutine.status === 'error') {
       const error = deactivateRoutine.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       deactivateRoutine.reset();
     }
-  }, [deactivateRoutine, snackbar, onRoutineDeactivated, onClose]);
+  }, [deactivateRoutine, snackbar, onRoutineDeactivated, onClose, t]);
 
   const handleConfirm = useCallback(() => {
     if (routine) {
@@ -62,25 +65,30 @@ const DeactivateRoutineDialog = ({
       aria-describedby="deactivate-routine-dialog-description"
     >
       <MuiDialogTitle id="deactivate-routine-dialog-title">
-        Desactivar rutina
+        {t('routines-page.actions.deactivate.dialog-title')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="deactivate-routine-dialog-description">
-          ¿Estás seguro que deseas desactivar la rutina <strong>{routine?.name}</strong>?
+          {t('routines-page.actions.deactivate.query')} <strong>{routine?.name}</strong>?
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="info"
           loading={isPending}
-          loadingIndicator="Desactivando..."
+          loadingIndicator={t('common.wordings.deactivating')}
           variant="contained"
           onClick={handleConfirm}
         >
-          Confirmar
+          {t('common.wordings.confirm')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

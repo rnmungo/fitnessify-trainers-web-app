@@ -7,6 +7,7 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationActivateRoutine from '../../../../hooks/useMutationActivateRoutine';
 import type { Routine } from '@/types/routine';
@@ -24,12 +25,13 @@ const ActivateRoutineDialog = ({
   onClose,
   onRoutineActivated,
 }: ActivateRoutineDialogProps) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const activateRoutine = useMutationActivateRoutine();
 
   useEffect(() => {
     if (activateRoutine.status === 'success') {
-      snackbar.success('La rutina ha sido activada correctamente.');
+      snackbar.success(t('routines-page.actions.activate.mutation.success'));
       activateRoutine.reset();
 
       if (onRoutineActivated) {
@@ -40,10 +42,11 @@ const ActivateRoutineDialog = ({
 
     if (activateRoutine.status === 'error') {
       const error = activateRoutine.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       activateRoutine.reset();
     }
-  }, [activateRoutine, snackbar, onRoutineActivated, onClose]);
+  }, [activateRoutine, snackbar, onRoutineActivated, onClose, t]);
 
   const handleConfirm = useCallback(() => {
     if (routine) {
@@ -62,25 +65,30 @@ const ActivateRoutineDialog = ({
       aria-describedby="activate-routine-dialog-description"
     >
       <MuiDialogTitle id="activate-routine-dialog-title">
-        Activar rutina
+        {t('routines-page.actions.activate.dialog-title')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="activate-routine-dialog-description">
-          ¿Estás seguro que deseas activar la rutina <strong>{routine?.name}</strong>?
+          {t('routines-page.actions.activate.query')} <strong>{routine?.name}</strong>?
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="info"
           loading={isPending}
-          loadingIndicator="Activando..."
+          loadingIndicator={t('common.wordings.activating')}
           variant="contained"
           onClick={handleConfirm}
         >
-          Confirmar
+          {t('common.wordings.confirm')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

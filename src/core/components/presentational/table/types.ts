@@ -3,6 +3,6 @@ export interface ColumnDefinition<T> {
   headerName: string;
   width: number | string;
   align?: 'left' | 'right' | 'center';
-  render?: (row: T, value: any) => React.ReactNode;
+  render?: (row: T, value: any, translate?: (text: string, data?: any) => string, locale?: string) => React.ReactNode;
   defaultValue?: string;
 };

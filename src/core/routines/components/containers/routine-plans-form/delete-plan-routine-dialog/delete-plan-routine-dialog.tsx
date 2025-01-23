@@ -34,7 +34,7 @@ const DeletePlanRoutineDialog = ({
 
   useEffect(() => {
     if (deletePlanRoutine.status === 'success') {
-      snackbar.success(t('routines-page.actions.remove.mutation.success'));
+      snackbar.success(t('routines-page.actions.remove-plan.mutation.success'));
       deletePlanRoutine.reset();
 
       if (onPlanRoutineDeleted && plan) {
@@ -70,7 +70,7 @@ const DeletePlanRoutineDialog = ({
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="delete-plan-routine-dialog-description">
-          {t('routines-page.actions.remove.query')} <strong>{plan?.name}</strong>? {t('common.wordings.action-cannot-undone')}
+          {t('routines-page.actions.remove-plan.query')} <strong>{plan?.name}</strong>? {t('common.wordings.action-cannot-undone')}
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>

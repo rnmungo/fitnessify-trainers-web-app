@@ -52,6 +52,7 @@
       "canceling": "Canceling...",
       "close": "Close",
       "confirm": "Confirm",
+      "deactivating": "Deactivating...",
       "delete": "Delete",
       "deleting": "Deleting...",
       "loading": "Loading...",
@@ -210,6 +211,13 @@
   },
   "routines-page": {
     "actions": {
+      "activate": {
+        "dialog-title": "Activate routine",
+        "mutation": {
+          "success": "The routine has been activated correctly."
+        },
+        "query": "Are you sure you want to activate the routine"
+      },
       "add-plan": {
         "mutation": {
           "loading": "Adding routine to the plan",
@@ -221,8 +229,21 @@
           "success": "The routine has been created correctly."
         }
       },
+      "deactivate": {
+        "dialog-title": "Deactivate routine",
+        "mutation": {
+          "success": "The routine has been successfully deactivated."
+        },
+        "query": "Are you sure you want to deactivate the routine"
+      },
       "loading": "Saving routine",
       "remove": {
+        "mutation": {
+          "success": "The routine has been successfully deleted."
+        },
+        "query": "Are you sure you want to eliminate the routine"
+      },
+      "remove-plan": {
         "mutation": {
           "success": "The routine has been successfully removed from the plan."
         },
@@ -256,6 +277,21 @@
       },
       "routine": {
         "duration": "Duration",
+        "enum-equipment": {
+          "all": "All",
+          "bands": "Bands",
+          "body-weight": "Body weight",
+          "dumbbells-and-kettlebells": "Dumbbells y kettlebells"
+        },
+        "enum-level": {
+          "advanced": "Advanced",
+          "beginner": "Beginner",
+          "intermediate": "Intermediate"
+        },
+        "enum-status": {
+          "draft": "Draft",
+          "deployed": "Deployed"
+        },
         "equipment": "Equipment",
         "exercise": "Exercise",
         "level": "Level",
@@ -292,6 +328,29 @@
     "sections": {
       "preview": "Preview",
       "routine": "Routine"
+    },
+    "table": {
+      "empty": {
+        "message": "No routines were found."
+      },
+      "error": {
+        "message": "There was an error loading the routines. Please try retrying your search."
+      },
+      "name": "Routines",
+      "tooltip": "New routine"
+    },
+    "table-actions": {
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "edit-plans": "Edit plans",
+      "edit-routine": "Edit routine",
+      "menu-title": "Options for {{name}}",
+      "remove": "Delete"
+    },
+    "table-columns": {
+      "creation-date": "Creation date",
+      "equipment": "Equipment",
+      "name": "Name"
     },
     "validations": {
       "routine-equipment": "You must select the routine equipment.",
@@ -340,6 +399,12 @@
     },
     "fields": {
       "date": "Date",
+      "enum-status": {
+        "active": "Active",
+        "canceled": "Canceled",
+        "draft": "Draft",
+        "paused": "Paused"
+      },
       "plan": "Plan"
     },
     "table": {

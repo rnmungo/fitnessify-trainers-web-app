@@ -18,6 +18,7 @@ import MuiToolbar from '@mui/material/Toolbar';
 import MuiTooltip from '@mui/material/Tooltip';
 import MuiTypography from '@mui/material/Typography';
 import { useTranslation } from '@/core/i18n/context';
+import { getDateLocale } from '@/core/i18n/utilities/localeUtils';
 import Menu from '@/core/components/presentational/menu';
 import { TableLoading } from '@/core/components/presentational/table';
 import { formatCompleteDate } from '@/utilities/dateUtils';
@@ -37,9 +38,10 @@ const columns: Array<ColumnDefinition<Subscription>> = [
     field: 'status',
     headerName: 'subscriptions-page.table-columns.status',
     width: 150,
-    render: (_, value): React.ReactNode => {
+    render: (_, value, translate): React.ReactNode => {
       const color = getColorByStatus(value);
-      const statusTranslated = getStatusTranslation(value);
+      const statusKey = getStatusTranslation(value);
+      const statusTranslated = translate ? translate(statusKey) : statusKey;
 
       return (
         <MuiChip
@@ -57,8 +59,9 @@ const columns: Array<ColumnDefinition<Subscription>> = [
     headerName: 'subscriptions-page.table-columns.due-date',
     defaultValue: '-',
     width: 'auto',
-    render: (_, value): React.ReactNode => {
-      const formattedDate = formatCompleteDate(new Date(value));
+    render: (_, value, translate, locale): React.ReactNode => {
+      const dateFnsLocale = getDateLocale(locale || '');
+      const formattedDate = formatCompleteDate(new Date(value), dateFnsLocale);
 
       return formattedDate;
     }
@@ -113,7 +116,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
   const [openCanceledState, setOpenCanceledState] = useState<boolean>(false);
   const [openIncrementState, setOpenIncrementState] = useState<boolean>(false);
   const [openCreateState, setOpenCreateState] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const { data, status, refetch } = useQuerySubscriptions(id);
 
   const handleChangePage = (_: unknown, newPage: number) => {
@@ -261,7 +264,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
                         padding="normal"
                         sx={{ width: column.width }}
                       >
-                        {column.render ? column.render(row, value) : value}
+                        {column.render ? column.render(row, value, t, locale) : value}
                       </MuiTableCell>
                     );
                   })}

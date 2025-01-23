@@ -7,6 +7,7 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationDeleteRoutine from '../../../../hooks/useMutationDeleteRoutine';
 
@@ -25,12 +26,13 @@ const DeleteRoutineDialog = ({
   routine = null,
   onRoutineDeleted,
 }: DeleteRoutineDialogProps) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deleteRoutine = useMutationDeleteRoutine();
 
   useEffect(() => {
     if (deleteRoutine.status === 'success') {
-      snackbar.success('La rutina ha sido eliminada correctamente.');
+      snackbar.success(t('routines-page.actions.remove.mutation.success'));
       deleteRoutine.reset();
 
       if (onRoutineDeleted) {
@@ -41,10 +43,11 @@ const DeleteRoutineDialog = ({
 
     if (deleteRoutine.status === 'error') {
       const error = deleteRoutine.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       deleteRoutine.reset();
     }
-  }, [deleteRoutine, snackbar, onRoutineDeleted, onClose]);
+  }, [deleteRoutine, snackbar, onRoutineDeleted, onClose, t]);
 
   const handleDelete = useCallback(() => {
     if (routine) {
@@ -62,25 +65,30 @@ const DeleteRoutineDialog = ({
       aria-describedby="delete-routine-dialog-description"
     >
       <MuiDialogTitle id="delete-routine-dialog-title">
-        Aguarde
+        {t('common.wordings.wait')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="delete-routine-dialog-description">
-          ¿Estás seguro que deseas eliminar la rutina <strong>{routine?.name}</strong>? Esta acción no se puede deshacer.
+          {t('routines-page.actions.remove.query')} <strong>{routine?.name}</strong>? {t('common.wordings.action-cannot-undone')}
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="error"
           loading={isPending}
-          loadingIndicator="Eliminando..."
+          loadingIndicator={t('common.wordings.deleting')}
           variant="contained"
           onClick={handleDelete}
         >
-          Eliminar
+          {t('common.wordings.delete')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

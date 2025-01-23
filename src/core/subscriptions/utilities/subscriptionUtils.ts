@@ -1,10 +1,10 @@
 import type { ChipColor } from '@/types/material-ui';
 
 const SUBSCRIPTION_STATUS_TRANSLATION: Record<string, string> = {
-  Active: 'Activo',
-  Canceled: 'Cancelado',
-  Draft: 'Borrador',
-  Paused: 'Pausado',
+  Active: 'subscriptions-page.fields.enum-status.active',
+  Canceled: 'subscriptions-page.fields.enum-status.canceled',
+  Draft: 'subscriptions-page.fields.enum-status.draft',
+  Paused: 'subscriptions-page.fields.enum-status.paused',
 };
 
 export const getStatusTranslation = (status: string): string =>

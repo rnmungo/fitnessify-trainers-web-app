@@ -18,6 +18,8 @@ import MuiTableRow from '@mui/material/TableRow';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiTooltip from '@mui/material/Tooltip';
 import MuiTypography from '@mui/material/Typography';
+import { useTranslation } from '@/core/i18n/context';
+import { getDateLocale } from '@/core/i18n/utilities/localeUtils';
 import { formatCompleteDate } from '@/utilities/dateUtils';
 import {
   getEquipmentTranslation,
@@ -40,26 +42,28 @@ import type { ColumnDefinition } from '../../../../components/presentational/tab
 const columns: Array<ColumnDefinition<Routine>> = [
   {
     field: 'name',
-    headerName: 'Nombre',
+    headerName: 'routines-page.table-columns.name',
     width: 'auto',
-    render: (row): React.ReactNode => (
+    render: (row, _, translate): React.ReactNode => (
       <>
         <MuiTypography variant="body2" gutterBottom>{row.name}</MuiTypography>
         <MuiTypography variant="caption" color="text.secondary">
-          Duración: {row.duration}
+          {`${translate && translate('routines-page.preview.duration')} ${row.duration}`}
         </MuiTypography>
       </>
     ),
   },
   {
     field: 'createdAt',
-    headerName: 'Fecha de creación',
+    headerName: 'routines-page.table-columns.creation-date',
     defaultValue: '-',
     width: 270,
-    render: (row): React.ReactNode => {
-      const formattedDate = formatCompleteDate(new Date(row.createdAt));
+    render: (row, _, translate, locale): React.ReactNode => {
+      const dateFnsLocale = getDateLocale(locale || '');
+      const formattedDate = formatCompleteDate(new Date(row.createdAt), dateFnsLocale);
       const color = getColorByStatus(row.status);
-      const statusTranslated = getStatusTranslation(row.status);
+      const statusKey = getStatusTranslation(row.status);
+      const statusTranslated = translate ? translate(statusKey) : statusKey;
 
       return (
         <>
@@ -77,11 +81,13 @@ const columns: Array<ColumnDefinition<Routine>> = [
   },
   {
     field: 'equipment',
-    headerName: 'Equipamiento',
+    headerName: 'routines-page.table-columns.equipment',
     width: 200,
-    render: (row): React.ReactNode => {
-      const equipmentTranslated = getEquipmentTranslation(row.equipment);
-      const levelTranslated = getLevelTranslation(row.level);
+    render: (row, _, translate): React.ReactNode => {
+      const equipmentKey = getEquipmentTranslation(row.equipment);
+      const equipmentTranslated = translate ? translate(equipmentKey) : equipmentKey;
+      const levelKey = getLevelTranslation(row.level);
+      const levelTranslated = translate ? translate(levelKey) : levelKey;
       const levelColor = getColorByLevel(row.level);
       const LevelIcon = getLevelIcon(row.level);
 
@@ -109,34 +115,38 @@ interface RoutinesTableProps {
   rowsPerPage?: number;
 }
 
-const BaseTable = ({ children }: { children: React.ReactNode; }) => (
-  <MuiTable
-    sx={{ minWidth: 750 }}
-    aria-labelledby="Rutinas"
-    size="small"
-  >
-    <MuiTableHead>
-      <MuiTableRow>
-        {columns.map(column => (
-          <MuiTableCell
-            key={column.field}
-            align={column.align}
-            padding="normal"
-            sx={{ width: column.width }}
-          >
-            {column.headerName}
+const BaseTable = ({ children }: { children: React.ReactNode; }) => {
+  const { t } = useTranslation();
+
+  return (
+    <MuiTable
+      sx={{ minWidth: 750 }}
+      aria-labelledby={t('routines-page.table.name')}
+      size="small"
+    >
+      <MuiTableHead>
+        <MuiTableRow>
+          {columns.map(column => (
+            <MuiTableCell
+              key={column.field}
+              align={column.align}
+              padding="normal"
+              sx={{ width: column.width }}
+            >
+              {t(column.headerName)}
+            </MuiTableCell>
+          ))}
+          <MuiTableCell align="center" padding="normal" sx={{ width: 'auto' }}>
+            {t('common.table.actions')}
           </MuiTableCell>
-        ))}
-        <MuiTableCell align="center" padding="normal">
-          Acciones
-        </MuiTableCell>
-      </MuiTableRow>
-    </MuiTableHead>
-    <MuiTableBody>
-      {children}
-    </MuiTableBody>
-  </MuiTable>
-);
+        </MuiTableRow>
+      </MuiTableHead>
+      <MuiTableBody>
+        {children}
+      </MuiTableBody>
+    </MuiTable>
+  );
+};
 
 const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
   const [pageState, setPageState] = useState(0);
@@ -144,6 +154,7 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
   const [openActivateState, setOpenActivateState] = useState<boolean>(false);
   const [openDeactivateState, setOpenDeactivateState] = useState<boolean>(false);
   const [openDeleteState, setOpenDeleteState] = useState<boolean>(false);
+  const { t, locale } = useTranslation();
   const router = useRouter();
   const { data, status, refetch } = useQueryRoutines();
 
@@ -196,11 +207,16 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
           >
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiAlert severity="error" action={
-                <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                  REINTENTAR
+                <MuiButton
+                  aria-label={t('common.wordings.retry')}
+                  color="inherit"
+                  size="small"
+                  onClick={() => refetch()}
+                >
+                  {t('common.wordings.retry')}
                 </MuiButton>
               }>
-                Hubo un error al cargar las rutinas. Por favor, pruebe con reintentar la búsqueda.
+                {t('routines-page.table.error.message')}
               </MuiAlert>
             </MuiTableCell>
           </MuiTableRow>
@@ -218,7 +234,7 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
           >
             <MuiTableCell colSpan={columns.length + 1} align="center">
               <MuiTypography variant="h6">
-                No se encontraron rutinas.
+                {t('routines-page.table.empty.message')}
               </MuiTypography>
             </MuiTableCell>
           </MuiTableRow>
@@ -237,13 +253,13 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
             .map(row => {
               const menuItems = [
                 {
-                  label: 'Editar rutina',
+                  label: t('routines-page.table-actions.edit-routine'),
                   onClick: () => {
                     router.push(`/routines/${row.id}`);
                   },
                 },
                 {
-                  label: 'Editar planes',
+                  label: t('routines-page.table-actions.edit-plans'),
                   onClick: () => {
                     router.push(`/routines/${row.id}/plans`);
                   },
@@ -252,7 +268,7 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
 
               if (row.status === 'Draft') {
                 menuItems.push({
-                  label: 'Activar',
+                  label: t('routines-page.table-actions.activate'),
                   onClick: () => {
                     setSelectedRoutineState(row);
                     setOpenActivateState(true);
@@ -262,7 +278,7 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
 
               if (row.status === 'Deployed') {
                 menuItems.push({
-                  label: 'Desactivar',
+                  label: t('routines-page.table-actions.deactivate'),
                   onClick: () => {
                     setSelectedRoutineState(row);
                     setOpenDeactivateState(true);
@@ -271,7 +287,7 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
               }
 
               menuItems.push({
-                label: 'Eliminar',
+                label: t('routines-page.table-actions.remove'),
                 onClick: () => {
                   setSelectedRoutineState(row);
                   setOpenDeleteState(true);
@@ -294,13 +310,13 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
                         padding="normal"
                         sx={{ width: column.width }}
                       >
-                        {column.render ? column.render(row, value) : value}
+                        {column.render ? column.render(row, value, t, locale) : value}
                       </MuiTableCell>
                     );
                   })}
                   <MuiTableCell align="center">
                     <Menu
-                      aria-label={`Opciones para ${row.name}`}
+                      aria-label={t('routines-page.table-actions.menu-title', row)}
                       color="primary"
                       size="small"
                       options={menuItems}
@@ -344,19 +360,21 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
         rowsPerPageOptions={[rowsPerPage]}
         page={pageState}
         onPageChange={handleChangePage}
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
-        }
-        labelRowsPerPage="Filas por página:"
+        labelDisplayedRows={({ from, to, count }) => {
+          const total = count !== -1 ? count : t('common.table.more-pages', { to });
+
+          return t('common.table.pagination', { from, to, total });
+        }}
+        labelRowsPerPage={t('common.table.rows-per-page')}
         slotProps={{
           actions: {
             previousButton: {
-              'aria-label': 'Ir a la página anterior',
-              title: 'Ir a la página anterior'
+              'aria-label': t('common.table.previous-page'),
+              title: t('common.table.previous-page')
             },
             nextButton: {
-              'aria-label': 'Ir a la página siguiente',
-              title: 'Ir a la página siguiente'
+              'aria-label': t('common.table.next-page'),
+              title: t('common.table.next-page')
             }
           }
         }}
@@ -381,10 +399,11 @@ const RoutinesTable = ({ rowsPerPage = ROWS_LIMIT }: RoutinesTableProps) => {
               variant="h6"
               sx={{ fontWeight: 'normal' }}
             >
-              Rutinas
+              {t('routines-page.table.name')}
             </MuiTypography>
-            <MuiTooltip title="Nueva rutina">
+            <MuiTooltip title={t('routines-page.table.tooltip')}>
               <MuiIconButton
+                aria-label={t('routines-page.table.tooltip')}
                 size="small"
                 color="primary"
                 onClick={() => {

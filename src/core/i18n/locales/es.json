@@ -52,6 +52,7 @@
       "canceling": "Cancelando...",
       "close": "Cerrar",
       "confirm": "Confirmar",
+      "deactivating": "Desactivando...",
       "delete": "Eliminar",
       "deleting": "Eliminando...",
       "loading": "Cargando...",
@@ -210,6 +211,13 @@
   },
   "routines-page": {
     "actions": {
+      "activate": {
+        "dialog-title": "Activar rutina",
+        "mutation": {
+          "success": "La rutina ha sido activada correctamente."
+        },
+        "query": "¿Estás seguro que deseas activar la rutina"
+      },
       "add-plan": {
         "mutation": {
           "loading": "Agregando rutina al plan",
@@ -221,8 +229,21 @@
           "success": "La rutina ha sido creada correctamente."
         }
       },
+      "deactivate": {
+        "dialog-title": "Desactivar rutina",
+        "mutation": {
+          "success": "La rutina ha sido desactivada correctamente."
+        },
+        "query": "¿Estás seguro que deseas desactivar la rutina"
+      },
       "loading": "Guardando rutina",
       "remove": {
+        "mutation": {
+          "success": "La rutina ha sido eliminada correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar la rutina"
+      },
+      "remove-plan": {
         "mutation": {
           "success": "La rutina ha sido eliminada del plan correctamente."
         },
@@ -256,6 +277,21 @@
       },
       "routine": {
         "duration": "Duración",
+        "enum-equipment": {
+          "all": "Todos",
+          "bands": "Bandas",
+          "body-weight": "Peso corporal",
+          "dumbbells-and-kettlebells": "Dumbbells y kettlebells"
+        },
+        "enum-level": {
+          "advanced": "Avanzado",
+          "beginner": "Principiante",
+          "intermediate": "Intermedio"
+        },
+        "enum-status": {
+          "draft": "Borrador",
+          "deployed": "Desplegada"
+        },
         "equipment": "Equipamiento",
         "exercise": "Ejercicio",
         "level": "Nivel",
@@ -292,6 +328,29 @@
     "sections": {
       "preview": "Previsualizar",
       "routine": "Rutina"
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron rutinas."
+      },
+      "error": {
+        "message": "Hubo un error al cargar las rutinas. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Rutinas",
+      "tooltip": "Nueva rutina"
+    },
+    "table-actions": {
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "edit-plans": "Editar planes",
+      "edit-routine": "Editar rutina",
+      "menu-title": "Opciones para {{name}}",
+      "remove": "Eliminar"
+    },
+    "table-columns": {
+      "creation-date": "Fecha de creación",
+      "equipment": "Equipamiento",
+      "name": "Nombre"
     },
     "validations": {
       "routine-equipment": "Debe seleccionar el equipamiento de la rutina.",
@@ -340,6 +399,12 @@
     },
     "fields": {
       "date": "Fecha",
+      "enum-status": {
+        "active": "Activo",
+        "canceled": "Cancelado",
+        "draft": "Borrador",
+        "paused": "Pausado"
+      },
       "plan": "Plan"
     },
     "table": {
