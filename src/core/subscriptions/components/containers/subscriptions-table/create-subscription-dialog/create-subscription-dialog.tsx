@@ -64,7 +64,8 @@ const CreateSubscriptionDialog = ({
 
     if (createSubscription.status === 'error') {
       const error = createSubscription.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       createSubscription.reset();
     }
   }, [createSubscription, snackbar, onSubscriptionCreated, onClose, t]);

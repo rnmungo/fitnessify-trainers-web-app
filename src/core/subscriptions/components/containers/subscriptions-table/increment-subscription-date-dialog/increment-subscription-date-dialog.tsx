@@ -69,7 +69,8 @@ const IncrementSubscriptionDateDialog = ({
 
     if (incrementSubscriptionDate.status === 'error') {
       const error = incrementSubscriptionDate.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       incrementSubscriptionDate.reset();
     }
   }, [incrementSubscriptionDate, snackbar, onSubscriptionUpdated, onClose, t]);

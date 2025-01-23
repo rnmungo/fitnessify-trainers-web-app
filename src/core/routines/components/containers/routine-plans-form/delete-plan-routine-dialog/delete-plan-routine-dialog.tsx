@@ -45,7 +45,8 @@ const DeletePlanRoutineDialog = ({
 
     if (deletePlanRoutine.status === 'error') {
       const error = deletePlanRoutine.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       deletePlanRoutine.reset();
     }
   }, [deletePlanRoutine, snackbar, onPlanRoutineDeleted, onClose, plan, t]);

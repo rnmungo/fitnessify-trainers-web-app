@@ -90,7 +90,8 @@ const ExerciseForm = ({ defaultExercise = null }: ExerciseFormProps) => {
           },
           onError: (mutationError: unknown) => {
             const error = mutationError as AxiosError;
-            snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+            snackbar.error(t(errorMessage));
             updateExercise.reset();
           },
         }
@@ -104,7 +105,8 @@ const ExerciseForm = ({ defaultExercise = null }: ExerciseFormProps) => {
         },
         onError: (mutationError: unknown) => {
           const error = mutationError as AxiosError;
-          snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+          const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+          snackbar.error(t(errorMessage));
           createExercise.reset();
         },
       });

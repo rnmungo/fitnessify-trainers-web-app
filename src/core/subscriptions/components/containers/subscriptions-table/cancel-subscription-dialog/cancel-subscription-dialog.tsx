@@ -42,7 +42,8 @@ const CancelSubscriptionDialog = ({
 
     if (cancelSubscription.status === 'error') {
       const error = cancelSubscription.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       cancelSubscription.reset();
     }
   }, [cancelSubscription, snackbar, onSubscriptionCanceled, onClose, t]);

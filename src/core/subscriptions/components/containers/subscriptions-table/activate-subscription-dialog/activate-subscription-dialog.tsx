@@ -42,7 +42,8 @@ const ActivateSubscriptionDialog = ({
 
     if (activateSubscription.status === 'error') {
       const error = activateSubscription.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       activateSubscription.reset();
     }
   }, [activateSubscription, snackbar, onSubscriptionActivated, onClose, t]);

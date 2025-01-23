@@ -43,7 +43,8 @@ const DeleteVideoDialog = ({
 
     if (deleteVideo.status === 'error') {
       const error = deleteVideo.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       deleteVideo.reset();
     }
   }, [deleteVideo, snackbar, onVideoDeleted, onClose, t]);

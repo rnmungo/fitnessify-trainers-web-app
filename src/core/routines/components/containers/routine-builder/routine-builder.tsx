@@ -326,7 +326,8 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
           },
           onError: (mutationError: unknown) => {
             const error = mutationError as AxiosError;
-            snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+            snackbar.error(t(errorMessage));
             updateRoutine.reset();
           },
         }
@@ -343,7 +344,8 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
           },
           onError: (mutationError: unknown) => {
             const error = mutationError as AxiosError;
-            snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+            snackbar.error(t(errorMessage));
             createRoutine.reset();
           },
         }
@@ -363,7 +365,6 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
             <MuiTab label={t('routines-page.sections.routine')} />
             <MuiTab label={t('routines-page.sections.preview')} />
           </MuiTabs>
-
           <MuiBox sx={{ my: 2 }}>
             {status === 'error' && (
               <MuiAlert

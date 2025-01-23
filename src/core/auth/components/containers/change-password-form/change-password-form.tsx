@@ -60,7 +60,8 @@ const ChangePasswordForm = () => {
 
     if (changePassword.status === 'error') {
       const error = changePassword.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       changePassword.reset();
     }
   }, [router, changePassword, snackbar, formik, t]);

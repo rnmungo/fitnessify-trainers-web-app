@@ -44,10 +44,10 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
   const { data: plans, status, refetch } = useQueryPlans();
 
   const planItems: Array<Plan> = useMemo(() =>
-      (plans || [])
-        .filter(plan =>
-          !subscribedPlansState.find(subscribed => subscribed.id === plan.id)
-        ), [plans, subscribedPlansState]);
+    (plans || [])
+      .filter(plan =>
+        !subscribedPlansState.find(subscribed => subscribed.id === plan.id)
+      ), [plans, subscribedPlansState]);
 
   const handlePlanSelect = useCallback((event: SelectChangeEvent<unknown>) => {
     const planId = event.target.value as string;
@@ -65,7 +65,8 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
           },
           onError: (mutationError: unknown) => {
             const error = mutationError as AxiosError;
-            snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+            const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+            snackbar.error(t(errorMessage));
             addPlanRoutine.reset();
           },
         }

@@ -43,7 +43,8 @@ const DeleteExerciseDialog = ({
 
     if (deleteExercise.status === 'error') {
       const error = deleteExercise.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       deleteExercise.reset();
     }
   }, [deleteExercise, snackbar, onExerciseDeleted, onClose, t]);

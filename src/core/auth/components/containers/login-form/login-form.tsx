@@ -59,10 +59,11 @@ const LoginFormContainer = () => {
 
     if (signIn.status === 'error') {
       const error = signIn.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       signIn.reset();
     }
-  }, [router, session, signIn, snackbar]);
+  }, [router, session, signIn, snackbar, t]);
 
   return (
     <>
