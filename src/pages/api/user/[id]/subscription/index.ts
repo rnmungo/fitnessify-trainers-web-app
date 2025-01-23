@@ -9,19 +9,29 @@ import type { Subscription } from '@/types/subscription';
 import type { HttpResponse } from '@/types/response';
 import type { Session } from '@/types/session';
 
+const defaultErrorMessage = 'api.common.error.unknown-error';
+const defaultStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
+
 type HandleErrorResult = {
   status: number;
   data: HttpResponse;
 }
 
 const handleError = (error: unknown): HandleErrorResult => {
-  const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
-  if (axiosError.response?.status === HTTP_STATUS.CONFLICT) {
-    return { status: HTTP_STATUS.CONFLICT, data: { message: 'api.subscription.error.exists' } };
+  if (error instanceof AxiosError) {
+    const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
+    const message = axiosError.response?.data?.errorMessage || defaultErrorMessage;
+    const status = axiosError.response?.status || defaultStatus;
+
+    if (status === HTTP_STATUS.CONFLICT) {
+      return { status, data: { message: 'api.subscription.error.exists' } };
+    }
+
+    return { status, data: { message } };
   }
 
-  const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
-  return { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, data: { message: errorMessage } };
+  const errorMessage = error instanceof Error ? error.message : defaultErrorMessage;
+  return { status: defaultStatus, data: { message: errorMessage } };
 };
 
 export default async function handler(
@@ -35,9 +45,10 @@ export default async function handler(
       const session = await getIronSession<Session>(req, res, sessionOptions);
       const subscriptions = await getSubscriptions({ id, token: session.authorization.token });
 
-      res.status(200).json(subscriptions);
+      res.status(HTTP_STATUS.OK).json(subscriptions);
     } catch (error: unknown) {
       const { status, data } = handleError(error);
+
       res.status(status).json(data);
     }
   }
@@ -48,9 +59,10 @@ export default async function handler(
       const { planId } = req.body;
       await createSubscription({ planId, userTenantId: id, token: session.authorization.token });
 
-      res.status(200).json({ message: 'api.subscription.create-success' });
+      res.status(HTTP_STATUS.OK).json({ message: 'api.subscription.create-success' });
     } catch (error: unknown) {
       const { status, data } = handleError(error);
+
       res.status(status).json(data);
     }
   }

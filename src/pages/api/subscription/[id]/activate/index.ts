@@ -8,24 +8,33 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { HttpResponse } from '@/types/response';
 import type { Session } from '@/types/session';
 
+const defaultErrorMessage = 'api.common.error.unknown-error';
+const defaultStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
+
 type HandleErrorResult = {
   status: number;
   data: HttpResponse;
 }
 
-const defaultMessage = 'api.common.error.unknown-error';
-
 const handleError = (error: unknown): HandleErrorResult => {
-  const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
-  if (axiosError.response?.status === HTTP_STATUS.CONFLICT) {
-    const errorMessage = axiosError.response?.data?.errorMessage || '';
-    const matches = errorMessage.match(/You already have an active subscription/);
-    const message =  matches ? 'api.subscription.error.already-active' : defaultMessage;
-    return { status: HTTP_STATUS.CONFLICT, data: { message } };
+  if (error instanceof AxiosError) {
+    const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
+
+    const message = axiosError.response?.data?.errorMessage || defaultErrorMessage;
+    const status = axiosError.response?.status || defaultStatus;
+
+    if (status === HTTP_STATUS.CONFLICT) {
+      const matches = message.match(/You already have an active subscription/);
+      const matchError =  matches ? 'api.subscription.error.already-active' : defaultErrorMessage;
+
+      return { status: HTTP_STATUS.CONFLICT, data: { message: matchError } };
+    }
+
+    return { status, data: { message } };
   }
 
-  const errorMessage = error instanceof Error ? error.message : defaultMessage;
-  return { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, data: { message: errorMessage } };
+  const errorMessage = error instanceof Error ? error.message : defaultErrorMessage;
+  return { status: defaultStatus, data: { message: errorMessage } };
 };
 
 export default async function handler(
@@ -38,9 +47,10 @@ export default async function handler(
       const id = req.query.id as string;
       await activateSubscription({ id, token: session.authorization.token });
 
-      res.status(200).json({ message: 'api.subscription.activate-success' });
+      res.status(HTTP_STATUS.OK).json({ message: 'api.subscription.activate-success' });
     } catch (error: unknown) {
       const { status, data } = handleError(error);
+
       res.status(status).json(data);
     }
   }

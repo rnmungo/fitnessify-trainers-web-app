@@ -159,7 +159,7 @@ const Navigation = ({
           </MuiBox>
           <MuiBox sx={{ flexGrow: 0 }}>
             {widget}
-            <MuiTooltip title={t('common.wordings.open-options')}>
+            <MuiTooltip title={t('common.wordings.see-options')}>
               <MuiIconButton
                 aria-label={t('common.wordings.user-menu')}
                 onClick={handleOpenUserMenu}

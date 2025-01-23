@@ -13,17 +13,21 @@ type HandleErrorResult = {
   data: HttpResponse;
 }
 
-const defaultMessage = 'api.common.error.unknown-error';
+const defaultErrorMessage = 'api.common.error.unknown-error';
+const defaultStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
 
 const handleError = (error: unknown): HandleErrorResult => {
-  const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
-  if (axiosError.response?.status === HTTP_STATUS.BAD_REQUEST) {
-    const errorMessage = axiosError.response?.data?.errorMessage || '';
-    return { status: HTTP_STATUS.BAD_REQUEST, data: { message: errorMessage } };
+  if (error instanceof AxiosError) {
+    const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
+
+    const message = axiosError.response?.data?.errorMessage || defaultErrorMessage;
+    const status = axiosError.response?.status || defaultStatus;
+
+    return { status, data: { message } };
   }
 
-  const errorMessage = error instanceof Error ? error.message : defaultMessage;
-  return { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, data: { message: errorMessage } };
+  const errorMessage = error instanceof Error ? error.message : defaultErrorMessage;
+  return { status: defaultStatus, data: { message: errorMessage } };
 };
 
 export default async function handler(
@@ -41,9 +45,10 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(200).json({ message: 'api.change-password.update-success' });
+      res.status(HTTP_STATUS.OK).json({ message: 'api.change-password.update-success' });
     } catch (error: unknown) {
       const { status, data } = handleError(error);
+
       res.status(status).json(data);
     }
   }

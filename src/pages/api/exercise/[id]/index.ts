@@ -1,10 +1,34 @@
+import { AxiosError } from 'axios';
 import { getIronSession } from 'iron-session';
+import { HTTP_STATUS } from '@/constants/http-status';
 import { deleteExercise, updateExercise } from '@/services/exercise/service';
 import { sessionOptions } from '@/utilities/session/options';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { HttpResponse } from '@/types/response';
 import type { Session } from '@/types/session';
+
+const defaultErrorMessage = 'api.common.error.unknown-error';
+const defaultStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
+
+type HandleErrorResult = {
+  status: number;
+  data: HttpResponse;
+}
+
+const handleError = (error: unknown): HandleErrorResult => {
+  if (error instanceof AxiosError) {
+    const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
+
+    const message = axiosError.response?.data?.errorMessage || defaultErrorMessage;
+    const status = axiosError.response?.status || defaultStatus;
+
+    return { status, data: { message } };
+  }
+
+  const errorMessage = error instanceof Error ? error.message : defaultErrorMessage;
+  return { status: defaultStatus, data: { message: errorMessage } };
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,12 +50,11 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(204).json({ message: 'api.exercise.update-success' });
+      res.status(HTTP_STATUS.NO_CONTENT).json({ message: 'api.exercise.update-success' });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
-      const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
+      const { status, data } = handleError(error);
 
-      res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
+      res.status(status).json(data);
     }
   }
 
@@ -45,12 +68,11 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(204).json({ message: 'api.exercise.delete-success' });
+      res.status(HTTP_STATUS.NO_CONTENT).json({ message: 'api.exercise.delete-success' });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
-      const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
+      const { status, data } = handleError(error);
 
-      res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
+      res.status(status).json(data);
     }
   }
 }
