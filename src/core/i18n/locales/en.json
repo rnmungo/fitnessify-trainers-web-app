@@ -1,0 +1,549 @@
+{
+  "api": {
+    "auth": {
+      "sign-in": {
+        "error": {
+          "not-authorized": "The username or password is incorrect"
+        }
+      }
+    },
+    "change-password": {
+      "update-success": "Password was updated successfully"
+    },
+    "common": {
+      "error": {
+        "internal-error": "An internal server error occurred",
+        "unknown-error": "An unknown error occurred"
+      }
+    },
+    "exercise": {
+      "create-success": "The exercise was successfully created",
+      "delete-success": "The exercise was successfully deleted",
+      "update-success": "The exercise was successfully updated"
+    },
+    "plan-routine": {
+      "create-success": "Routine added to plan successfully",
+      "delete-success": "Routine removed from plan successfully"
+    },
+    "routine": {
+      "activate-success": "The routine was successfully activated",
+      "create-success": "The routine was successfully created",
+      "deactivate-success": "The routine was successfully deactivate",
+      "delete-success": "The routine was successfully deleted",
+      "update-success": "The routine was successfully updated"
+    },
+    "subscription": {
+      "activate-success": "The subscription was successfully activated",
+      "canceled-success": "The subscription was successfully canceled",
+      "create-success": "The subscription was successfully created",
+      "error": {
+        "already-active": "You already have an active subscription",
+        "exists": "The subscription already exists"
+      },
+      "update-success": "The subscription was successfully updated"
+    },
+    "video": {
+      "delete-success": "The video was successfully deleted",
+      "error": {
+        "file-not-found": "No file found in the request",
+        "invalid-file-extension": "File type not allowed. Only mp4, webm and ogg type videos are allowed.",
+        "limit-exceeded": "The file is too large. The maximum size allowed is 50 MB."
+      },
+      "upload-success": "The video was successfully uploaded"
+    }
+  },
+  "change-password-page": {
+    "inputs": {
+      "confirm-password": "Confirm password",
+      "current-password": "Current password",
+      "new-password": "New password"
+    },
+    "actions": {
+      "change-password": "Change password"
+    },
+    "mutation": {
+      "loading": "Updating password",
+      "success": "Password was updated successfully"
+    },
+    "validations": {
+      "confirm-password-match": "Passwords match",
+      "confirm-password-no-match": "Passwords do not match",
+      "confirm-password-required": "Enter the password again",
+      "current-password-required": "Enter current password",
+      "new-password-required": "Enter the new password"
+    }
+  },
+  "common": {
+    "password-strength": {
+      "insecure-password": "Insecure password",
+      "password": "Password",
+      "recommendations": "Use at least 8 characters, including uppercase letters, lowercase letters, numbers, and special symbols.",
+      "secure-password": "Secure password",
+      "weak-password": "Weak password"
+    },
+    "table": {
+      "actions": "Actions",
+      "more-pages": "more than {{to}}",
+      "next-page": "Go to next page",
+      "pagination": "{{from}}-{{to}} of {{total}}",
+      "previous-page": "Go to previous page",
+      "rows-per-page": "Rows per page:"
+    },
+    "wordings": {
+      "action-cannot-undone": "This action cannot be undone.",
+      "activating": "Activating...",
+      "cancel": "Cancel",
+      "canceling": "Canceling...",
+      "close": "Close",
+      "confirm": "Confirm",
+      "deactivating": "Deactivating...",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "loading": "Loading...",
+      "navigation-menu": "Navigation menu",
+      "not-established": "Not established",
+      "retry": "Retry",
+      "error-occurred-retry-search": "An error occurred, please retry the search.",
+      "save": "Save",
+      "saving": "Saving...",
+      "see-options": "See options",
+      "there-are-no-elements": "There are no elements",
+      "unselected": "Unselected",
+      "user-menu": "User menu",
+      "wait": "Wait"
+    }
+  },
+  "dropzone": {
+    "caption": "{{selected}} from {{maxFiles}} selected files",
+    "list-selected-files": {
+      "remove": "Delete file {{fileName}}"
+    },
+    "validations": {
+      "accepted-types-size": "Allowed formats: {{types}}. Maximum size: {{maxSize}}.",
+      "quantity": "You can only upload up to {{maxFiles}} file(s).",
+      "size": "The file exceeds the maximum allowed size of {{maxSize}}."
+    }
+  },
+  "exercises-page": {
+    "actions": {
+      "add-video": "Add Video",
+      "remove": {
+        "mutation": {
+          "success": "The exercise has been successfully deleted."
+        },
+        "query": "Are you sure you want to eliminate exercise"
+      }
+    },
+    "fields": {
+      "description": "Description",
+      "name": "Name",
+      "muscle-groups": "Select muscle groups"
+    },
+    "mutation": {
+      "create-exercise": {
+        "success": "The exercise has been created correctly"
+      },
+      "loading": "Saving exercise",
+      "update-exercise": {
+        "success": "The exercise has been updated correctly"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No exercises found."
+      },
+      "error": {
+        "message": "There was an error loading the exercises. Please try retrying your search."
+      },
+      "name": "Exercises",
+      "tooltip": "New exercise"
+    },
+    "table-actions": {
+      "edit": "Edit",
+      "menu-title": "Options for {{name}}",
+      "remove": "Delete"
+    },
+    "table-columns": {
+      "description": "Description",
+      "name": "Name",
+      "muscle-groups": "Muscle groups"
+    },
+    "validations": {
+      "name-required": "The name of the exercise is required",
+      "muscle-groups-required": "You must select at least one muscle group",
+      "video-required": "You must select a video"
+    }
+  },
+  "home-page": {
+    "features": {
+      "exercises": {
+        "title": "Exercises",
+        "description": "Build your complete exercise library with high-quality video tutorials to guide your clients through each exercise."
+      },
+      "routines": {
+        "title": "Routines",
+        "description": "Create, customize and organize training programs for your clients, adapted to their level and objectives."
+      },
+      "subscriptions": {
+        "title": "Subscriptions",
+        "description": "Manage your clients' subscriptions to access the content you offer."
+      }
+    },
+    "presentation": {
+      "title": "Welcome to Fitnessify",
+      "sub-title": "Your comprehensive platform to manage training, exercises and more"
+    },
+    "user_manual": {
+      "explain": "Access the user manual for a complete guide on how to use the platform. You can download it to consult it at any time.",
+      "download": "Download Manual"
+    }
+  },
+  "login-page": {
+    "actions": {
+      "sign-in": "Sign in"
+    },
+    "inputs": {
+      "password": "Password",
+      "username": "User"
+    },
+    "mutation": {
+      "loading": "Signing in"
+    },
+    "validations": {
+      "password": "Enter password",
+      "username": "Enter username"
+    }
+  },
+  "main": {
+    "language": {
+      "english": "English",
+      "selector": "Language selector",
+      "spanish": "Spanish"
+    },
+    "meta": {
+      "description": "Routine and exercise management application"
+    },
+    "navigation": {
+      "change-password": "Change password",
+      "customers": "Customers",
+      "exercises": "Exercises",
+      "home": "Home",
+      "new-exercise": "New exercise",
+      "new-routine": "New routine",
+      "new-video": "New video",
+      "password-change": "Password change",
+      "plans": "Plans",
+      "routines": "Routines",
+      "sign-in": "Sign in",
+      "sign-out": "Sign out",
+      "signing-out": "Signing out",
+      "update-customer": "Update client",
+      "update-exercise": "Update exercise",
+      "update-plans": "Update plans",
+      "update-routine": "Update routine",
+      "videos": "Videos"
+    }
+  },
+  "muscle-groups": {
+    "multi-select": {
+      "empty-message": "There are no muscle groups",
+      "error-message": "Error when loading muscle groups."
+    }
+  },
+  "password-field": {
+    "icon-label": "Toggle password visibility"
+  },
+  "routines-page": {
+    "actions": {
+      "activate": {
+        "dialog-title": "Activate routine",
+        "mutation": {
+          "success": "The routine has been activated correctly."
+        },
+        "query": "Are you sure you want to activate the routine"
+      },
+      "add-plan": {
+        "mutation": {
+          "loading": "Adding routine to the plan",
+          "success": "The routine has been added to the plan successfully."
+        }
+      },
+      "create": {
+        "mutation": {
+          "success": "The routine has been created correctly."
+        }
+      },
+      "deactivate": {
+        "dialog-title": "Deactivate routine",
+        "mutation": {
+          "success": "The routine has been successfully deactivated."
+        },
+        "query": "Are you sure you want to deactivate the routine"
+      },
+      "loading": "Saving routine",
+      "remove": {
+        "mutation": {
+          "success": "The routine has been successfully deleted."
+        },
+        "query": "Are you sure you want to eliminate the routine"
+      },
+      "remove-plan": {
+        "mutation": {
+          "success": "The routine has been successfully removed from the plan."
+        },
+        "query": "Are you sure you want to remove the routine from the plan"
+      },
+      "update": {
+        "mutation": {
+          "success": "The routine has been updated successfully."
+        }
+      }
+    },
+    "plans-form": {
+      "fields": {
+        "plan": "Training plan"
+      },
+      "alert": {
+        "info": "No training plans have been selected. Choose a plan from the dropdown menu above."
+      }
+    },
+    "buttons": {
+      "add-exercise": "Add exercise",
+      "add-section": "Add section",
+      "remove-exercise": "Delete exercise",
+      "remove-section": "Delete section",
+      "save-routine": "Save routine"
+    },
+    "fields": {
+      "exercise": {
+        "empty": "No exercises found",
+        "error": "An error occurred while searching for the exercises, try again"
+      },
+      "routine": {
+        "duration": "Duration",
+        "enum-equipment": {
+          "all": "All",
+          "bands": "Bands",
+          "body-weight": "Body weight",
+          "dumbbells-and-kettlebells": "Dumbbells y kettlebells"
+        },
+        "enum-level": {
+          "advanced": "Advanced",
+          "beginner": "Beginner",
+          "intermediate": "Intermediate"
+        },
+        "enum-status": {
+          "draft": "Draft",
+          "deployed": "Deployed"
+        },
+        "equipment": "Equipment",
+        "exercise": "Exercise",
+        "level": "Level",
+        "name": "Routine name",
+        "pause": "Pause",
+        "repetitions": "Repetitions",
+        "rounds": "Rounds",
+        "section-name": "Section name"
+      }
+    },
+    "preview": {
+      "duration": "Duration:",
+      "equipment": "Equipment:",
+      "exercise": "Exercise {{number}}",
+      "level": "Level:",
+      "pause": "Pause:",
+      "rounds": "Rounds:",
+      "section": "Section {{number}}",
+      "table": {
+        "duration": "Duration",
+        "exercise": "Exercise",
+        "pause": "Pause",
+        "repetitions": "Repetitions"
+      },
+      "total-duration": "Total duration:",
+      "untitled-routine": "Untitled routine"
+    },
+    "queries": {
+      "exercises": {
+        "empty": "We couldn't load the list of exercises. Please try again.",
+        "loading": "Loading exercises"
+      }
+    },
+    "sections": {
+      "preview": "Preview",
+      "routine": "Routine"
+    },
+    "table": {
+      "empty": {
+        "message": "No routines were found."
+      },
+      "error": {
+        "message": "There was an error loading the routines. Please try retrying your search."
+      },
+      "name": "Routines",
+      "tooltip": "New routine"
+    },
+    "table-actions": {
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "edit-plans": "Edit plans",
+      "edit-routine": "Edit routine",
+      "menu-title": "Options for {{name}}",
+      "remove": "Delete"
+    },
+    "table-columns": {
+      "creation-date": "Creation date",
+      "equipment": "Equipment",
+      "name": "Name"
+    },
+    "validations": {
+      "routine-equipment": "You must select the routine equipment.",
+      "routine-exercise-name-required": "You must select the exercise in the section {{sectionNumber}} row {{exerciseNumber}}.",
+      "routine-exercise-reps-or-duration-required": "You must enter reps or a duration time in the {{sectionNumber}} row {{exerciseNumber}}.",
+      "routine-level": "You must select the routine level.",
+      "routine-name-required": "You must enter the name of the routine.",
+      "routine-section-duration-required": "You must enter the duration time of the section {{sectionNumber}}.",
+      "routine-section-name-required": "You must enter the section name {{sectionNumber}}.",
+      "routine-section-rounds-required": "You must enter the number of rounds for the section {{sectionNumber}}."
+    }
+  },
+  "subscriptions-page": {
+    "actions": {
+      "activate": {
+        "dialog-title": "Activate subscription",
+        "mutation": {
+          "success": "The subscription has been activated successfully."
+        },
+        "query": "Are you sure you want to activate the plan subscription"
+      },
+      "cancel": {
+        "dialog-title": "Cancel subscription",
+        "mutation": {
+          "success": "The subscription has been successfully canceled."
+        },
+        "query": "Are you sure you want to unsubscribe from the plan"
+      },
+      "create": {
+        "dialog-subtitle": "Select a plan for your subscription",
+        "dialog-title": "Add subscription",
+        "icon-retry": "Retry search",
+        "label-retry": "Try loading the plans again",
+        "mutation": {
+          "success": "The subscription has been created successfully."
+        }
+      },
+      "update": {
+        "dialog-subtitle": "Select a date to update the subscription expiration",
+        "dialog-title": "Increase expiration",
+        "expire-date-helper": "Enter the date in DD/MM/YYYY format",
+        "mutation": {
+          "success": "The subscription has been successfully updated."
+        }
+      }
+    },
+    "fields": {
+      "date": "Date",
+      "enum-status": {
+        "active": "Active",
+        "canceled": "Canceled",
+        "draft": "Draft",
+        "paused": "Paused"
+      },
+      "plan": "Plan"
+    },
+    "table": {
+      "empty": {
+        "message": "No subscriptions found."
+      },
+      "error": {
+        "message": "There was an error loading subscriptions. Please try retrying your search."
+      },
+      "name": "Subscriptions",
+      "tooltip": "New subscription"
+    },
+    "table-actions": {
+      "activate": "Activate",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "menu-title": "Options for {{planName}}"
+    },
+    "table-columns": {
+      "plan": "Plan",
+      "status": "Status",
+      "due-date": "Expiration date"
+    },
+    "validations": {
+      "date-after-expiration": "You must select a date after the expiration",
+      "date-required": "You must select a date",
+      "plan-required": "You must select a plan",
+      "user-required": "User not selected"
+    }
+  },
+  "users-page": {
+    "fields": {
+      "email": "Email"
+    },
+    "table": {
+      "empty": {
+        "message": "No clients found."
+      },
+      "error": {
+        "message": "There was an error loading clients. Please try retrying your search."
+      },
+      "name": "Customers"
+    },
+    "table-actions": {
+      "edit": "Edit",
+      "menu-title": "Options for {{name}} {{lastName}}"
+    },
+    "table-columns": {
+      "email": "Email",
+      "last-name": "Last name",
+      "name": "Name"
+    }
+  },
+  "videos-page": {
+    "actions": {
+      "remove": {
+        "mutation": {
+          "success": "The video has been successfully removed."
+        },
+        "query": "Are you sure you want to delete the video"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No videos found."
+      },
+      "error": {
+        "message": "There was an error loading the videos. Please try retrying your search."
+      },
+      "name": "Videos",
+      "tooltip": "New video"
+    },
+    "table-actions": {
+      "menu-title": "Options for {{title}}",
+      "remove": "Delete"
+    },
+    "table-columns": {
+      "name": "Name"
+    },
+    "gallery": {
+      "alert": {
+        "error": "There was an error loading the video gallery. Please try retrying your search."
+      },
+      "button": "Select video in gallery",
+      "dialog": {
+        "title": "Gallery"
+      }
+    },
+    "uploader": {
+      "mutation": {
+        "loading": "Uploading video",
+        "success": "The video has been uploaded successfully."
+      },
+      "button": "Upload",
+      "video-required": "You must select a video"
+    }
+  }
+}

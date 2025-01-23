@@ -1,0 +1,549 @@
+{
+  "api": {
+    "auth": {
+      "sign-in": {
+        "error": {
+          "not-authorized": "El usuario o contraseña son incorrectos"
+        }
+      }
+    },
+    "change-password": {
+      "update-success": "La contraseña fue actualizada correctamente"
+    },
+    "common": {
+      "error": {
+        "internal-error": "Se produjo un error interno del servidor",
+        "unknown-error": "Se produjo un error desconocido"
+      }
+    },
+    "exercise": {
+      "create-success": "El ejercicio fue creado correctamente",
+      "delete-success": "El ejercicio fue eliminado correctamente",
+      "update-success": "El ejercicio fue actualizado correctamente"
+    },
+    "plan-routine": {
+      "create-success": "Se agregó la rutina al plan correctamente",
+      "delete-success": "Se eliminó la rutina del plan correctamente"
+    },
+    "routine": {
+      "activate-success": "La rutina fue activada correctamente",
+      "create-success": "La rutina fue creada correctamente",
+      "deactivate-success": "La rutina fue desactivada correctamente",
+      "delete-success": "La rutina fue eliminada correctamente",
+      "update-success": "La rutina fue actualizada correctamente"
+    },
+    "subscription": {
+      "activate-success": "La suscripción fue activada correctamente",
+      "canceled-success": "La suscripción fue cancelada correctamente",
+      "create-success": "La suscripción fue creada correctamente",
+      "error": {
+        "already-active": "Ya tiene una suscripción activa",
+        "exists": "La subscripción ya existe"
+      },
+      "update-success": "La suscripción fue actualizada correctamente"
+    },
+    "video": {
+      "delete-success": "El video fue eliminado correctamente",
+      "error": {
+        "file-not-found": "No se encontró ningún archivo en la solicitud",
+        "invalid-file-extension": "Tipo de archivo no permitido. Solo se permiten videos del tipo mp4, webm y ogg.",
+        "limit-exceeded": "El archivo es demasiado grande. El tamaño máximo permitido es de 50 MB."
+      },
+      "upload-success": "El video fue subido correctamente"
+    }
+  },
+  "change-password-page": {
+    "inputs": {
+      "confirm-password": "Confirmar contraseña",
+      "current-password": "Contraseña actual",
+      "new-password": "Nueva contraseña"
+    },
+    "actions": {
+      "change-password": "Cambiar contraseña"
+    },
+    "mutation": {
+      "loading": "Actualizando contraseña",
+      "success": "La contraseña fue actualizada correctamente"
+    },
+    "validations": {
+      "confirm-password-match": "Las contraseñas coinciden",
+      "confirm-password-no-match": "Las contraseñas no coinciden",
+      "confirm-password-required": "Ingrese la contraseña nuevamente",
+      "current-password-required": "Ingrese la contraseña actual",
+      "new-password-required": "Ingrese la nueva contraseña"
+    }
+  },
+  "common": {
+    "password-strength": {
+      "insecure-password": "Contraseña insegura",
+      "password": "Contraseña",
+      "recommendations": "Usa al menos 8 caracteres, incluyendo letras mayúsculas, minúsculas, números y símbolos especiales.",
+      "secure-password": "Contraseña segura",
+      "weak-password": "Contraseña poco segura"
+    },
+    "table": {
+      "actions": "Acciones",
+      "more-pages": "más de {{to}}",
+      "next-page": "Ir a la página siguiente",
+      "pagination": "{{from}}-{{to}} de {{total}}",
+      "previous-page": "Ir a la página anterior",
+      "rows-per-page": "Filas por página:"
+    },
+    "wordings": {
+      "action-cannot-undone": "Esta acción no se puede deshacer.",
+      "activating": "Activando...",
+      "cancel": "Cancelar",
+      "canceling": "Cancelando...",
+      "close": "Cerrar",
+      "confirm": "Confirmar",
+      "deactivating": "Desactivando...",
+      "delete": "Eliminar",
+      "deleting": "Eliminando...",
+      "loading": "Cargando...",
+      "navigation-menu": "Menú de navegación",
+      "not-established": "No establecido",
+      "retry": "Reintentar",
+      "error-occurred-retry-search": "Ocurrió un error, reintente la búsqueda.",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "see-options": "Ver opciones",
+      "there-are-no-elements": "No hay elementos",
+      "unselected": "Sin seleccionar",
+      "user-menu": "Menú de usuario",
+      "wait": "Aguarde"
+    }
+  },
+  "dropzone": {
+    "caption": "{{selected}} de {{maxFiles}} archivos seleccionados",
+    "list-selected-files": {
+      "remove": "Eliminar archivo {{fileName}}"
+    },
+    "validations": {
+      "accepted-types-size": "Formatos permitidos: {{types}}. Tamaño máximo: {{maxSize}}.",
+      "quantity": "Solo puedes subir hasta {{maxFiles}} archivo(s).",
+      "size": "El archivo supera el tamaño máximo permitido de {{maxSize}}."
+    }
+  },
+  "exercises-page": {
+    "actions": {
+      "add-video": "Añadir Video",
+      "remove": {
+        "mutation": {
+          "success": "El ejercicio ha sido eliminado correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar el ejercicio"
+      }
+    },
+    "fields": {
+      "description": "Descripción",
+      "name": "Nombre",
+      "muscle-groups": "Selecciona grupos musculares"
+    },
+    "mutation": {
+      "create-exercise": {
+        "success": "El ejercicio ha sido creado correctamente"
+      },
+      "loading": "Guardando ejercicio",
+      "update-exercise": {
+        "success": "El ejercicio ha sido actualizado correctamente"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron ejercicios."
+      },
+      "error": {
+        "message": "Hubo un error al cargar los ejercicios. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Ejercicios",
+      "tooltip": "Nuevo ejercicio"
+    },
+    "table-actions": {
+      "edit": "Editar",
+      "menu-title": "Opciones para {{name}}",
+      "remove": "Eliminar"
+    },
+    "table-columns": {
+      "description": "Descripción",
+      "name": "Nombre",
+      "muscle-groups": "Grupos musculares"
+    },
+    "validations": {
+      "name-required": "El nombre del ejercicio es obligatorio",
+      "muscle-groups-required": "Debes seleccionar al menos un grupo muscular",
+      "video-required": "Debes seleccionar un video"
+    }
+  },
+  "home-page": {
+    "features": {
+      "exercises": {
+        "title": "Ejercicios",
+        "description": "Armá tu biblioteca completa de ejercicios con video tutoriales de alta calidad para guiar a tus clientes en cada ejercicio."
+      },
+      "routines": {
+        "title": "Rutinas",
+        "description": "Creá, personalizá y organizá programas de entrenamiento para tus clientes, adaptados a su nivel y objetivos."
+      },
+      "subscriptions": {
+        "title": "Suscripciones",
+        "description": "Gestioná las suscripciones de tus clientes para acceder al contenido que ofrecés."
+      }
+    },
+    "presentation": {
+      "title": "Bienvenido a Fitnessify",
+      "sub-title": "Tu plataforma integral para gestionar entrenamientos, ejercicios y más"
+    },
+    "user_manual": {
+      "explain": "Accedé al manual de usuario para obtener una guía completa sobre cómo utilizar la plataforma. Podés descargarlo para consultarlo en cualquier momento.",
+      "download": "Descargar Manual"
+    }
+  },
+  "login-page": {
+    "actions": {
+      "sign-in": "Iniciar Sesión"
+    },
+    "inputs": {
+      "password": "Contraseña",
+      "username": "Usuario"
+    },
+    "mutation": {
+      "loading": "Iniciando sesión"
+    },
+    "validations": {
+      "password": "Ingrese la contraseña",
+      "username": "Ingrese el nombre de usuario"
+    }
+  },
+  "main": {
+    "language": {
+      "english": "Inglés",
+      "selector": "Selector de idioma",
+      "spanish": "Español"
+    },
+    "meta": {
+      "description": "Aplicación de gestión de rutinas y ejercicios"
+    },
+    "navigation": {
+      "change-password": "Cambiar contraseña",
+      "customers": "Clientes",
+      "exercises": "Ejercicios",
+      "home": "Inicio",
+      "new-exercise": "Nuevo ejercicio",
+      "new-routine": "Nueva rutina",
+      "new-video": "Nuevo video",
+      "password-change": "Cambio de contraseña",
+      "plans": "Planes",
+      "routines": "Rutinas",
+      "sign-in": "Iniciar sesión",
+      "sign-out": "Cerrar sesión",
+      "signing-out": "Cerrando sesión",
+      "update-customer": "Actualizar cliente",
+      "update-exercise": "Actualizar ejercicio",
+      "update-plans": "Actualizar planes",
+      "update-routine": "Actualizar rutina",
+      "videos": "Videos"
+    }
+  },
+  "muscle-groups": {
+    "multi-select": {
+      "empty-message": "No hay grupos musculares",
+      "error-message": "Error al cargar grupos musculares."
+    }
+  },
+  "password-field": {
+    "icon-label": "Alternar visibilidad de contraseña"
+  },
+  "routines-page": {
+    "actions": {
+      "activate": {
+        "dialog-title": "Activar rutina",
+        "mutation": {
+          "success": "La rutina ha sido activada correctamente."
+        },
+        "query": "¿Estás seguro que deseas activar la rutina"
+      },
+      "add-plan": {
+        "mutation": {
+          "loading": "Agregando rutina al plan",
+          "success": "La rutina ha sido agregada al plan correctamente."
+        }
+      },
+      "create": {
+        "mutation": {
+          "success": "La rutina ha sido creada correctamente."
+        }
+      },
+      "deactivate": {
+        "dialog-title": "Desactivar rutina",
+        "mutation": {
+          "success": "La rutina ha sido desactivada correctamente."
+        },
+        "query": "¿Estás seguro que deseas desactivar la rutina"
+      },
+      "loading": "Guardando rutina",
+      "remove": {
+        "mutation": {
+          "success": "La rutina ha sido eliminada correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar la rutina"
+      },
+      "remove-plan": {
+        "mutation": {
+          "success": "La rutina ha sido eliminada del plan correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar la rutina del plan"
+      },
+      "update": {
+        "mutation": {
+          "success": "La rutina ha sido actualizada correctamente."
+        }
+      }
+    },
+    "plans-form": {
+      "fields": {
+        "plan": "Plan de entrenamiento"
+      },
+      "alert": {
+        "info": "No se han seleccionado planes de entrenamiento. Elija un plan del menú desplegable de arriba."
+      }
+    },
+    "buttons": {
+      "add-exercise": "Agregar ejercicio",
+      "add-section": "Agregar sección",
+      "remove-exercise": "Eliminar ejercicio",
+      "remove-section": "Eliminar sección",
+      "save-routine": "Guardar rutina"
+    },
+    "fields": {
+      "exercise": {
+        "empty": "No se encontraron ejercicios",
+        "error": "Ocurrió un error al buscar los ejercicios, intenta nuevamente"
+      },
+      "routine": {
+        "duration": "Duración",
+        "enum-equipment": {
+          "all": "Todos",
+          "bands": "Bandas",
+          "body-weight": "Peso corporal",
+          "dumbbells-and-kettlebells": "Dumbbells y kettlebells"
+        },
+        "enum-level": {
+          "advanced": "Avanzado",
+          "beginner": "Principiante",
+          "intermediate": "Intermedio"
+        },
+        "enum-status": {
+          "draft": "Borrador",
+          "deployed": "Desplegada"
+        },
+        "equipment": "Equipamiento",
+        "exercise": "Ejercicio",
+        "level": "Nivel",
+        "name": "Nombre de la rutina",
+        "pause": "Pausa",
+        "repetitions": "Repeticiones",
+        "rounds": "Rondas",
+        "section-name": "Nombre de la sección"
+      }
+    },
+    "preview": {
+      "duration": "Duración:",
+      "equipment": "Equipamiento:",
+      "exercise": "Ejercicio {{number}}",
+      "level": "Nivel:",
+      "pause": "Pausa:",
+      "rounds": "Rondas:",
+      "section": "Sección {{number}}",
+      "table": {
+        "duration": "Duración",
+        "exercise": "Ejercicio",
+        "pause": "Pausa",
+        "repetitions": "Repeticiones"
+      },
+      "total-duration": "Duración total:",
+      "untitled-routine": "Rutina sin título"
+    },
+    "queries": {
+      "exercises": {
+        "empty": "No pudimos cargar la lista de ejercicios. Vuelva a intentarlo nuevamente.",
+        "loading": "Cargando ejercicios"
+      }
+    },
+    "sections": {
+      "preview": "Previsualizar",
+      "routine": "Rutina"
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron rutinas."
+      },
+      "error": {
+        "message": "Hubo un error al cargar las rutinas. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Rutinas",
+      "tooltip": "Nueva rutina"
+    },
+    "table-actions": {
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "edit-plans": "Editar planes",
+      "edit-routine": "Editar rutina",
+      "menu-title": "Opciones para {{name}}",
+      "remove": "Eliminar"
+    },
+    "table-columns": {
+      "creation-date": "Fecha de creación",
+      "equipment": "Equipamiento",
+      "name": "Nombre"
+    },
+    "validations": {
+      "routine-equipment": "Debe seleccionar el equipamiento de la rutina.",
+      "routine-exercise-name-required": "Debe seleccionar el ejercicio en la sección {{sectionNumber}} fila {{exerciseNumber}}.",
+      "routine-exercise-reps-or-duration-required": "Debe ingresar las repeticiones o un tiempo de duración en la sección {{sectionNumber}} fila {{exerciseNumber}}.",
+      "routine-level": "Debe seleccionar el nivel de la rutina.",
+      "routine-name-required": "Debe ingresar el nombre de la rutina.",
+      "routine-section-duration-required": "Debe ingresar el tiempo de duración de la sección {{sectionNumber}}.",
+      "routine-section-name-required": "Debe ingresar el nombre de la sección {{sectionNumber}}.",
+      "routine-section-rounds-required": "Debe ingresar la cantidad de rondas de la sección {{sectionNumber}}."
+    }
+  },
+  "subscriptions-page": {
+    "actions": {
+      "activate": {
+        "dialog-title": "Activar suscripción",
+        "mutation": {
+          "success": "La suscripción ha sido activada correctamente."
+        },
+        "query": "¿Estás seguro que deseas activar la suscripción del plan"
+      },
+      "cancel": {
+        "dialog-title": "Cancelar suscripción",
+        "mutation": {
+          "success": "La suscripción ha sido cancelada correctamente."
+        },
+        "query": "¿Estás seguro que deseas cancelar la suscripción del plan"
+      },
+      "create": {
+        "dialog-subtitle": "Seleccione un plan para su suscripción",
+        "dialog-title": "Agregar suscripción",
+        "icon-retry": "Reintentar búsqueda",
+        "label-retry": "Intente cargar los planes nuevamente",
+        "mutation": {
+          "success": "La suscripción ha sido creada correctamente."
+        }
+      },
+      "update": {
+        "dialog-subtitle": "Seleccione una fecha para actualizar el vencimiento de la suscripción",
+        "dialog-title": "Incrementar vencimiento",
+        "expire-date-helper": "Ingresá la fecha en formato DD/MM/YYYY",
+        "mutation": {
+          "success": "La suscripción ha sido actualizada correctamente."
+        }
+      }
+    },
+    "fields": {
+      "date": "Fecha",
+      "enum-status": {
+        "active": "Activo",
+        "canceled": "Cancelado",
+        "draft": "Borrador",
+        "paused": "Pausado"
+      },
+      "plan": "Plan"
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron suscripciones."
+      },
+      "error": {
+        "message": "Hubo un error al cargar las suscripciones. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Suscripciones",
+      "tooltip": "Nueva suscripción"
+    },
+    "table-actions": {
+      "activate": "Activar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "menu-title": "Opciones para {{planName}}"
+    },
+    "table-columns": {
+      "plan": "Plan",
+      "status": "Estado",
+      "due-date": "Fecha de vencimiento"
+    },
+    "validations": {
+      "date-after-expiration": "Debe seleccionar una fecha posterior al vencimiento",
+      "date-required": "Debe seleccionar una fecha",
+      "plan-required": "Debe seleccionar un plan",
+      "user-required": "No se seleccionó el usuario"
+    }
+  },
+  "users-page": {
+    "fields": {
+      "email": "Email"
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron clientes."
+      },
+      "error": {
+        "message": "Hubo un error al cargar los clientes. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Clientes"
+    },
+    "table-actions": {
+      "edit": "Editar",
+      "menu-title": "Opciones para {{name}} {{lastName}}"
+    },
+    "table-columns": {
+      "email": "Email",
+      "last-name": "Apellido",
+      "name": "Nombre"
+    }
+  },
+  "videos-page": {
+    "actions": {
+      "remove": {
+        "mutation": {
+          "success": "El video ha sido eliminado correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar el video"
+      }
+    },
+    "table": {
+      "empty": {
+        "message": "No se encontraron videos."
+      },
+      "error": {
+        "message": "Hubo un error al cargar los videos. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "name": "Videos",
+      "tooltip": "Nuevo video"
+    },
+    "table-actions": {
+      "menu-title": "Opciones para {{title}}",
+      "remove": "Eliminar"
+    },
+    "table-columns": {
+      "name": "Nombre"
+    },
+    "gallery": {
+      "alert": {
+        "error": "Hubo un error al cargar la galería de videos. Por favor, pruebe con reintentar la búsqueda."
+      },
+      "button": "Seleccionar video en galería",
+      "dialog": {
+        "title": "Galería"
+      }
+    },
+    "uploader": {
+      "mutation": {
+        "loading": "Subiendo video",
+        "success": "El video ha sido subido correctamente."
+      },
+      "button": "Subir",
+      "video-required": "Debe seleccionar un video"
+    }
+  }
+}
