@@ -23,12 +23,12 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
   const translate = (text: string, data?: any) => {
     const translated = i18n.t(text, data);
+
     return translated || text;
   };
 
   const changeLanguage = (lang: string) => {
-    let translations = {};
-    if (lang === ES_LANGUAGE) translations = es;
+    let translations = es;
     if (lang === EN_LANGUAGE) translations = en;
 
     setLanguage(lang, translations);

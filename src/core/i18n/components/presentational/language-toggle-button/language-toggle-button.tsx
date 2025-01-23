@@ -10,7 +10,9 @@ const LanguageToggleButton = () => {
     _: React.MouseEvent<HTMLElement>,
     value: string,
   ) => {
-    changeLanguage(value);
+    if (value && value !== locale) {
+      changeLanguage(value);
+    }
   };
 
   return (

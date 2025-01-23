@@ -417,7 +417,6 @@
         "query": "Are you sure you want to activate the plan subscription"
       },
       "cancel": {
-        "dialog-subtitle": "Select a plan for your subscription",
         "dialog-title": "Cancel subscription",
         "mutation": {
           "success": "The subscription has been successfully canceled."
@@ -425,6 +424,7 @@
         "query": "Are you sure you want to unsubscribe from the plan"
       },
       "create": {
+        "dialog-subtitle": "Select a plan for your subscription",
         "dialog-title": "Add subscription",
         "icon-retry": "Retry search",
         "label-retry": "Try loading the plans again",

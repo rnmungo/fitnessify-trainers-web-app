@@ -37,12 +37,12 @@ const PreviewRoutine = ({ exerciseOptions, routine, sections }: PreviewRoutinePr
         </MuiTypography>
         <MuiTypography variant="body1" gutterBottom>
           <strong>{t('routines-page.preview.level')}</strong> {routine.level
-            ? LEVEL_TRANSLATION[routine.level as RoutineLevel]
+            ? t(LEVEL_TRANSLATION[routine.level as RoutineLevel])
             : t('common.wordings.not-established')}
         </MuiTypography>
         <MuiTypography variant="body1" gutterBottom>
           <strong>{t('routines-page.preview.equipment')}</strong> {routine.equipment
-            ? EQUIPMENT_TRANSLATION[routine.equipment as RoutineEquipment]
+            ? t(EQUIPMENT_TRANSLATION[routine.equipment as RoutineEquipment])
             : t('common.wordings.not-established')}
         </MuiTypography>
       </MuiBox>

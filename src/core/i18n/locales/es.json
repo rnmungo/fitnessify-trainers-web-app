@@ -417,7 +417,6 @@
         "query": "¿Estás seguro que deseas activar la suscripción del plan"
       },
       "cancel": {
-        "dialog-subtitle": "Seleccione un plan para su suscripción",
         "dialog-title": "Cancelar suscripción",
         "mutation": {
           "success": "La suscripción ha sido cancelada correctamente."
@@ -425,6 +424,7 @@
         "query": "¿Estás seguro que deseas cancelar la suscripción del plan"
       },
       "create": {
+        "dialog-subtitle": "Seleccione un plan para su suscripción",
         "dialog-title": "Agregar suscripción",
         "icon-retry": "Reintentar búsqueda",
         "label-retry": "Intente cargar los planes nuevamente",

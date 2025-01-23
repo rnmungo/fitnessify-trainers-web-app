@@ -406,7 +406,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                         onChange={(e) => setRoutineState((prevState) => ({ ...prevState, level: e.target.value }))}
                       >
                         {Object.entries(LEVEL_TRANSLATION).map(([key, value]) => (
-                          <MuiMenuItem key={key} value={key}>{value}</MuiMenuItem>
+                          <MuiMenuItem key={key} value={key}>{t(value)}</MuiMenuItem>
                         ))}
                       </MuiSelect>
                     </MuiFormControl>
@@ -420,7 +420,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                         onChange={(e) => setRoutineState((prevState) => ({ ...prevState, equipment: e.target.value }))}
                       >
                         {Object.entries(EQUIPMENT_TRANSLATION).map(([key, value]) => (
-                          <MuiMenuItem key={key} value={key}>{value}</MuiMenuItem>
+                          <MuiMenuItem key={key} value={key}>{t(value)}</MuiMenuItem>
                         ))}
                       </MuiSelect>
                     </MuiFormControl>
