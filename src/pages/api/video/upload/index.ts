@@ -1,6 +1,6 @@
 import { getIronSession } from 'iron-session';
 import multer from 'multer';
-import { VIDEO_FILE_EXTENSIONS } from '@/constants/file-extensions';
+import { VIDEO_FILE_EXTENSIONS, VIDEO_FILE_MAX_SIZE } from '@/constants/file-extensions';
 import { uploadVideo } from '@/services/video/service';
 import { sessionOptions } from '@/utilities/session/options';
 
@@ -15,7 +15,7 @@ interface MulterNextApiRequest extends NextApiRequest {
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50 Mb
+  limits: { fileSize: VIDEO_FILE_MAX_SIZE },
   fileFilter: (req, file, cb) => {
     if (!VIDEO_FILE_EXTENSIONS.includes(file.mimetype)) {
       return cb(new Error('Tipo de archivo no permitido. Solo se permiten videos del tipo mp4, webm y ogg.'));
@@ -69,6 +69,13 @@ export default async function handler(req: MulterNextApiRequest, res: NextApiRes
         res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
       }
     } catch (error: any) {
+      if (error.code === 'LIMIT_FILE_SIZE') {
+        res.status(400).json({
+          message: 'api.video.upload.error.limit-exceeded',
+        });
+        return;
+      }
+
       res.status(500).json({ message: error.message || 'An internal server error occurred' });
     }
   }

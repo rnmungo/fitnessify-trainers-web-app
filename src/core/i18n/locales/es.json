@@ -1,4 +1,13 @@
 {
+  "api": {
+    "video": {
+      "upload": {
+        "error": {
+          "limit-exceeded": "El archivo es demasiado grande. El tamaño máximo permitido es de 50 MB."
+        }
+      }
+    }
+  },
   "change-password-page": {
     "inputs": {
       "confirm-password": "Confirmar contraseña",
@@ -64,8 +73,9 @@
       "remove": "Eliminar archivo {{fileName}}"
     },
     "validations": {
-      "accepted-types": "Solo acepta archivos {{types}}",
-      "quantity": "Solo puedes subir hasta {{maxFiles}} archivo(s)."
+      "accepted-types-size": "Formatos permitidos: {{types}}. Tamaño máximo: {{maxSize}}.",
+      "quantity": "Solo puedes subir hasta {{maxFiles}} archivo(s).",
+      "size": "El archivo supera el tamaño máximo permitido de {{maxSize}}."
     }
   },
   "exercises-page": {

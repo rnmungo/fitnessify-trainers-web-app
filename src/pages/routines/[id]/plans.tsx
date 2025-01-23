@@ -47,7 +47,7 @@ const RoutinePlansPage: NextPage<RoutinePlansPageProps> = ({ id, routine, routin
             {t('main.navigation.home')}
           </LinkNoSsr>
           <LinkNoSsr underline="hover" color="inherit" href="/routines">
-            {t('main.navigation.home')}
+            {t('main.navigation.routines')}
           </LinkNoSsr>
           <LinkNoSsr underline="hover" color="inherit" href={`/routines/${routine?.id}`}>
             {routine?.name}

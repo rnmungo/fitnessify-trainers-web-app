@@ -36,6 +36,7 @@ const StyledInput = styled('input')(() => ({
 
 type DropzoneProps = {
   maxFiles?: number;
+  maxFileSize?: number;
   acceptedFileTypes?: string[];
   onError?: (message: string) => void;
   onSelect?: (files: File[]) => void;
@@ -44,6 +45,7 @@ type DropzoneProps = {
 
 const Dropzone = ({
   maxFiles = 1,
+  maxFileSize = 0,
   acceptedFileTypes = [],
   onError = () => {},
   onSelect = () => {},
@@ -79,13 +81,18 @@ const Dropzone = ({
         return;
       }
 
+      if (filteredFiles.some(file => file.size > (maxFileSize ?? Infinity))) {
+        onError(t('dropzone.validations.size', { maxSize: `${maxFileSize / (1024 * 1024)} MB` }));
+        return;
+      }
+
       setSelectedFilesState(filteredFiles);
       onSelect(filteredFiles);
     },
-    [maxFiles, acceptedFileTypes, onSelect, onError, t]
+    [maxFiles, onSelect, acceptedFileTypes, onError, t, maxFileSize]
   );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
 
@@ -98,14 +105,19 @@ const Dropzone = ({
       return;
     }
 
+    if (filteredFiles.some(file => file.size > (maxFileSize ?? Infinity))) {
+      onError(t('dropzone.validations.size', { maxSize: `${maxFileSize / (1024 * 1024)} MB` }));
+      return;
+    }
+
     setSelectedFilesState(filteredFiles);
     onSelect(filteredFiles);
     resetInputReference();
-  };
+  }, [acceptedFileTypes, maxFileSize, maxFiles, onError, onSelect, t]);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     fileInputRef.current?.click();
-  };
+  }, []);
 
   const handleRemoveFile = (indexToRemove: number) => {
     const newFiles = selectedFilesState.filter((_, index) => index !== indexToRemove);
@@ -150,7 +162,10 @@ const Dropzone = ({
           <StyledCloudUploadIcon />
           {acceptedFileTypes.length > 0 && (
             <MuiTypography variant="body2" color="textSecondary">
-              {t('dropzone.validations.accepted-types', { types: acceptedFileTypes.join(', ') })}
+              {t('dropzone.validations.accepted-types-size', {
+                types: acceptedFileTypes.join(', '),
+                maxSize: `${maxFileSize / (1024 * 1024)} MB`
+                })}
             </MuiTypography>
           )}
         </MuiStack>

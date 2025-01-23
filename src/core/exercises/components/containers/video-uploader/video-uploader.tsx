@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import MuiButton from '@mui/material/Button';
 import MuiStack from '@mui/material/Stack';
-import { VIDEO_FILE_EXTENSIONS } from '@/constants/file-extensions';
+import { VIDEO_FILE_EXTENSIONS, VIDEO_FILE_MAX_SIZE } from '@/constants/file-extensions';
 import Dropzone from '@/core/components/presentational/dropzone';
 import Spinner from '@/core/components/presentational/spinner';
 import { useSnackbar } from '@/core/context/snackbar';
@@ -41,7 +41,8 @@ const VideoUploader = () => {
 
     if (uploadVideo.status === 'error') {
       const error = uploadVideo.error as AxiosError;
-      snackbar.error((error.response?.data as { message?: string })?.message || error.message);
+      const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+      snackbar.error(t(errorMessage));
       uploadVideo.reset();
     }
   }, [uploadVideo, snackbar, t]);
@@ -59,6 +60,7 @@ const VideoUploader = () => {
         </MuiButton>
         <Dropzone
           maxFiles={1}
+          maxFileSize={VIDEO_FILE_MAX_SIZE}
           acceptedFileTypes={VIDEO_FILE_EXTENSIONS}
           onError={handleError}
           onSelect={handleSelectFile}
