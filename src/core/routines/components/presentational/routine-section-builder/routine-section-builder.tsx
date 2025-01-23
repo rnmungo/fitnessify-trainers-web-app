@@ -14,6 +14,7 @@ import {
 import MuiAddIcon from '@mui/icons-material/Add';
 import MuiDeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
+import { useTranslation } from '@/core/i18n/context';
 import { TimeMaskTextField } from '@/core/components/presentational/textfield';
 import { SortableListItem } from '@/core/components/presentational/list';
 import type { AutocompleteExerciseProps, ExerciseBuilder, SectionBuilder } from '../../../types';
@@ -48,6 +49,7 @@ const RoutineSectionBuilder = ({
   onRemoveSection,
   onRemoveExercise,
 }: RoutineSectionBuilderProps) => {
+  const { t } = useTranslation();
 
   return (
     <MuiStyledBadge
@@ -65,7 +67,7 @@ const RoutineSectionBuilder = ({
             <MuiGrid size={{ xs: 12, lg: 6, xl: 9 }}>
               <MuiTextField
                 fullWidth
-                label="Nombre de la sección"
+                label={t('routines-page.fields.routine.section-name')}
                 value={section.name}
                 onChange={(e) => onUpdateSection(sectionIndex, 'name', e.target.value)}
               />
@@ -74,21 +76,21 @@ const RoutineSectionBuilder = ({
               <MuiTextField
                 fullWidth
                 type="number"
-                label="Rondas"
+                label={t('routines-page.fields.routine.rounds')}
                 value={section.rounds}
                 onChange={(e) => onUpdateSection(sectionIndex, 'rounds', parseInt(e.target.value))}
               />
             </MuiGrid>
             <MuiGrid size={{ xs: 12, sm: 4, md: 3, lg: 2, xl: 1 }}>
               <TimeMaskTextField
-                label="Duración"
+                label={t('routines-page.fields.routine.duration')}
                 value={section.duration}
                 onChange={(e) => onUpdateSection(sectionIndex, 'duration', e.target.value)}
               />
             </MuiGrid>
             <MuiGrid size={{ xs: 12, sm: 4, md: 3, lg: 2, xl: 1 }}>
               <TimeMaskTextField
-                label="Pausa"
+                label={t('routines-page.fields.routine.pause')}
                 value={section.pauseTime}
                 onChange={(e) => onUpdateSection(sectionIndex, 'pauseTime', e.target.value)}
               />
@@ -113,7 +115,7 @@ const RoutineSectionBuilder = ({
                       renderInput={(params) => (
                         <MuiTextField
                           {...params}
-                          label="Ejercicio"
+                          label={t('routines-page.fields.routine.exercise')}
                           fullWidth
                           helperText={autocompleteExercises.helper} error={autocompleteExercises.error}
                         />
@@ -124,27 +126,28 @@ const RoutineSectionBuilder = ({
                     <MuiTextField
                       fullWidth
                       type="number"
-                      label="Repeticiones"
+                      label={t('routines-page.fields.routine.repetitions')}
                       value={exercise.reps}
                       onChange={(e) => onUpdateExercise(sectionIndex, exerciseIndex, 'reps', parseInt(e.target.value))}
                     />
                   </MuiGrid>
                   <MuiGrid size={{ xs: 12, sm: 4, md: 2 }}>
                     <TimeMaskTextField
-                      label="Duración"
+                      label={t('routines-page.fields.routine.duration')}
                       value={exercise.duration}
                       onChange={(e) => onUpdateExercise(sectionIndex, exerciseIndex, 'duration', e.target.value)}
                     />
                   </MuiGrid>
                   <MuiGrid size={{ xs: 12, sm: 4, md: 2 }}>
                     <TimeMaskTextField
-                      label="Pausa"
+                      label={t('routines-page.fields.routine.pause')}
                       value={exercise.pauseTime}
                       onChange={(e) => onUpdateExercise(sectionIndex, exerciseIndex, 'pauseTime', e.target.value)}
                     />
                   </MuiGrid>
                   <MuiGrid>
                     <MuiIconButton
+                      aria-label={t('routines-page.buttons.remove-exercise')}
                       color="error"
                       onClick={() => onRemoveExercise(sectionIndex, exerciseIndex)}
                     >
@@ -157,20 +160,22 @@ const RoutineSectionBuilder = ({
           </MuiBox>
           <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
             <MuiButton
+              aria-label={t('routines-page.buttons.add-exercise')}
               startIcon={<MuiAddIcon />}
               onClick={() => onAddExercise(sectionIndex)}
               variant="outlined"
               color="primary"
             >
-              Agregar ejercicio
+              {t('routines-page.buttons.add-exercise')}
             </MuiButton>
             <MuiButton
+              aria-label={t('routines-page.buttons.remove-section')}
               startIcon={<MuiDeleteIcon />}
               onClick={() => onRemoveSection(sectionIndex)}
               variant="text"
               color="error"
             >
-              Eliminar sección
+              {t('routines-page.buttons.remove-section')}
             </MuiButton>
           </MuiBox>
         </MuiCardContent>

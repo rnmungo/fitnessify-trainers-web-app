@@ -10,6 +10,7 @@ import MuiTableContainer from '@mui/material/TableContainer';
 import MuiTableHead from '@mui/material/TableHead';
 import MuiTableRow from '@mui/material/TableRow';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useTranslation } from '@/core/i18n/context';
 import { EQUIPMENT_TRANSLATION, LEVEL_TRANSLATION } from '../../../constants/routine';
 
 import type { AutocompleteOption } from '@/types/material-ui';
@@ -22,72 +23,75 @@ interface PreviewRoutineProps {
   exerciseOptions: Array<AutocompleteOption>;
 }
 
-const PreviewRoutine = ({ exerciseOptions, routine, sections }: PreviewRoutineProps) => (
-  <MuiBox>
-    <MuiTypography variant="h5" gutterBottom>
-      {routine.name || 'Rutina sin título'}
-    </MuiTypography>
-    <MuiBox sx={{ mb: 2 }}>
-      <MuiTypography variant="body1" gutterBottom>
-        <strong>Duración total:</strong> {routine.duration || 'No establecido'}
-      </MuiTypography>
-      <MuiTypography variant="body1" gutterBottom>
-        <strong>Nivel:</strong> {routine.level
-          ? LEVEL_TRANSLATION[routine.level as RoutineLevel]
-          : 'No especificado'}
-      </MuiTypography>
-      <MuiTypography variant="body1" gutterBottom>
-        <strong>Equipamiento:</strong> {routine.equipment
-          ? EQUIPMENT_TRANSLATION[routine.equipment as RoutineEquipment]
-          : 'No especificado'
-        }
-      </MuiTypography>
-    </MuiBox>
-    {sections.map((section, index) => (
-      <MuiAccordion key={section.id} sx={{ mb: 2 }}>
-        <MuiAccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`section-${index}-content`} id={`section-${index}-header`}>
-          <MuiTypography variant="h6">{section.name || `Sección ${index + 1}`}</MuiTypography>
-        </MuiAccordionSummary>
-        <MuiAccordionDetails>
-          <MuiTypography variant="body2" gutterBottom>
-            <strong>Rondas:</strong> {section.rounds}
-          </MuiTypography>
-          <MuiTypography variant="body2" gutterBottom>
-            <strong>Duración:</strong> {section.duration || 'No establecido'}
-          </MuiTypography>
-          <MuiTypography variant="body2" gutterBottom>
-            <strong>Pausa:</strong> {section.pauseTime || 'No establecido'}
-          </MuiTypography>
+const PreviewRoutine = ({ exerciseOptions, routine, sections }: PreviewRoutineProps) => {
+  const { t } = useTranslation();
 
-          <MuiTableContainer sx={{ mt: 2 }}>
-            <MuiTable size="small">
-              <MuiTableHead>
-                <MuiTableRow>
-                  <MuiTableCell>Ejercicio</MuiTableCell>
-                  <MuiTableCell align="center">Repeticiones</MuiTableCell>
-                  <MuiTableCell align="center">Duración</MuiTableCell>
-                  <MuiTableCell align="center">Pausa</MuiTableCell>
-                </MuiTableRow>
-              </MuiTableHead>
-              <MuiTableBody>
-                {section.exercises.map((exercise, exerciseIndex) => (
-                  <MuiTableRow key={exercise.id}>
-                    <MuiTableCell>
-                      {exerciseOptions && exerciseOptions.find(option => option.id === exercise.exerciseId)?.label
-                        || `Ejercicio ${exerciseIndex + 1}`}
-                    </MuiTableCell>
-                    <MuiTableCell align="center">{exercise.reps}</MuiTableCell>
-                    <MuiTableCell align="center">{exercise.duration || 'No establecido'}</MuiTableCell>
-                    <MuiTableCell align="center">{exercise.pauseTime || 'No establecido'}</MuiTableCell>
+  return (
+    <MuiBox>
+      <MuiTypography variant="h5" gutterBottom>
+        {routine.name || t('routines-page.preview.untitled-routine')}
+      </MuiTypography>
+      <MuiBox sx={{ mb: 2 }}>
+        <MuiTypography variant="body1" gutterBottom>
+          <strong>{t('routines-page.preview.total-duration')}</strong> {routine.duration || t('common.wordings.not-established')}
+        </MuiTypography>
+        <MuiTypography variant="body1" gutterBottom>
+          <strong>{t('routines-page.preview.level')}</strong> {routine.level
+            ? LEVEL_TRANSLATION[routine.level as RoutineLevel]
+            : t('common.wordings.not-established')}
+        </MuiTypography>
+        <MuiTypography variant="body1" gutterBottom>
+          <strong>{t('routines-page.preview.equipment')}</strong> {routine.equipment
+            ? EQUIPMENT_TRANSLATION[routine.equipment as RoutineEquipment]
+            : t('common.wordings.not-established')}
+        </MuiTypography>
+      </MuiBox>
+      {sections.map((section, index) => (
+        <MuiAccordion key={section.id} sx={{ mb: 2 }}>
+          <MuiAccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`section-${index}-content`} id={`section-${index}-header`}>
+            <MuiTypography variant="h6">{section.name || t('routines-page.preview.section', { number: index + 1 })}</MuiTypography>
+          </MuiAccordionSummary>
+          <MuiAccordionDetails>
+            <MuiTypography variant="body2" gutterBottom>
+              <strong>{t('routines-page.preview.rounds')}</strong> {section.rounds}
+            </MuiTypography>
+            <MuiTypography variant="body2" gutterBottom>
+              <strong>{t('routines-page.preview.duration')}</strong> {section.duration || t('common.wordings.not-established')}
+            </MuiTypography>
+            <MuiTypography variant="body2" gutterBottom>
+              <strong>{t('routines-page.preview.pause')}</strong> {section.pauseTime || t('common.wordings.not-established')}
+            </MuiTypography>
+
+            <MuiTableContainer sx={{ mt: 2 }}>
+              <MuiTable size="small">
+                <MuiTableHead>
+                  <MuiTableRow>
+                    <MuiTableCell>{t('routines-page.preview.table.exercise')}</MuiTableCell>
+                    <MuiTableCell align="center">{t('routines-page.preview.table.repetitions')}</MuiTableCell>
+                    <MuiTableCell align="center">{t('routines-page.preview.table.duration')}</MuiTableCell>
+                    <MuiTableCell align="center">{t('routines-page.preview.table.pause')}</MuiTableCell>
                   </MuiTableRow>
-                ))}
-              </MuiTableBody>
-            </MuiTable>
-          </MuiTableContainer>
-        </MuiAccordionDetails>
-      </MuiAccordion>
-    ))}
-  </MuiBox>
-);
+                </MuiTableHead>
+                <MuiTableBody>
+                  {section.exercises.map((exercise, exerciseIndex) => (
+                    <MuiTableRow key={exercise.id}>
+                      <MuiTableCell>
+                        {exerciseOptions && exerciseOptions.find(option => option.id === exercise.exerciseId)?.label
+                          || t('routines-page.preview.exercise', { number: exerciseIndex + 1 })}
+                      </MuiTableCell>
+                      <MuiTableCell align="center">{exercise.reps}</MuiTableCell>
+                      <MuiTableCell align="center">{exercise.duration || t('common.wordings.not-established')}</MuiTableCell>
+                      <MuiTableCell align="center">{exercise.pauseTime || t('common.wordings.not-established')}</MuiTableCell>
+                    </MuiTableRow>
+                  ))}
+                </MuiTableBody>
+              </MuiTable>
+            </MuiTableContainer>
+          </MuiAccordionDetails>
+        </MuiAccordion>
+      ))}
+    </MuiBox>
+  );
+};
 
 export default PreviewRoutine;

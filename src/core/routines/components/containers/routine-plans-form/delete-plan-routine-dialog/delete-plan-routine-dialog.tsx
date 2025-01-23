@@ -7,6 +7,7 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiDialogContent from '@mui/material/DialogContent';
 import MuiDialogContentText from '@mui/material/DialogContentText';
 import MuiDialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useMutationDeletePlanRoutine from '../../../../hooks/useMutationDeletePlanRoutine';
 
@@ -27,12 +28,13 @@ const DeletePlanRoutineDialog = ({
   plan = null,
   onPlanRoutineDeleted,
 }: DeletePlanRoutineDialogProps) => {
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const deletePlanRoutine = useMutationDeletePlanRoutine();
 
   useEffect(() => {
     if (deletePlanRoutine.status === 'success') {
-      snackbar.success('La rutina ha sido eliminada del plan correctamente.');
+      snackbar.success(t('routines-page.actions.remove.mutation.success'));
       deletePlanRoutine.reset();
 
       if (onPlanRoutineDeleted && plan) {
@@ -46,7 +48,7 @@ const DeletePlanRoutineDialog = ({
       snackbar.error((error.response?.data as { message?: string })?.message || error.message);
       deletePlanRoutine.reset();
     }
-  }, [deletePlanRoutine, snackbar, onPlanRoutineDeleted, onClose, plan]);
+  }, [deletePlanRoutine, snackbar, onPlanRoutineDeleted, onClose, plan, t]);
 
   const handleDelete = useCallback(() => {
     if (plan) {
@@ -64,25 +66,30 @@ const DeletePlanRoutineDialog = ({
       aria-describedby="delete-plan-routine-dialog-description"
     >
       <MuiDialogTitle id="delete-plan-routine-dialog-title">
-        Aguarde
+        {t('common.wordings.wait')}
       </MuiDialogTitle>
       <MuiDialogContent>
         <MuiDialogContentText id="delete-plan-routine-dialog-description">
-          ¿Estás seguro que deseas eliminar la rutina del plan <strong>{plan?.name}</strong>? Esta acción no se puede deshacer.
+          {t('routines-page.actions.remove.query')} <strong>{plan?.name}</strong>? {t('common.wordings.action-cannot-undone')}
         </MuiDialogContentText>
       </MuiDialogContent>
       <MuiDialogActions>
-        <MuiButton onClick={onClose} color="inherit" disabled={isPending}>
-          Cancelar
+        <MuiButton
+          aria-label={t('common.wordings.cancel')}
+          onClick={onClose}
+          color="inherit"
+          disabled={isPending}
+        >
+          {t('common.wordings.cancel')}
         </MuiButton>
         <MuiLoadingButton
           color="error"
           loading={isPending}
-          loadingIndicator="Eliminando..."
+          loadingIndicator={t('common.wordings.deleting')}
           variant="contained"
           onClick={handleDelete}
         >
-          Eliminar
+          {t('common.wordings.delete')}
         </MuiLoadingButton>
       </MuiDialogActions>
     </MuiDialog>

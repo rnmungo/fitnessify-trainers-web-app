@@ -30,6 +30,7 @@ import {
 import { SortableListSection } from '@/core/components/presentational/list';
 import { TimeMaskTextField } from '@/core/components/presentational/textfield';
 import Spinner from '@/core/components/presentational/spinner';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import useQueryExercises from '@/core/exercises/hooks/useQueryExercises';
 import useMutationCreateRoutine from '../../../hooks/useMutationCreateRoutine';
@@ -75,6 +76,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
   const [activeTabState, setActiveTabState] = useState<number>(0);
   const [routineState, setRoutineState] = useState<RoutineBuilder>(defaultRoutine || initialRoutineState);
   const [sectionsState, setSectionsState] = useState<Array<SectionBuilder>>(defaultSections || initialSectionsState);
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
 
   const sensors = useSensors(
@@ -93,7 +95,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
       const props = {
         options: exerciseItems,
         disabled: exerciseItems.length === 0,
-        helper: exerciseItems.length === 0 ? 'No se encontraron ejercicios' : ''
+        helper: exerciseItems.length === 0 ? t('routines-page.fields.exercise.empty') : ''
       };
 
       return props;
@@ -103,7 +105,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
       const props = {
         options: [],
         disabled: false,
-        helper: 'Ocurrió un error al buscar los ejercicios, intenta nuevamente',
+        helper: t('routines-page.fields.exercise.error'),
         error: true,
       };
 
@@ -111,7 +113,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
     }
 
     return { disabled: true, options: [], error: false };
-  }, [data, status]);
+  }, [data, status, t]);
 
   const handleTabChange = (_: SyntheticEvent, newValue: number) => {
     setActiveTabState(newValue);
@@ -249,45 +251,45 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
 
   const handleSaveRoutine = () => {
     if (!routineState.name.trim()) {
-      snackbar.caution('Debe ingresar el nombre de la rutina.');
+      snackbar.caution(t('routines-page.validations.routine-name-required'));
       return;
     }
 
     if (!routineState.equipment) {
-      snackbar.caution('Debe seleccionar el equipamiento de la rutina.');
+      snackbar.caution(t('routines-page.validations.routine-equipment-required'));
       return;
     }
 
     if (!routineState.level) {
-      snackbar.caution('Debe seleccionar el nivel de la rutina.');
+      snackbar.caution(t('routines-page.validations.routine-level-required'));
       return;
     }
 
     for (const [sectionIndex, section] of sectionsState.entries()) {
       if (!section.name.trim()) {
-        snackbar.caution(`Debe ingresar el nombre de la sección ${sectionIndex + 1}`);
+        snackbar.caution(t('routines-page.validations.routine-section-name-required', { sectionNumber: sectionIndex + 1 }));
         return;
       }
 
       if (section.duration.trim() === '00:00:00') {
-        snackbar.caution(`Debe ingresar el tiempo de duración de la sección ${sectionIndex + 1}.`);
+        snackbar.caution(t('routines-page.validations.routine-section-duration-required', { sectionNumber: sectionIndex + 1 }));
         return;
       }
 
       if (section.rounds <= 0) {
-        snackbar.caution(`Debe ingresar la cantidad de rondas de la sección ${sectionIndex + 1}.`);
+        snackbar.caution(t('routines-page.validations.routine-section-rounds-required', { sectionNumber: sectionIndex + 1 }));
         return;
       }
 
       for (const [exerciseIndex, exercise] of section.exercises.entries()) {
         if (!exercise.exerciseId) {
-          snackbar.caution(`Debe seleccionar el ejercicio en la sección ${sectionIndex + 1} fila ${exerciseIndex + 1}.`);
+          snackbar.caution(t('routines-page.validations.routine-exercise-name-required', { sectionNumber: sectionIndex + 1, exerciseNumber: exerciseIndex + 1 }));
           return;
         }
 
         if (exercise.duration.trim() === '00:00:00' && exercise.reps <= 0) {
           snackbar.caution(
-            `Debe ingresar las repeticiones o un tiempo de duración en la sección ${sectionIndex + 1} fila ${exerciseIndex + 1}.`
+            t('routines-page.validations.routine-exercise-reps-or-duration-required', { sectionNumber: sectionIndex + 1, exerciseNumber: exerciseIndex + 1 })
           );
           return;
         }
@@ -319,7 +321,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
         { id, payload },
         {
           onSuccess: () => {
-            snackbar.success('Rutina actualizada correctamente');
+            snackbar.success(t('routines-page.actions.update.mutation.success'));
             updateRoutine.reset();
           },
           onError: (mutationError: unknown) => {
@@ -334,7 +336,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
         payload,
         {
           onSuccess: () => {
-            snackbar.success('Rutina creada correctamente');
+            snackbar.success(t('routines-page.actions.create.mutation.success'));
             createRoutine.reset();
             setRoutineState(initialRoutineState);
             setSectionsState(initialSectionsState);
@@ -353,13 +355,13 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
 
   return (
     <>
-      <Spinner loading={status === 'pending'} label="Cargando ejercicios" />
-      <Spinner loading={isPending} label="Guardando rutina" />
+      <Spinner loading={status === 'pending'} label={t('routines-page.queries.exercises.loading')} />
+      <Spinner loading={isPending} label={t('routines-page.actions.loading')} />
       <MuiBox sx={{ width: '100%' }}>
         <MuiBox sx={{ width: "100%", mt: 2 }}>
           <MuiTabs value={activeTabState} onChange={handleTabChange}>
-            <MuiTab label="Rutina" />
-            <MuiTab label="Previsualizar" />
+            <MuiTab label={t('routines-page.sections.routine')} />
+            <MuiTab label={t('routines-page.sections.preview')} />
           </MuiTabs>
 
           <MuiBox sx={{ my: 2 }}>
@@ -369,11 +371,11 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                 severity="error"
                 action={
                   <MuiButton color="inherit" size="small" onClick={() => refetch()}>
-                    Reintentar
+                    {t('common.wordings.retry')}
                   </MuiButton>
                 }
               >
-                No pudimos cargar la lista de ejercicios. Vuelva a intentarlo nuevamente.
+                {t('routines-page.queries.exercises.empty')}
               </MuiAlert>
             )}
             {activeTabState === 0 ? (
@@ -382,24 +384,24 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                   <MuiGrid size={{ xs: 12, md: 6, lg: 5 }}>
                     <MuiTextField
                       fullWidth
-                      label="Nombre de la rutina"
+                      label={t('routines-page.fields.routine.name')}
                       value={routineState.name}
                       onChange={(e) => setRoutineState((prevState) => ({ ...prevState, name: e.target.value }))}
                     />
                   </MuiGrid>
                   <MuiGrid size={{ xs: 12, sm: 3, md: 3, lg: 2 }}>
                     <TimeMaskTextField
-                      label="Duración"
+                      label={t('routines-page.fields.routine.duration')}
                       value={routineState.duration}
                       onChange={(e) => setRoutineState((prevState) => ({ ...prevState, duration: e.target.value }))}
                     />
                   </MuiGrid>
                   <MuiGrid size={{ xs: 12, sm: 4, md: 3, lg: 2 }}>
                     <MuiFormControl fullWidth>
-                      <MuiInputLabel>Nivel</MuiInputLabel>
+                      <MuiInputLabel>{t('routines-page.fields.routine.level')}</MuiInputLabel>
                       <MuiSelect
                         value={routineState.level}
-                        label="Nivel"
+                        label={t('routines-page.fields.routine.level')}
                         onChange={(e) => setRoutineState((prevState) => ({ ...prevState, level: e.target.value }))}
                       >
                         {Object.entries(LEVEL_TRANSLATION).map(([key, value]) => (
@@ -410,10 +412,10 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                   </MuiGrid>
                   <MuiGrid size={{ xs: 12, sm: 5, md: 4, lg: 3 }}>
                     <MuiFormControl fullWidth>
-                      <MuiInputLabel>Equipamiento</MuiInputLabel>
+                      <MuiInputLabel>{t('routines-page.fields.routine.equipment')}</MuiInputLabel>
                       <MuiSelect
                         value={routineState.equipment}
-                        label="Equipamiento"
+                        label={t('routines-page.fields.routine.equipment')}
                         onChange={(e) => setRoutineState((prevState) => ({ ...prevState, equipment: e.target.value }))}
                       >
                         {Object.entries(EQUIPMENT_TRANSLATION).map(([key, value]) => (
@@ -454,15 +456,17 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                 </DndContext>
                 <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
                   <MuiButton
+                    aria-label={t('routines-page.buttons.add-section')}
                     startIcon={<MuiAddIcon />}
                     onClick={handleAddSection}
                     variant="outlined"
                     color="primary"
                     sx={{ mt: 2 }}
                   >
-                    Agregar sección
+                    {t('routines-page.buttons.add-section')}
                   </MuiButton>
                   <MuiButton
+                    aria-label={t('routines-page.buttons.save-routine')}
                     startIcon={<MuiSaveIcon />}
                     variant="contained"
                     color="primary"
@@ -470,7 +474,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                     disabled={isPending}
                     onClick={handleSaveRoutine}
                   >
-                    Guardar rutina
+                    {t('routines-page.buttons.save-routine')}
                   </MuiButton>
                 </MuiBox>
               </MuiBox>
@@ -483,6 +487,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                 />
                 <MuiBox sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
                   <MuiButton
+                    aria-label={t('routines-page.buttons.save-routine')}
                     startIcon={<MuiSaveIcon />}
                     variant="contained"
                     color="primary"
@@ -490,7 +495,7 @@ const RoutineBuilder = ({ defaultRoutine, defaultSections, id }: RoutineBuilderP
                     disabled={isPending}
                     onClick={handleSaveRoutine}
                   >
-                    Guardar rutina
+                    {t('routines-page.buttons.save-routine')}
                   </MuiButton>
                 </MuiBox>
               </>

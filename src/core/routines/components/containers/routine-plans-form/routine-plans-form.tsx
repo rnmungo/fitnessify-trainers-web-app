@@ -14,6 +14,7 @@ import MuiSelect from '@mui/material/Select';
 import MuiStack from '@mui/material/Stack';
 import MuiRefreshIcon from "@mui/icons-material/Refresh";
 import { styled } from '@mui/system';
+import { useTranslation } from '@/core/i18n/context';
 import { useSnackbar } from '@/core/context/snackbar';
 import Spinner from '@/core/components/presentational/spinner';
 import useQueryPlans from '@/core/subscriptions/hooks/useQueryPlans';
@@ -37,6 +38,7 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
   const [selectedPlanState, setSelectedPlanState] = useState<string>('');
   const [openDeleteState, setOpenDeleteState] = useState<boolean>(false);
   const [selectedPlanDeleteState, setSelectedPlanDeleteState] = useState<RoutinePlan | null>();
+  const { t } = useTranslation();
   const snackbar = useSnackbar();
   const addPlanRoutine = useMutationAddPlanRoutine();
   const { data: plans, status, refetch } = useQueryPlans();
@@ -56,7 +58,7 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
         { planId: plan.id, routineId: id },
         {
           onSuccess: () => {
-            snackbar.success('La rutina fue agregada al plan correctamente');
+            snackbar.success(t('routines-page.actions.add-plan.mutation.success'));
             addPlanRoutine.reset();
             setSelectedPlanState('');
             setSubscribedPlansState((prevState) => [...prevState, { id: plan.id, name: plan.name }]);
@@ -69,7 +71,7 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
         }
       );
     }
-  }, [planItems, addPlanRoutine, id, snackbar]);
+  }, [planItems, addPlanRoutine, id, snackbar, t]);
 
   const handleCloseDeleteDialog = useCallback((_?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => {
     if (reason && ['backdropClick', 'escapeKeyDown'].includes(reason)) {
@@ -91,21 +93,21 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
 
   return (
     <>
-      <Spinner loading={addPlanRoutine.status === 'pending'} label="Agregando rutina al plan" />
+      <Spinner loading={addPlanRoutine.status === 'pending'} label={t('routines-page.actions.add-plan.mutation.loading')} />
       <MuiPaper elevation={3} sx={{ p: 3 }}>
         <MuiStack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
           <MuiFormControl error={status === 'error'}>
-            <MuiInputLabel id="plan">Plan de entrenamiento</MuiInputLabel>
+            <MuiInputLabel id="plan">{t('routines-page.plans-form.fields.plan')}</MuiInputLabel>
             <StyledSelect
               labelId="plan"
               id="plan"
               value={selectedPlanState}
               disabled={status === 'pending'}
-              label="Plan de entrenamiento"
+              label={t('routines-page.dialog.plan')}
               onChange={handlePlanSelect}
             >
               <MuiMenuItem value="">
-                <em>Sin seleccionar</em>
+                <em>{t('common.wordings.unselected')}</em>
               </MuiMenuItem>
               {planItems && planItems.map(plan => (
                 <MuiMenuItem key={plan.id} value={plan.id}>
@@ -117,6 +119,7 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
           {status === 'pending' && <MuiCircularProgress size={24} />}
           {status === 'error' && (
             <MuiIconButton
+              aria-label={t('common.wordings.retry')}
               onClick={() => refetch()}
               sx={{ ml: 1 }}
               color="error"
@@ -127,12 +130,12 @@ const RoutinePlansForm = ({ id, routinePlans = [] }: RoutinePlansFormProps) => {
         </MuiStack>
         {status === 'error' && (
           <MuiAlert severity="error">
-            Ocurrió un error, reintente la búsqueda.
+            {t('common.wordings.error-occurred-retry-search')}
           </MuiAlert>
         )}
         {(status !== 'error' && subscribedPlansState.length === 0) && (
           <MuiAlert severity="info">
-            No se han seleccionado planes de entrenamiento. Elija un plan del menú desplegable de arriba.
+            {t('routines-page.plans-form.alert.info')}
           </MuiAlert>
         )}
         {subscribedPlansState.length > 0 && (

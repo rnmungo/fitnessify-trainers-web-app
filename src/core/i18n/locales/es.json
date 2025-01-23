@@ -46,7 +46,9 @@
       "deleting": "Eliminando...",
       "loading": "Cargando...",
       "navigation-menu": "Menú de navegación",
+      "not-established": "No establecido",
       "retry": "Reintentar",
+      "error-occurred-retry-search": "Ocurrió un error, reintente la búsqueda.",
       "save": "Guardar",
       "saving": "Guardando...",
       "see-options": "Ver optiones",
@@ -194,6 +196,102 @@
   },
   "password-field": {
     "icon-label": "Alternar visibilidad de contraseña"
+  },
+  "routines-page": {
+    "actions": {
+      "add-plan": {
+        "mutation": {
+          "loading": "Agregando rutina al plan",
+          "success": "La rutina ha sido agregada al plan correctamente."
+        }
+      },
+      "create": {
+        "mutation": {
+          "success": "La rutina ha sido creada correctamente."
+        }
+      },
+      "loading": "Guardando rutina",
+      "remove": {
+        "mutation": {
+          "success": "La rutina ha sido eliminada del plan correctamente."
+        },
+        "query": "¿Estás seguro que deseas eliminar la rutina del plan"
+      },
+      "update": {
+        "mutation": {
+          "success": "La rutina ha sido actualizada correctamente."
+        }
+      }
+    },
+    "plans-form": {
+      "fields": {
+        "plan": "Plan de entrenamiento"
+      },
+      "alert": {
+        "info": "No se han seleccionado planes de entrenamiento. Elija un plan del menú desplegable de arriba."
+      }
+    },
+    "buttons": {
+      "add-exercise": "Agregar ejercicio",
+      "add-section": "Agregar sección",
+      "remove-exercise": "Eliminar ejercicio",
+      "remove-section": "Eliminar sección",
+      "save-routine": "Guardar rutina"
+    },
+    "fields": {
+      "exercise": {
+        "empty": "No se encontraron ejercicios",
+        "error": "Ocurrió un error al buscar los ejercicios, intenta nuevamente"
+      },
+      "routine": {
+        "duration": "Duración",
+        "equipment": "Equipamiento",
+        "exercise": "Ejercicio",
+        "level": "Nivel",
+        "name": "Nombre de la rutina",
+        "pause": "Pausa",
+        "repetitions": "Repeticiones",
+        "rounds": "Rondas",
+        "section-name": "Nombre de la sección"
+      }
+    },
+    "preview": {
+      "duration": "Duración:",
+      "equipment": "Equipamiento:",
+      "exercise": "Ejercicio {{number}}",
+      "level": "Nivel:",
+      "pause": "Pausa:",
+      "rounds": "Rondas:",
+      "section": "Sección {{number}}",
+      "table": {
+        "duration": "Duración",
+        "exercise": "Ejercicio",
+        "pause": "Pausa",
+        "repetitions": "Repeticiones"
+      },
+      "total-duration": "Duración total:",
+      "untitled-routine": "Rutina sin título"
+    },
+    "queries": {
+      "exercises": {
+        "empty": "No pudimos cargar la lista de ejercicios. Vuelva a intentarlo nuevamente.",
+        "loading": "Cargando ejercicios"
+      }
+    },
+    "sections": {
+      "preview": "Previsualizar",
+      "routine": "Rutina"
+    },
+    "validations": {
+      "routine-equipment": "Debe seleccionar el equipamiento de la rutina.",
+      "routine-exercise-name-required": "Debe seleccionar el ejercicio en la sección {{sectionNumber}} fila {{exerciseNumber}}.",
+      "routine-exercise-reps-or-duration-required": "Debe ingresar las repeticiones o un tiempo de duración en la sección {{sectionNumber}} fila {{exerciseNumber}}.",
+      "routine-level": "Debe seleccionar el nivel de la rutina.",
+      "routine-name-required": "Debe ingresar el nombre de la rutina.",
+      "routine-section-duration-required": "Debe ingresar el tiempo de duración de la sección {{sectionNumber}}.",
+      "routine-section-name-required": "Debe ingresar el nombre de la sección {{sectionNumber}}.",
+      "routine-section-rounds-required": "Debe ingresar la cantidad de rondas de la sección {{sectionNumber}}."
+    }
   },
   "subscriptions-page": {
     "actions": {
