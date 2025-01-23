@@ -33,6 +33,7 @@
     "password-strength": {
       "insecure-password": "Insecure password",
       "password": "Password",
+      "recommendations": "Use at least 8 characters, including uppercase letters, lowercase letters, numbers, and special symbols.",
       "secure-password": "Secure password",
       "weak-password": "Weak password"
     },

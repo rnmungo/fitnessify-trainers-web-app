@@ -1,4 +1,5 @@
-import MuiCircleIcon from '@mui/icons-material/Circle';
+import MuiTooltip from '@mui/material/Tooltip';
+import MuiInfoIcon from '@mui/icons-material/Info';
 import MuiInputAdornment from '@mui/material/InputAdornment';
 import { useTranslation } from '@/core/i18n/context';
 import { getPasswordStrength } from '../../../utilities';
@@ -27,7 +28,12 @@ const StrengthPasswordField = ({
           ...slotProps.input,
           startAdornment: (
             <MuiInputAdornment position="start">
-              <MuiCircleIcon color={strength.color} />
+              <MuiTooltip
+                title={t('common.password-strength.recommendations')}
+                arrow
+              >
+                <MuiInfoIcon sx={{ cursor: 'pointer' }} color={strength.color} />
+              </MuiTooltip>
             </MuiInputAdornment>
           ),
         },

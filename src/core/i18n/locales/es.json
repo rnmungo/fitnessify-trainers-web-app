@@ -33,6 +33,7 @@
     "password-strength": {
       "insecure-password": "Contraseña insegura",
       "password": "Contraseña",
+      "recommendations": "Usa al menos 8 caracteres, incluyendo letras mayúsculas, minúsculas, números y símbolos especiales.",
       "secure-password": "Contraseña segura",
       "weak-password": "Contraseña poco segura"
     },
