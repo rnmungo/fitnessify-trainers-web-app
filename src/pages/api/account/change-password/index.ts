@@ -13,7 +13,7 @@ type HandleErrorResult = {
   data: HttpResponse;
 }
 
-const defaultMessage = 'An unknown error occurred';
+const defaultMessage = 'api.common.error.unknown-error';
 
 const handleError = (error: unknown): HandleErrorResult => {
   const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
@@ -41,7 +41,7 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(200).json({ message: 'Password changed successfully' });
+      res.status(200).json({ message: 'api.change-password.update-success' });
     } catch (error: unknown) {
       const { status, data } = handleError(error);
       res.status(status).json(data);

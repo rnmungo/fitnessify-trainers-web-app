@@ -26,9 +26,9 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(204).json({ message: 'Ejercicio actualizado correctamente' });
+      res.status(204).json({ message: 'api.exercise.update-success' });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
       const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
       res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
@@ -45,9 +45,9 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(204).json({ message: 'Ejercicio eliminado correctamente' });
+      res.status(204).json({ message: 'api.exercise.delete-success' });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
       const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
       res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });

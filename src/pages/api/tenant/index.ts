@@ -19,7 +19,7 @@ export default async function handler(
 
       res.status(200).json({ applicationId });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
       const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
       res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });

@@ -18,7 +18,7 @@ const upload = multer({
   limits: { fileSize: VIDEO_FILE_MAX_SIZE },
   fileFilter: (req, file, cb) => {
     if (!VIDEO_FILE_EXTENSIONS.includes(file.mimetype)) {
-      return cb(new Error('Tipo de archivo no permitido. Solo se permiten videos del tipo mp4, webm y ogg.'));
+      return cb(new Error('api.video.error.invalid-file-extension'));
     }
 
     cb(null, true);
@@ -50,7 +50,7 @@ export default async function handler(req: MulterNextApiRequest, res: NextApiRes
       await runMiddleware(req, res, multerMiddleware);
 
       if (!req.file) {
-        return res.status(400).json({ message: 'No se encontró ningún archivo en la solicitud' });
+        return res.status(400).json({ message: 'api.video.error.file-not-found' });
       }
 
       const { file } = req;
@@ -61,9 +61,9 @@ export default async function handler(req: MulterNextApiRequest, res: NextApiRes
           token: session.authorization.token,
         });
 
-        return res.status(200).json({ message: 'Video subido correctamente' });
+        return res.status(200).json({ message: 'api.video.upload-success' });
       } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
         const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
         res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
@@ -71,12 +71,12 @@ export default async function handler(req: MulterNextApiRequest, res: NextApiRes
     } catch (error: any) {
       if (error.code === 'LIMIT_FILE_SIZE') {
         res.status(400).json({
-          message: 'api.video.upload.error.limit-exceeded',
+          message: 'api.video.error.limit-exceeded',
         });
         return;
       }
 
-      res.status(500).json({ message: error.message || 'An internal server error occurred' });
+      res.status(500).json({ message: error.message || 'api.common.error.internal-error' });
     }
   }
 }

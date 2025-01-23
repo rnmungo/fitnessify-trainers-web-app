@@ -13,14 +13,14 @@ type HandleErrorResult = {
   data: HttpResponse;
 }
 
-const defaultMessage = 'An unknown error occurred';
+const defaultMessage = 'api.common.error.unknown-error';
 
 const handleError = (error: unknown): HandleErrorResult => {
   const axiosError = error as AxiosError<{ errorCode?: string; errorMessage?: string; }>;
   if (axiosError.response?.status === HTTP_STATUS.CONFLICT) {
     const errorMessage = axiosError.response?.data?.errorMessage || '';
     const matches = errorMessage.match(/You already have an active subscription/);
-    const message =  matches ? 'Ya tiene una subscripción activa' : defaultMessage;
+    const message =  matches ? 'api.subscription.error.already-active' : defaultMessage;
     return { status: HTTP_STATUS.CONFLICT, data: { message } };
   }
 
@@ -38,7 +38,7 @@ export default async function handler(
       const id = req.query.id as string;
       await activateSubscription({ id, token: session.authorization.token });
 
-      res.status(200).json({ message: 'Subscription activated successfully' });
+      res.status(200).json({ message: 'api.subscription.activate-success' });
     } catch (error: unknown) {
       const { status, data } = handleError(error);
       res.status(status).json(data);

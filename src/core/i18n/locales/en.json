@@ -1,11 +1,55 @@
 {
   "api": {
-    "video": {
-      "upload": {
+    "auth": {
+      "sign-in": {
         "error": {
-          "limit-exceeded": "The file is too large. The maximum size allowed is 50 MB."
+          "not-authorized": "The username or password is incorrect"
         }
       }
+    },
+    "change-password": {
+      "update-success": "Password was updated successfully"
+    },
+    "common": {
+      "error": {
+        "internal-error": "An internal server error occurred",
+        "unknown-error": "An unknown error occurred"
+      }
+    },
+    "exercise": {
+      "create-success": "The exercise was successfully created",
+      "delete-success": "The exercise was successfully deleted",
+      "update-success": "The exercise was successfully updated"
+    },
+    "plan-routine": {
+      "create-success": "Routine added to plan successfully",
+      "delete-success": "Routine removed from plan successfully"
+    },
+    "routine": {
+      "activate-success": "The routine was successfully activated",
+      "create-success": "The routine was successfully created",
+      "deactivate-success": "The routine was successfully deactivate",
+      "delete-success": "The routine was successfully deleted",
+      "update-success": "The routine was successfully updated"
+    },
+    "subscription": {
+      "activate-success": "The subscription was successfully activated",
+      "canceled-success": "The subscription was successfully canceled",
+      "create-success": "The subscription was successfully created",
+      "error": {
+        "already-active": "You already have an active subscription",
+        "exists": "The subscription already exists"
+      },
+      "update-success": "The subscription was successfully updated"
+    },
+    "video": {
+      "delete-success": "The video was successfully deleted",
+      "error": {
+        "file-not-found": "No file found in the request",
+        "invalid-file-extension": "File type not allowed. Only mp4, webm and ogg type videos are allowed.",
+        "limit-exceeded": "The file is too large. The maximum size allowed is 50 MB."
+      },
+      "upload-success": "The video was successfully uploaded"
     }
   },
   "change-password-page": {

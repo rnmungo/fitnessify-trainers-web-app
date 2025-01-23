@@ -7,7 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { HttpResponse } from '@/types/response';
 import type { Session } from '@/types/session';
 
-const defaultMessage = 'An unknown error occurred';
+const defaultMessage = 'api.common.error.unknown-error';
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,7 +25,7 @@ export default async function handler(
         token: session.authorization.token,
       });
 
-      res.status(HTTP_STATUS.OK).json({ message: 'Se agregó la rutina al plan correctamente' });
+      res.status(HTTP_STATUS.OK).json({ message: 'api.plan-routine.create-success' });
     } catch (error: unknown) {
       const internalErrorStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
       const errorMessage = error instanceof Error ? error.message : defaultMessage;

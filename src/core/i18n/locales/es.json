@@ -1,11 +1,55 @@
 {
   "api": {
-    "video": {
-      "upload": {
+    "auth": {
+      "sign-in": {
         "error": {
-          "limit-exceeded": "El archivo es demasiado grande. El tamaño máximo permitido es de 50 MB."
+          "not-authorized": "El usuario o contraseña son incorrectos"
         }
       }
+    },
+    "change-password": {
+      "update-success": "La contraseña fue actualizada correctamente"
+    },
+    "common": {
+      "error": {
+        "internal-error": "Se produjo un error interno del servidor",
+        "unknown-error": "Se produjo un error desconocido"
+      }
+    },
+    "exercise": {
+      "create-success": "El ejercicio fue creado correctamente",
+      "delete-success": "El ejercicio fue eliminado correctamente",
+      "update-success": "El ejercicio fue actualizado correctamente"
+    },
+    "plan-routine": {
+      "create-success": "Se agregó la rutina al plan correctamente",
+      "delete-success": "Se eliminó la rutina del plan correctamente"
+    },
+    "routine": {
+      "activate-success": "La rutina fue activada correctamente",
+      "create-success": "La rutina fue creada correctamente",
+      "deactivate-success": "La rutina fue desactivada correctamente",
+      "delete-success": "La rutina fue eliminada correctamente",
+      "update-success": "La rutina fue actualizada correctamente"
+    },
+    "subscription": {
+      "activate-success": "La suscripción fue activada correctamente",
+      "canceled-success": "La suscripción fue cancelada correctamente",
+      "create-success": "La suscripción fue creada correctamente",
+      "error": {
+        "already-active": "Ya tiene una suscripción activa",
+        "exists": "La subscripción ya existe"
+      },
+      "update-success": "La suscripción fue actualizada correctamente"
+    },
+    "video": {
+      "delete-success": "El video fue eliminado correctamente",
+      "error": {
+        "file-not-found": "No se encontró ningún archivo en la solicitud",
+        "invalid-file-extension": "Tipo de archivo no permitido. Solo se permiten videos del tipo mp4, webm y ogg.",
+        "limit-exceeded": "El archivo es demasiado grande. El tamaño máximo permitido es de 50 MB."
+      },
+      "upload-success": "El video fue subido correctamente"
     }
   },
   "change-password-page": {

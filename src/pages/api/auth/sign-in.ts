@@ -17,7 +17,7 @@ export default async function handler(
       const { authorization, isLoggedIn, user } = await signIn({ email, password });
 
       if (!user.roles.includes(TRAINER_ROLE)) {
-        throw new Error('No estás autorizado para acceder al sitio')
+        throw new Error('api.auth.sign-in.error.not-authorized');
       }
 
       const profile = await getMyProfile({ token: authorization.token });
@@ -32,7 +32,7 @@ export default async function handler(
 
       res.status(200).json(user);
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
       const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
       res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });

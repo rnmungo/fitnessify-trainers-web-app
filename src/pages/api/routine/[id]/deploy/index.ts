@@ -7,7 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { HttpResponse } from '@/types/response';
 import type { Session } from '@/types/session';
 
-const defaultMessage = 'An unknown error occurred';
+const defaultMessage = 'api.common.error.unknown-error';
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,7 +19,7 @@ export default async function handler(
       const id = req.query.id as string;
       await activateRoutine({ id, token: session.authorization.token });
 
-      res.status(HTTP_STATUS.OK).json({ message: 'Routine activated successfully' });
+      res.status(HTTP_STATUS.OK).json({ message: 'api.routine.activate-success' });
     } catch (error: unknown) {
       const internalErrorStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
       const errorMessage = error instanceof Error ? error.message : defaultMessage;

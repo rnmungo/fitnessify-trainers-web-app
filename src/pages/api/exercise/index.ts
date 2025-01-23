@@ -18,7 +18,7 @@ export default async function handler(
 
       res.status(200).json(exercises);
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
       const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
       res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
@@ -31,9 +31,9 @@ export default async function handler(
       const { name, description, muscleGroups, videoId } = req.body;
       await createExercise({ name, description, muscleGroups, videoId, token: session.authorization.token });
 
-      res.status(200).json({ message: 'Exercise created successfully' });
+      res.status(200).json({ message: 'api.exercise.create-success' });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'api.common.error.unknown-error';
       const errorStatus = error instanceof Error && 'response' in error ? (error.response as any)?.status || 500 : 500;
 
       res.status(errorStatus).json({ message: (error as any)?.response?.data?.message || errorMessage });
