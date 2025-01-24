@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { UI_LANGUAGE_KEY } from '@/constants/local-storage-keys';
+import Spinner from '@/core/components/presentational/spinner';
 import { i18n, setLanguage } from '../rosetta';
 import { DEFAULT_LANGUAGE, ES_LANGUAGE, EN_LANGUAGE } from '../constants';
 import en from '../locales/en.json';
@@ -15,11 +16,22 @@ const LanguageContext = createContext<LanguageContextProps | undefined>(undefine
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [localeState, setLocaleState] = useState(DEFAULT_LANGUAGE);
+  const [isReady, setIsReady] = useState(false);
+
+  const changeLanguage = useCallback((lang: string = DEFAULT_LANGUAGE) => {
+    let translations = es;
+    if (lang === EN_LANGUAGE) translations = en;
+
+    setLanguage(lang, translations);
+    localStorage.setItem(UI_LANGUAGE_KEY, lang);
+    setLocaleState(lang);
+  }, []);
 
   useEffect(() => {
     const savedLang = localStorage.getItem(UI_LANGUAGE_KEY) || DEFAULT_LANGUAGE;
     changeLanguage(savedLang);
-  }, []);
+    setIsReady(true);
+  }, [changeLanguage]);
 
   const translate = (text: string, data?: any) => {
     const translated = i18n.t(text, data);
@@ -27,19 +39,13 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     return translated || text;
   };
 
-  const changeLanguage = (lang: string) => {
-    let translations = es;
-    if (lang === EN_LANGUAGE) translations = en;
-
-    setLanguage(lang, translations);
-    setLocaleState(lang);
-    localStorage.setItem(UI_LANGUAGE_KEY, lang);
-  };
-
   return (
-    <LanguageContext.Provider value={{ locale: localeState, t: translate, changeLanguage }}>
-      {children}
-    </LanguageContext.Provider>
+    <>
+      <Spinner loading={!isReady} />
+      <LanguageContext.Provider value={{ locale: localeState, t: translate, changeLanguage }}>
+        {children}
+      </LanguageContext.Provider>
+    </>
   );
 };
 

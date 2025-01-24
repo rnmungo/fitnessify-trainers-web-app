@@ -4,6 +4,7 @@ import { HTTP_STATUS } from '@/constants/http-status';
 import { TRAINER_ROLE } from '@/core/auth/constants/roles';
 import { signIn } from '@/services/auth/service';
 import { getMyProfile } from '@/services/profile/service';
+import logger from '@/utilities/loggerUtils';
 import { sessionOptions } from '@/utilities/session/options';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { HttpResponse } from '@/types/response';
@@ -57,6 +58,8 @@ export default async function handler(
       res.status(HTTP_STATUS.OK).json(user);
     } catch (error: unknown) {
       const { status, data } = handleError(error);
+
+      logger.error('Error handler', { error, endpoint: req.url, status, data });
 
       res.status(status).json(data);
     }

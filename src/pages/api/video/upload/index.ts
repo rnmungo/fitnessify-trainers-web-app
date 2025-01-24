@@ -4,6 +4,7 @@ import { HTTP_STATUS } from '@/constants/http-status';
 import multer from 'multer';
 import { VIDEO_FILE_EXTENSIONS, VIDEO_FILE_MAX_SIZE } from '@/constants/file-extensions';
 import { uploadVideo } from '@/services/video/service';
+import logger from '@/utilities/loggerUtils';
 import { sessionOptions } from '@/utilities/session/options';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -91,6 +92,8 @@ export default async function handler(req: MulterNextApiRequest, res: NextApiRes
       return res.status(HTTP_STATUS.OK).json({ message: 'api.video.upload-success' });
     } catch (error: any) {
       const { status, data } = handleError(error);
+
+      logger.error('Error handler', { error, endpoint: req.url, status, data });
 
       res.status(status).json(data);
     }

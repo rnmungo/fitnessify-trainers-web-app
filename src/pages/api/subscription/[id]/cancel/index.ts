@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { getIronSession } from 'iron-session';
 import { HTTP_STATUS } from '@/constants/http-status';
 import { cancelSubscription } from '@/services/subscription/service';
+import logger from '@/utilities/loggerUtils';
 import { sessionOptions } from '@/utilities/session/options';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -43,6 +44,8 @@ export default async function handler(
       res.status(HTTP_STATUS.OK).json({ message: 'api.subscription.canceled-success' });
     } catch (error: unknown) {
       const { status, data } = handleError(error);
+
+      logger.error('Error handler', { error, endpoint: req.url, status, data });
 
       res.status(status).json(data);
     }
