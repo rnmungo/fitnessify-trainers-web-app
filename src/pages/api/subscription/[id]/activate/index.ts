@@ -13,8 +13,9 @@ const defaultErrorMessage = 'api.common.error.unknown-error';
 const defaultStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
 
 type HandleErrorResult = {
-  status: number;
   data: HttpResponse;
+  detailedError: string;
+  status: number;
 }
 
 const handleError = (error: unknown): HandleErrorResult => {
@@ -28,14 +29,27 @@ const handleError = (error: unknown): HandleErrorResult => {
       const matches = message.match(/You already have an active subscription/);
       const matchError =  matches ? 'api.subscription.error.already-active' : defaultErrorMessage;
 
-      return { status: HTTP_STATUS.CONFLICT, data: { message: matchError } };
+      return {
+        data: { message: matchError },
+        detailedError: message,
+        status: HTTP_STATUS.CONFLICT,
+      };
     }
 
-    return { status, data: { message } };
+    return {
+      data: { message },
+      detailedError: message,
+      status,
+    };
   }
 
   const errorMessage = error instanceof Error ? error.message : defaultErrorMessage;
-  return { status: defaultStatus, data: { message: errorMessage } };
+
+  return {
+    data: { message: defaultErrorMessage },
+    detailedError: errorMessage,
+    status: defaultStatus,
+  };
 };
 
 export default async function handler(
@@ -50,9 +64,9 @@ export default async function handler(
 
       res.status(HTTP_STATUS.OK).json({ message: 'api.subscription.activate-success' });
     } catch (error: unknown) {
-      const { status, data } = handleError(error);
+      const { status, data, detailedError } = handleError(error);
 
-      logger.error('Error handler', { error, endpoint: req.url, status, data });
+      logger.error('Error handler', { error, endpoint: req.url, status, detailedError });
 
       res.status(status).json(data);
     }

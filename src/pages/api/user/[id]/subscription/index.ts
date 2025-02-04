@@ -14,8 +14,9 @@ const defaultErrorMessage = 'api.common.error.unknown-error';
 const defaultStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
 
 type HandleErrorResult = {
-  status: number;
   data: HttpResponse;
+  detailedError: string;
+  status: number;
 }
 
 const handleError = (error: unknown): HandleErrorResult => {
@@ -25,14 +26,27 @@ const handleError = (error: unknown): HandleErrorResult => {
     const status = axiosError.response?.status || defaultStatus;
 
     if (status === HTTP_STATUS.CONFLICT) {
-      return { status, data: { message: 'api.subscription.error.exists' } };
+      return {
+        data: { message: 'api.subscription.error.exists' },
+        detailedError: message,
+        status,
+      };
     }
 
-    return { status, data: { message } };
+    return {
+      data: { message },
+      detailedError: message,
+      status,
+    };
   }
 
   const errorMessage = error instanceof Error ? error.message : defaultErrorMessage;
-  return { status: defaultStatus, data: { message: errorMessage } };
+
+  return {
+    data: { message: defaultErrorMessage },
+    detailedError: errorMessage,
+    status: defaultStatus,
+  };
 };
 
 export default async function handler(
@@ -48,9 +62,9 @@ export default async function handler(
 
       res.status(HTTP_STATUS.OK).json(subscriptions);
     } catch (error: unknown) {
-      const { status, data } = handleError(error);
+      const { status, data, detailedError } = handleError(error);
 
-      logger.error('Error handler', { error, endpoint: req.url, status, data });
+      logger.error('Error handler', { error, endpoint: req.url, status, detailedError });
 
       res.status(status).json(data);
     }
@@ -64,9 +78,9 @@ export default async function handler(
 
       res.status(HTTP_STATUS.OK).json({ message: 'api.subscription.create-success' });
     } catch (error: unknown) {
-      const { status, data } = handleError(error);
+      const { status, data, detailedError } = handleError(error);
 
-      logger.error('Error handler', { error, endpoint: req.url, status, data });
+      logger.error('Error handler', { error, endpoint: req.url, status, detailedError });
 
       res.status(status).json(data);
     }
