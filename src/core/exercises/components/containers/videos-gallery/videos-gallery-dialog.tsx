@@ -55,9 +55,7 @@ const VideosGalleryDialog = ({
 
   useEffect(() => {
     setSelectedVideoState(selectedVideo);
-    if (!selectedVideo) {
-      setConfirmState(false);
-    }
+    setConfirmState(!!selectedVideo);
   }, [selectedVideo]);
 
   return (
