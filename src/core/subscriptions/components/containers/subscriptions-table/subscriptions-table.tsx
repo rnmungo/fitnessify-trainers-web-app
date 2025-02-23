@@ -230,7 +230,7 @@ const SubscriptionsTable = ({ id, rowsPerPage = ROWS_LIMIT }: SubscriptionsTable
                 });
               }
 
-              if (row.status !== 'Canceled') {
+              if (!['Canceled', 'Draft'].includes(row.status)) {
                 menuItems.push({
                   label: t('subscriptions-page.table-actions.cancel'),
                   onClick: () => {
