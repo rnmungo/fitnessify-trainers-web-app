@@ -89,11 +89,11 @@ const HomePage: NextPage = () => {
       </MuiGrid>
       <MuiBox mt={6} textAlign="center">
         <MuiTypography component="p" variant="body1" color="textSecondary" gutterBottom>
-          {t('home-page.user_manual.explain')}
+          {t('home-page.user-manual.explain')}
         </MuiTypography>
         <MuiButton
           sx={{ mt: 1 }}
-          aria-label={t('home-page.user_manual.download')}
+          aria-label={t('home-page.user-manual.download')}
           variant="text"
           color="primary"
           size="large"
@@ -102,7 +102,7 @@ const HomePage: NextPage = () => {
           rel="noopener noreferrer"
           download
         >
-          {t('home-page.user_manual.download')}
+          {t('home-page.user-manual.download')}
         </MuiButton>
       </MuiBox>
     </MuiContainer>
