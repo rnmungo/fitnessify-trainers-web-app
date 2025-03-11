@@ -41,7 +41,9 @@ function runMiddleware(req: MulterNextApiRequest, res: NextApiResponse, callback
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: {
+      sizeLimit: '50mb',
+    },
   },
 };
 
